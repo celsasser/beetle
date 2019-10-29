@@ -1,0 +1,23 @@
+# ignore cache files
+*.cache
+*.swp
+*~
+*.tmp
+
+# ide
+.idea
+
+# ignore node.js packages
+node_modules/
+package-lock.json
+
+# ignore OS X attribute files
+*.DS_Store
+
+# ignore log files
+logs
+*.log
+
+# designate a playground
+ignore
+dump
