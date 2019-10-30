@@ -9,3 +9,21 @@
  * consent of Home Box Office, Inc.
  */
 
+const actions = require("../actions");
+
+/**
+ * @param {ProxyConfiguration} cfg
+ * @param {Request} req
+ * @param {Response} res
+ */
+function proxy(cfg, req, res) {
+	if(cfg.action.type === "forward") {
+		actions.forwardRequest(cfg, req, res);
+	} else {
+		actions.logRequest(cfg, req, res);
+	}
+}
+
+module.exports = {
+	proxy
+};

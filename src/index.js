@@ -9,30 +9,59 @@
  * consent of Home Box Office, Inc.
  */
 
-const http = require("http");
-const express = require("express");
-const bodyParser = require("body-parser");
+const _ = require("lodash");
+const fs = require("fs-extra");
+const {
+	Server
+} = require("./server");
 
-const app_data_content = express();
-const content_router = new express.Router();
 
-app_data_content.use(bodyParser.json({limit: "5mb"}));
-app_data_content.use(bodyParser.urlencoded({extended: false}));
-
-/** configure: routes **/
-// diagnostics
-content_router.get("/healthcheck", ()=>{});
-
-/** local API **/
-function startup() {
-	const server = http.createServer(app_data_content),
-		port = 8989;
-	app_data_content.set("port", port);
-	server.on("error", function(error) {
-		console.error(`Server: attempt to start ${name} server on port ${port} failed: ${error}`);
-	});
-	server.listen(port, function() {
-		console.info(`Server: express server listening on port ${port}`);
-	});
+/**
+ * @param {string} path
+ * @returns {ProxySetup}
+ */
+function loadSetup(path) {
+	try {
+		return fs.readJSONSync(path);
+	} catch(error) {
+		throw new Error(`failed to load setup: ${error}`);
+	}
 }
-startup();
+
+/**
+ * @returns {{configuration: string}}
+ */
+function parseCommandLine() {
+	if(process.argv.length !== 3) {
+		throw new Error("incorrect number of paramaters");
+	} else {
+		return {
+			setupPath: process.argv[2]
+		};
+	}
+}
+
+/**
+ * @param {ProxySetup} setup
+ */
+function run(setup) {
+	const server = new Server(setup.server);
+	_.forEach(setup.proxies, configuration => {
+		server.addProxyConfiguration(configuration);
+	});
+	server.start()
+		.then(()=>{
+			_.forEach(setup.proxies, configuration => {
+				console.log(`listening for protocol=${server.protocol} method=${configuration.proxy.method.toUpperCase()} path=${configuration.proxy.path} action=${configuration.action.type}`);
+			});
+		});
+}
+
+try {
+	const params = parseCommandLine();
+	const setup = loadSetup(params.setupPath);
+	run(setup);
+} catch(error) {
+	console.error(`Attempt to startup failed: ${error.message}`);
+	console.log("Usage: node index.js <configuration-path>");
+}

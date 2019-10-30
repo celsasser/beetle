@@ -1,0 +1,28 @@
+{
+	"server": {
+		"port": 8989,
+		"protocol": "http"
+	},
+	"proxies": [
+		{
+			"id": "urn:route:id",
+			"proxy" : {
+				"method": "get",
+				"path": "/stuff"
+			},
+			"action": {
+				"type": "log",
+				"response": {
+					"body": {
+
+					},
+					"code": 200,
+					"headers": {
+
+					}
+				}
+			}
+		}
+	]
+}
+

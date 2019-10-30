@@ -9,63 +9,62 @@
  * consent of Home Box Office, Inc.
  */
 
-const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
-const {
-	addListener,
-	removeListener
-} = require("./routes/listen");
+const route = require("./routes/proxy");
 
 class Server {
 	constructor({
-		port = 8989
+		port = 8989,
+		protocol = "http"
 	}) {
 		this.port = port;
+		this.protocol = protocol;
 		this.express = express();
 		this.router = new express.Router();
 		this._configureExpress();
-		this._setupListenerRoutes();
 	}
 
-	addListenRoute({
-		method,
-		path
-	}) {
-
+	/**
+	 * @param {ProxyConfiguration} configuration
+	 */
+	addProxyConfiguration(configuration) {
+		try {
+			const handler = route.proxy.bind(null, configuration);
+			const method = configuration.proxy.method.toLowerCase();
+			this.router[method](configuration.proxy.path, handler);
+		} catch(error) {
+			throw new Error(`failed to setup proxy for ${JSON.stringify(configuration, null, "   ")}\n${error.message}`)
+		}
 	}
 
-	removeListenRoute({
-		method,
-		path
-	}) {
-
-	}
-
-	addProxyRoute({
-
-	}) {
-
-	}
-
+	/**
+	 * @returns {Promise<void>}
+	 */
 	start() {
-		const server = http.createServer(this.express);
-		server.on("error", (error)=> {
-			console.error(`Server: attempt to start server on port ${this.port} failed: ${error}`);
-		});
-		server.listen(this.port, ()=> {
-			console.info(`Server: express server listening on port ${this.port}`);
+		const protocol = (this.protocol === "http")
+			? require("http")
+			: require("https");
+		const server = protocol.createServer(this.express);
+		return new Promise((resolve, reject) => {
+			server.on("error", (error) => {
+				console.error(`Server: attempt to start server on port ${this.port} failed: ${error}`);
+				reject(error);
+			});
+			server.listen(this.port, () => {
+				console.info(`Server: express server listening on port ${this.port}`);
+				resolve();
+			});
 		});
 	}
 
 	_configureExpress() {
 		this.express.set("port", this.port);
 		this.express.use(bodyParser.urlencoded({extended: false}));
-		this.express.use("/", this.express);
-	}
-
-	_setupListenerRoutes() {
-		this.router.post("/proxy", addListener);
-		this.router.post("/proxy", removeListener);
+		this.express.use("/", this.router);
 	}
 }
+
+module.exports = {
+	Server
+};
