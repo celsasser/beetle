@@ -4,14 +4,20 @@
  * @license MIT (see project's LICENSE file)
  */
 
+const _ = require("lodash");
+const {encodeRequest} = require("./_codec");
+const {respondToClient} = require("./_respond");
+
 /**
  * @param {ProxyConfiguration} cfg
  * @param {Request} req
  * @param {Response} res
  * @returns {Promise<Object>}
  */
-function logRequest(cfg, req, res) {
-
+async function logRequest(cfg, req, res) {
+	const encoded = encodeRequest(cfg, req);
+	console.log(`Proxying: ${encoded}`);
+	respondToClient(res, cfg.action.response);
 }
 
 module.exports = {

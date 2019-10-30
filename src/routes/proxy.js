@@ -10,6 +10,7 @@
  */
 
 const actions = require("../actions");
+const {formatProxySummary} = require("../utils");
 
 /**
  * @param {ProxyConfiguration} cfg
@@ -17,11 +18,13 @@ const actions = require("../actions");
  * @param {Response} res
  */
 function proxy(cfg, req, res) {
-	if(cfg.action.type === "forward") {
-		actions.forwardRequest(cfg, req, res);
-	} else {
-		actions.logRequest(cfg, req, res);
-	}
+	const handler = (cfg.action.type === "forward")
+		? actions.forwardRequest
+		: actions.logRequest;
+	handler(cfg, req, res)
+		.catch(error => {
+			console.error(`Attempt to proxy ${formatProxySummary(cfg)} failed: ${error}`);
+		});
 }
 
 module.exports = {

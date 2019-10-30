@@ -6,23 +6,19 @@
 	"proxies": [
 		{
 			"id": "urn:route:id",
-			"proxy" : {
+			"proxy": {
 				"method": "get",
 				"path": "/stuff"
 			},
 			"action": {
-				"type": "log",
 				"response": {
-					"body": {
-
-					},
-					"code": 200,
-					"headers": {
-
-					}
-				}
+					"body": {},
+					"contentType": "application/json",
+					"headers": {},
+					"statusCode": 200
+				},
+				"type": "log"
 			}
 		}
 	]
 }
-

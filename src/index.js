@@ -11,9 +11,8 @@
 
 const _ = require("lodash");
 const fs = require("fs-extra");
-const {
-	Server
-} = require("./server");
+const {Server} = require("./server");
+const {formatProxySummary} = require("./utils");
 
 
 /**
@@ -22,7 +21,19 @@ const {
  */
 function loadSetup(path) {
 	try {
-		return fs.readJSONSync(path);
+		const setup = fs.readJSONSync(path);
+		// do a little conditioning so that we can make assumptions from here on
+		if(!setup.server.protocol) {
+			setup.server.protocol = "http";
+		}
+		// We don't currently support different protocols per route. But we may and we want it
+		// for reporting purposes.
+		setup.proxies = _.map(setup.proxies, proxy => _.merge({
+			proxy: {
+				protocol: setup.server.protocol
+			}
+		}, proxy));
+		return setup;
 	} catch(error) {
 		throw new Error(`failed to load setup: ${error}`);
 	}
@@ -50,9 +61,9 @@ function run(setup) {
 		server.addProxyConfiguration(configuration);
 	});
 	server.start()
-		.then(()=>{
+		.then(() => {
 			_.forEach(setup.proxies, configuration => {
-				console.log(`listening for protocol=${server.protocol} method=${configuration.proxy.method.toUpperCase()} path=${configuration.proxy.path} action=${configuration.action.type}`);
+				console.log(`Listening for ${formatProxySummary(configuration)} - action=${configuration.action.type}`);
 			});
 		});
 }

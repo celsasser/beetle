@@ -12,7 +12,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const route = require("./routes/proxy");
+const {formatJSON} = require("./utils");
 
+/**
+ * Our server instance through which we listen for proxy configurations
+ */
 class Server {
 	constructor({
 		port = 8989,
@@ -34,11 +38,12 @@ class Server {
 			const method = configuration.proxy.method.toLowerCase();
 			this.router[method](configuration.proxy.path, handler);
 		} catch(error) {
-			throw new Error(`failed to setup proxy for ${JSON.stringify(configuration, null, "   ")}\n${error.message}`)
+			throw new Error(`failed to setup proxy for ${formatJSON(configuration)}\n${error.message}`)
 		}
 	}
 
 	/**
+	 * Start the machine up
 	 * @returns {Promise<void>}
 	 */
 	start() {
@@ -58,6 +63,9 @@ class Server {
 		});
 	}
 
+	/*********************
+	 * Private Interface
+	 **********************/
 	_configureExpress() {
 		this.express.set("port", this.port);
 		this.express.use(bodyParser.urlencoded({extended: false}));
