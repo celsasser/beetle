@@ -4,7 +4,6 @@
  * @license MIT (see project's LICENSE file)
  */
 
-const _ = require("lodash");
 const {encodeRequest} = require("./_codec");
 const {respondToClient} = require("./_respond");
 
