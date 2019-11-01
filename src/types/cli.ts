@@ -5,7 +5,6 @@
  */
 
 
-/**
- * @typedef {Object} CliProperties
- * @properties {string} setupPath
- */
+export interface CliProperties {
+	setupPath: string;
+}

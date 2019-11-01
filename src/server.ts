@@ -9,18 +9,27 @@
  * consent of Home Box Office, Inc.
  */
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const route = require("./routes/proxy");
-const {formatJSON} = require("./utils");
+import * as bodyParser from "body-parser";
+import * as express from "express";
+import * as route from "./routes/proxy";
+import {
+	ProxyConfiguration,
+	ProxyProtocol
+} from "./types/proxy";
+import {formatJSON} from "./utils";
 
 /**
  * Our server instance through which we listen for proxy configurations
  */
-class Server {
+export class Server {
+	public readonly port: number;
+	public readonly protocol: ProxyProtocol;
+	private readonly express: express.Express;
+	private readonly router: express.Router;
+
 	constructor({
 		port = 8989,
-		protocol = "http"
+		protocol = ProxyProtocol.HTTP
 	}) {
 		this.port = port;
 		this.protocol = protocol;
@@ -29,10 +38,7 @@ class Server {
 		this._configureExpress();
 	}
 
-	/**
-	 * @param {ProxyConfiguration} configuration
-	 */
-	addProxyConfiguration(configuration) {
+	addProxyConfiguration(configuration: ProxyConfiguration): void {
 		try {
 			const handler = route.proxy.bind(null, configuration);
 			const method = configuration.proxy.method.toLowerCase();
@@ -44,15 +50,14 @@ class Server {
 
 	/**
 	 * Start the machine up
-	 * @returns {Promise<void>}
 	 */
-	start() {
-		const protocol = (this.protocol === "http")
+	start(): Promise<void> {
+		const protocol = (this.protocol === ProxyProtocol.HTTP)
 			? require("http")
 			: require("https");
 		const server = protocol.createServer(this.express);
 		return new Promise((resolve, reject) => {
-			server.on("error", (error) => {
+			server.on("error", (error: Error) => {
 				console.error(`Server: attempt to start server on port ${this.port} failed: ${error}`);
 				reject(error);
 			});
@@ -72,7 +77,3 @@ class Server {
 		this.express.use("/", this.router);
 	}
 }
-
-module.exports = {
-	Server
-};

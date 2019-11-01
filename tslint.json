@@ -1,0 +1,47 @@
+{
+	"extends": [
+		"tslint:recommended"
+	],
+	"linterOptions": {
+		"format": "stylish"
+	},
+	"rules": {
+		"arrow-parens": false,
+		"comment-format": [true, "check-space"],
+		"indent": [
+			true,
+			"tabs"
+		],
+		"interface-name": false,
+		"interface-over-type-literal": false,
+		"linebreak-style": [true, "LF"],
+		"no-angle-bracket-type-assertion": false,
+		"no-bitwise": false,
+		"no-conditional-assignment": false,
+		"no-consecutive-blank-lines": [true, 2],
+		"no-empty": false,
+		"object-literal-sort-keys": true,
+		"only-arrow-functions": false,
+		"ordered-imports": true,
+		"max-line-length": {
+			"options": {
+				"limit": 160
+			}
+		},
+		"quotemark": true,
+		"trailing-comma": {
+			"severity": "error"
+		},
+		"variable-name": {
+			"options": [
+				"allow-leading-underscore",
+				"allow-pascal-case",
+				"check-format"
+			]
+		},
+		"whitespace": {
+			"options": ["check-branch"],
+			"severity": "off"
+		}
+	}
+}

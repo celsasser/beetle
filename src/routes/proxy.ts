@@ -9,16 +9,24 @@
  * consent of Home Box Office, Inc.
  */
 
-const actions = require("../actions");
-const {formatProxySummary} = require("../utils");
+import {
+	Request,
+	Response
+} from "express";
+import * as actions from "../actions";
+import {
+	ProxyAction,
+	ProxyConfiguration
+} from "../types/proxy";
+import {formatProxySummary} from "../utils";
 
 /**
  * @param {ProxyConfiguration} cfg
  * @param {Request} req
  * @param {Response} res
  */
-function proxy(cfg, req, res) {
-	const handler = (cfg.action.type === "forward")
+export function proxy(cfg: ProxyConfiguration, req: Request, res: Response) {
+	const handler = (cfg.action.type === ProxyAction.FORWARD)
 		? actions.forwardRequest
 		: actions.logRequest;
 	handler(cfg, req, res)
@@ -26,7 +34,3 @@ function proxy(cfg, req, res) {
 			console.error(`Attempt to proxy ${formatProxySummary(cfg)} failed: ${error}`);
 		});
 }
-
-module.exports = {
-	proxy
-};

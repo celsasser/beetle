@@ -1,23 +1,19 @@
-# ignore cache files
+# ignore the common tmp, debug, intermediate and ephemeral fellas
+*.DS_Store
 *.cache
 *.swp
 *~
 *.tmp
+*.zip
+/log
 
-# ide
+# eliminate ID
 .idea
 
-# ignore node.js packages
-node_modules/
+# npm modules will be built dynamically
+node_modules
 package-lock.json
 
-# ignore OS X attribute files
-*.DS_Store
-
-# ignore log files
-logs
-*.log
-
-# designate a playground
-ignore
-dump
+# build stuff that we don't want to keep in VCS
+dist
+reports

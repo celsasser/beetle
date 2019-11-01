@@ -4,14 +4,11 @@
  * @license MIT (see project's LICENSE file)
  */
 
-const {formatJSON} = require("../utils");
+import {Request} from "express";
+import {ProxyConfiguration} from "../types/proxy";
+import {formatJSON} from "../utils";
 
-/**
- * @param {ProxyConfiguration} cfg
- * @param {Request} req
- * @returns {string}
- */
-function encodeRequest(cfg, req) {
+export function encodeRequest(cfg: ProxyConfiguration, req: Request): string {
 	return formatJSON({
 		id: cfg.id,
 		body: req.body,
@@ -21,8 +18,3 @@ function encodeRequest(cfg, req) {
 		query: req.query
 	});
 }
-
-
-module.exports = {
-	encodeRequest
-};

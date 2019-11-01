@@ -10,22 +10,17 @@
  */
 
 
-/**
- * @returns {CliProperties}
- */
-function parseCommandLine() {
-	const result = {};
-	const arguments = process.argv[0].endsWith("node")
+import {CliProperties} from "./types/cli";
+
+export function parseCommandLine(): CliProperties {
+	const args = process.argv[0].endsWith("node")
 		? process.argv.slice(2)
 		: process.argv.slice(1);
 
-	if(arguments.length !== 1) {
+	if(args.length !== 1) {
 		throw new Error("incorrect number of paramaters");
 	}
-	result.setupPath = arguments[0];
-	return result;
+	return {
+		setupPath: args[0]
+	};
 }
-
-module.exports = {
-	parseCommandLine
-};

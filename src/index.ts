@@ -9,20 +9,19 @@
  * consent of Home Box Office, Inc.
  */
 
-const {parseCommandLine} = require("./cli");
-const {
+import {parseCommandLine} from "./cli";
+import {
 	loadSetup,
 	processProxySetup
-} = require("./setup");
-const {Server} = require("./server");
+} from "./setup";
+import {Server}  from "./server";
+import {ProxySetup} from "./types/proxy";
 
 
 /**
  * Starts up our proxy server as per our setup spec
- * @param {ProxySetup} setup
- * @throws {Error}
  */
-function startServer(setup) {
+function startServer(setup: ProxySetup) {
 	const server = new Server(setup.server);
 	server.start()
 		.then(processProxySetup.bind(null, setup, server));
