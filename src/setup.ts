@@ -8,57 +8,61 @@ import * as fs from "fs-extra";
 import * as _ from "lodash";
 import {Server} from "./server";
 import {
-	ProxyAction,
+	ProxyActionBase,
+	ProxyActionType,
 	ProxyConfiguration,
-	ProxyProtocol,
 	ProxySetup
 } from "./types/proxy";
 import {formatProxySummary} from "./utils";
+import validate from "./validate";
 
 /**
  * Loads setup file from local file system
+ * @throws {Error}
  */
-export function loadSetup(path: string): ProxySetup {
-	try {
-		const setup = fs.readJSONSync(path);
-		return _conditionSetup(setup);
-	} catch(error) {
-		throw new Error(`failed to load setup: ${error}`);
+export function loadSetup(setupPath?: string): ProxySetup {
+	function _load(path: string): ProxySetup {
+		try {
+			return fs.readJSONSync(path);
+		} catch(error) {
+			throw new Error(`failed to load setup: ${error}`);
+		}
 	}
+
+	let setup = _load("./res/defaults/setup-defaults.json");
+	if(setupPath) {
+		setup = _.merge(setup, _load(setupPath));
+	}
+	return _conditionSetup(setup);
 }
 
 export function processProxySetup(setup: ProxySetup, server: Server): void {
-	_.forEach(setup.proxies, configuration => {
-		server.addProxyConfiguration(configuration);
-		console.log(`Listening for ${formatProxySummary(configuration)} - action=${configuration.action.type}`);
+	_.forEach(setup.proxies, cfg => {
+		server.addProxyConfiguration(cfg);
+		console.log(`Listening for ${formatProxySummary(cfg)} - actions=${cfg.actions.map(action => action.type).join()}`);
 	});
 }
 
 /**
  * @throws {Error}
  */
-export function _conditionSetup(setup: ProxySetup): ProxySetup {
+function _conditionSetup(setup: ProxySetup): ProxySetup {
+	function _conditionProxy(cfg: ProxyConfiguration): ProxyConfiguration {
+		cfg.proxy.protocol = setup.server.protocol;
+		// let's find the guy who is going to be responsible for responding to the client
+		const responder = _.find<ProxyActionBase>(cfg.actions, action => action.type === ProxyActionType.RESPOND)
+			|| _.find<ProxyActionBase>(cfg.actions, action => action.type === ProxyActionType.FORWARD)
+			|| cfg.actions[0];
+		responder.responder = true;
+		return cfg;
+	}
+
 	try {
-		// do a little conditioning so that we can make assumptions from here on
-		if(!setup.server.protocol) {
-			setup.server.protocol = ProxyProtocol.HTTP;
-		}
-		// We don't currently support different protocols per route. But we may and we want it
-		// for reporting purposes.
-		setup.proxies = _.map(setup.proxies, _conditionProxyConfiguration.bind(null, setup));
+		validate.validateData("./res/schemas/schema-setup.json", setup);
+		setup.proxies = _.map(setup.proxies, _conditionProxy);
 		return setup;
 	} catch(error) {
 		throw new Error(`failed to condition the proxy setup - ${error}`);
 	}
 }
 
-export function _conditionProxyConfiguration(setup: ProxySetup, cfg: ProxyConfiguration): ProxyConfiguration {
-	// We don't currently support different protocols per route. But we may and we want it
-	// for reporting purposes.
-	cfg.proxy.protocol = setup.server.protocol;
-	if(cfg.action.type === ProxyAction.LOG) {
-		// here we ask for a response. If they did not provide one then we assume defaults
-		cfg.action.response = {};
-	}
-	return cfg;
-}

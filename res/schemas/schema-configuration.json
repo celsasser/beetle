@@ -1,0 +1,52 @@
+{
+	"$id": "schema://beetle/schema-configuration.json",
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"type": "object",
+	"required": [
+		"actions",
+		"id",
+		"proxy"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"actions": {
+			"type": "array",
+			"items": {
+				"oneOf": [
+					{
+						"$ref": "schema-proxy-library.json#/definitions/actionForward"
+					},
+					{
+						"$ref": "schema-proxy-library.json#/definitions/actionLog"
+					},
+					{
+						"$ref": "schema-proxy-library.json#/definitions/actionResponse"
+					}
+				]
+			}
+		},
+		"id": {
+			"type": "string"
+		},
+		"proxy": {
+			"type": "object",
+			"required": [
+				"method",
+				"path",
+				"protocol"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"method": {
+					"$ref": "schema-server-library.json#/definitions/method"
+				},
+				"path": {
+					"type": "string"
+				},
+				"protocol": {
+					"$ref": "schema-server-library.json#/definitions/protocol"
+				}
+			}
+		}
+	}
+}

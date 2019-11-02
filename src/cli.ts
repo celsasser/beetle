@@ -13,14 +13,15 @@
 import {CliProperties} from "./types/cli";
 
 export function parseCommandLine(): CliProperties {
+	const result: CliProperties = {};
 	const args = process.argv[0].endsWith("node")
 		? process.argv.slice(2)
 		: process.argv.slice(1);
 
-	if(args.length !== 1) {
+	if(args.length > 1) {
 		throw new Error("incorrect number of paramaters");
+	} else if(args.length === 1) {
+		result.setupPath = args[0];
 	}
-	return {
-		setupPath: args[0]
-	};
+	return result;
 }

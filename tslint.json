@@ -19,6 +19,7 @@
 		"no-bitwise": false,
 		"no-conditional-assignment": false,
 		"no-consecutive-blank-lines": [true, 2],
+		"no-console": false,
 		"no-empty": false,
 		"object-literal-sort-keys": true,
 		"only-arrow-functions": false,

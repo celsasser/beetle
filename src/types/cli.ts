@@ -6,5 +6,5 @@
 
 
 export interface CliProperties {
-	setupPath: string;
+	setupPath?: string;
 }

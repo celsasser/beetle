@@ -10,11 +10,11 @@
  */
 
 import {parseCommandLine} from "./cli";
+import {Server} from "./server";
 import {
 	loadSetup,
 	processProxySetup
 } from "./setup";
-import {Server}  from "./server";
 import {ProxySetup} from "./types/proxy";
 
 

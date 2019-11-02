@@ -10,9 +10,9 @@ import {formatJSON} from "../utils";
 
 export function encodeRequest(cfg: ProxyConfiguration, req: Request): string {
 	return formatJSON({
-		id: cfg.id,
 		body: req.body,
 		headers: req.body,
+		id: cfg.id,
 		method: req.method,
 		path: req.path,
 		query: req.query

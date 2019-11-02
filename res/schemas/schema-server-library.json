@@ -1,0 +1,24 @@
+{
+	"$id": "schema://beetle/schema-server-library.json",
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"definitions": {
+		"method": {
+			"enum": [
+				"all",
+				"delete",
+				"get",
+				"head",
+				"options",
+				"patch",
+				"post",
+				"put"
+			]
+		},
+		"protocol": {
+			"enum": [
+				"http",
+				"https"
+			]
+		}
+	}
+}

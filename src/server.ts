@@ -14,7 +14,7 @@ import * as express from "express";
 import * as route from "./routes/proxy";
 import {
 	ProxyConfiguration,
-	ProxyProtocol
+	ServerProtocol
 } from "./types/proxy";
 import {formatJSON} from "./utils";
 
@@ -23,13 +23,13 @@ import {formatJSON} from "./utils";
  */
 export class Server {
 	public readonly port: number;
-	public readonly protocol: ProxyProtocol;
+	public readonly protocol: ServerProtocol;
 	private readonly express: express.Express;
 	private readonly router: express.Router;
 
 	constructor({
 		port = 8989,
-		protocol = ProxyProtocol.HTTP
+		protocol = ServerProtocol.HTTP
 	}) {
 		this.port = port;
 		this.protocol = protocol;
@@ -38,21 +38,21 @@ export class Server {
 		this._configureExpress();
 	}
 
-	addProxyConfiguration(configuration: ProxyConfiguration): void {
+	public addProxyConfiguration(configuration: ProxyConfiguration): void {
 		try {
 			const handler = route.proxy.bind(null, configuration);
 			const method = configuration.proxy.method.toLowerCase();
 			this.router[method](configuration.proxy.path, handler);
 		} catch(error) {
-			throw new Error(`failed to setup proxy for ${formatJSON(configuration)}\n${error.message}`)
+			throw new Error(`failed to setup proxy for ${formatJSON(configuration)}\n${error.message}`);
 		}
 	}
 
 	/**
 	 * Start the machine up
 	 */
-	start(): Promise<void> {
-		const protocol = (this.protocol === ProxyProtocol.HTTP)
+	public start(): Promise<void> {
+		const protocol = (this.protocol === ServerProtocol.HTTP)
 			? require("http")
 			: require("https");
 		const server = protocol.createServer(this.express);
@@ -71,7 +71,7 @@ export class Server {
 	/*********************
 	 * Private Interface
 	 **********************/
-	_configureExpress() {
+	private _configureExpress() {
 		this.express.set("port", this.port);
 		this.express.use(bodyParser.urlencoded({extended: false}));
 		this.express.use("/", this.router);

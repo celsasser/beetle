@@ -17,5 +17,5 @@ export function formatJSON(object: any): string {
  * Puts the proxy's defining characteristics into a string
  */
 export function formatProxySummary(cfg: ProxyConfiguration): string {
-	return `${cfg.proxy.method.toUpperCase()} ${cfg.proxy.protocol}:/${cfg.proxy.path}`
+	return `${cfg.proxy.method.toUpperCase()} ${cfg.proxy.protocol}:/${cfg.proxy.path}`;
 }

@@ -4,50 +4,66 @@
  * @license MIT (see project's LICENSE file)
  */
 
+import {
+	HttpMethod,
+	ServerProperties,
+	ServerProtocol
+} from "./server";
+
 /**
  * Describes what should be performed when proxying
  */
-export enum ProxyAction {
+export enum ProxyActionType {
 	FORWARD = "forward",
-	LOG = "log"
-}
-
-export enum ProxyMethod {
-	ALL = "all",
-	GET = "get",
-	POST = "post",
-	PUT = "put",
-	DELETE = "delete",
-	PATCH = "patch",
-	OPTIONS = "options",
-	HEAD = "head",
+	LOG = "log",
+	RESPOND = "respond"
 }
 
 /**
- * Describes the protocol we should use when setting up the proxy server
+ * Base interface for all actions
  */
-export enum ProxyProtocol {
-	HTTP = "http",
-	HTTPS = "https"
+export interface ProxyActionBase {
+	/**
+	 * Is the action that should respond back to our client? A property we manage.
+	 */
+	responder?: boolean;
+	type: ProxyActionType;
 }
+
+/**
+ * Forwards to this target. If there is no ProxyActionRespond included then the response of this
+ * call serves as the response to the client
+ */
+export interface ProxyActionForward extends ProxyActionBase {
+	method: HttpMethod;
+	url: string;
+}
+
+// tslint:disable-next-line: no-empty-interface
+export interface ProxyActionLog extends ProxyActionBase {
+
+}
+
+export interface ProxyActionRespond extends ProxyActionBase {
+	response: ProxyResponse;
+}
+
+export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionRespond;
 
 /**
  * Describes a single proxy configuration
  */
 export interface ProxyConfiguration {
+	actions: ProxyAction[];
 	id: string;
-	action: {
-		/**
-		 * Used by routes that log. If not specified then we default it.
-		 */
-		response: ProxyResponse;
-		type: ProxyAction;
-	};
 	proxy: {
-		method: ProxyMethod;
+		method: HttpMethod;
 		path: string;
-		protocol: ProxyProtocol;
-	}
+		/**
+		 * We track protocol here for convenience
+		 */
+		protocol: ServerProtocol;
+	};
 }
 
 /**
@@ -61,18 +77,10 @@ export interface ProxyResponse {
 }
 
 /**
- * Proxy server properties
- */
-export interface ProxyServer {
-	port: number;
-	protocol: ProxyProtocol;
-}
-
-/**
  * Initial setup of the proxy server
  */
 export interface ProxySetup {
-	server: ProxyServer;
-	proxies?: ProxyConfiguration[]
+	proxies?: ProxyConfiguration[];
+	server: ServerProperties;
 }
 

@@ -1,0 +1,79 @@
+{
+	"$id": "schema://beetle/schema-proxy-library.json",
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"definitions": {
+		"actionType": {
+			"enum": [
+				"forward",
+				"log",
+				"respond"
+			]
+		},
+		"actionForward": {
+			"type": "object",
+			"required": [
+				"method",
+				"type",
+				"url"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"method": {
+					"pattern": "^forward$"
+				},
+				"type": {
+					"$ref": "#/definitions/actionType"
+				},
+				"url": {
+					"type": "string"
+				}
+			}
+		},
+		"actionLog": {
+			"type": "object",
+			"required": [
+				"type"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"pattern": "^log$"
+				}
+			}
+		},
+		"actionResponse": {
+			"type": "object",
+			"required": [
+				"response",
+				"type"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"response": {
+					"$ref": "#/definitions/response"
+				},
+				"type": {
+					"pattern": "^response$"
+				}
+			}
+		},
+		"response": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"body": {
+					"type": "object"
+				},
+				"contentType": {
+					"type": "string"
+				},
+				"headers": {
+					"type": "object"
+				},
+				"statusCode": {
+					"type": "number"
+				}
+			}
+		}
+	}
+}
