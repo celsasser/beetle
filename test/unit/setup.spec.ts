@@ -6,6 +6,7 @@
 
 import {
 	loadSetup,
+	processProxyConfiguration,
 	processProxySetup
 } from "../../src/setup";
 
@@ -15,4 +16,10 @@ describe("loadSetup", function() {
 		const setup = loadSetup();
 		expect(setup).toEqual(require("./output/loadSetupDefaults.json"));
 	});
+
+	it("should override with details if setup path is specified", function() {
+		const setup = loadSetup(`${__dirname}/input/loadSetup.json`);
+		expect(setup).toEqual(require("./output/loadSetup.json"));
+	});
 });
+

@@ -1,7 +1,27 @@
 {
-	"$id": "schema://beetle/schema-proxy-library.json",
+	"$id": "schema://beetle/schema-library.json",
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"definitions": {
+	"http": {
+		"method": {
+			"enum": [
+				"all",
+				"delete",
+				"get",
+				"head",
+				"options",
+				"patch",
+				"post",
+				"put"
+			]
+		},
+		"protocol": {
+			"enum": [
+				"http",
+				"https"
+			]
+		}
+	},
+	"proxy": {
 		"actionType": {
 			"enum": [
 				"forward",
@@ -22,7 +42,7 @@
 					"pattern": "^forward$"
 				},
 				"type": {
-					"$ref": "#/definitions/actionType"
+					"$ref": "#/proxy/actionType"
 				},
 				"url": {
 					"type": "string"
@@ -50,7 +70,7 @@
 			"additionalProperties": false,
 			"properties": {
 				"response": {
-					"$ref": "#/definitions/response"
+					"$ref": "#/proxy/response"
 				},
 				"type": {
 					"pattern": "^response$"

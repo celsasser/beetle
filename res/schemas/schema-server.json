@@ -1,0 +1,14 @@
+{
+	"$id": "schema://beetle/schema-server.json",
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"port": {
+			"type": "number"
+		},
+		"protocol": {
+			"$ref": "schema-library.json#/http/protocol"
+		}
+	}
+}

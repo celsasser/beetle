@@ -51,7 +51,7 @@ export interface ProxyActionRespond extends ProxyActionBase {
 export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionRespond;
 
 /**
- * Describes a single proxy configuration
+ * Describes a single proxy cfg
  */
 export interface ProxyConfiguration {
 	actions: ProxyAction[];

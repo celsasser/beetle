@@ -10,15 +10,20 @@
 				"method": "get",
 				"path": "/stuff"
 			},
-			"action": {
-				"response": {
-					"body": {},
-					"contentType": "application/json",
-					"headers": {},
-					"statusCode": 200
+			"actions": [
+				{
+					"type": "log"
 				},
-				"type": "log"
-			}
+				{
+					"response": {
+						"body": {},
+						"contentType": "application/json",
+						"headers": {},
+						"statusCode": 200
+					},
+					"type": "respond"
+				}
+			]
 		}
 	]
 }

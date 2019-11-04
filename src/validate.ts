@@ -8,7 +8,7 @@ import * as ajv from "ajv";
 import * as assert from "assert";
 import * as fs from "fs-extra";
 import * as path from "path";
-import {formatJSON} from "./utils";
+import {formatJSON} from "./core/utils";
 
 class Validate {
 	private ajv: ajv.Ajv;
@@ -58,9 +58,10 @@ class Validate {
 	 * Validate data in <param>path</param> using the specified schema
 	 * @param schemaPath - file path of the schema
 	 * @param dataPath - file path of data
+	 * @returns data loaded in <code>dataPath<code>
 	 * @throws {Error}
 	 */
-	public validateDataAtPath(schemaPath: string, dataPath: string): void {
+	public validateDataAtPath(schemaPath: string, dataPath: string): any {
 		const data = fs.readJSONSync(dataPath);
 		const id = this.addSchema(schemaPath);
 		const validator = this.ajv.getSchema(id);
@@ -68,10 +69,12 @@ class Validate {
 			throw new Error(`could not find schema for schemaId=${id}`);
 		}
 		if(!validator(data)) {
-			throw (validator.errors || []).map(error => Object.assign({
+			const errors = (validator.errors || []).map(error => Object.assign({
 				dataFile: dataPath
 			}, error));
+			throw new Error(formatJSON(errors));
 		}
+		return data;
 	}
 
 	/**
@@ -97,8 +100,7 @@ class Validate {
 function _createInstance(): Validate {
 	const instance = new Validate();
 	// add all of our schemas that act as a library and may not be directly referenced
-	instance.addSchema("./res/schemas/schema-server-library.json");
-	instance.addSchema("./res/schemas/schema-proxy-library.json");
+	instance.addSchema("./res/schemas/schema-library.json");
 	return instance;
 }
 

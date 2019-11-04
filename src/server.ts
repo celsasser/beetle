@@ -11,21 +11,21 @@
 
 import * as bodyParser from "body-parser";
 import * as express from "express";
-import * as route from "./routes/proxy";
 import {
-	ProxyConfiguration,
 	ServerProtocol
-} from "./types/proxy";
-import {formatJSON} from "./utils";
+} from "./types/server";
 
 /**
  * Our server instance through which we listen for proxy configurations
  */
 export class Server {
+	public readonly express: express.Express;
 	public readonly port: number;
 	public readonly protocol: ServerProtocol;
-	private readonly express: express.Express;
-	private readonly router: express.Router;
+	/**
+	 * Publicly exposed router through which all proxy traffic may be added
+	 */
+	public readonly router: express.Router;
 
 	constructor({
 		port = 8989,
@@ -34,18 +34,8 @@ export class Server {
 		this.port = port;
 		this.protocol = protocol;
 		this.express = express();
-		this.router = new express.Router();
+		this.router = express.Router();
 		this._configureExpress();
-	}
-
-	public addProxyConfiguration(configuration: ProxyConfiguration): void {
-		try {
-			const handler = route.proxy.bind(null, configuration);
-			const method = configuration.proxy.method.toLowerCase();
-			this.router[method](configuration.proxy.path, handler);
-		} catch(error) {
-			throw new Error(`failed to setup proxy for ${formatJSON(configuration)}\n${error.message}`);
-		}
 	}
 
 	/**
@@ -58,11 +48,11 @@ export class Server {
 		const server = protocol.createServer(this.express);
 		return new Promise((resolve, reject) => {
 			server.on("error", (error: Error) => {
-				console.error(`Server: attempt to start server on port ${this.port} failed: ${error}`);
+				console.error(`Server.start(): attempt to start server on port ${this.port} failed: ${error}`);
 				reject(error);
 			});
 			server.listen(this.port, () => {
-				console.info(`Server: express server listening on port ${this.port}`);
+				console.info(`Server.start(): express server listening on port ${this.port}`);
 				resolve();
 			});
 		});

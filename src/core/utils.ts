@@ -4,7 +4,7 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {ProxyConfiguration} from "./types/proxy";
+import {ProxyConfiguration} from "../types/proxy";
 
 /**
  * Converts JSON object into a string and formats.

@@ -5,8 +5,8 @@
  */
 
 import {Request} from "express";
+import {formatJSON} from "../core/utils";
 import {ProxyConfiguration} from "../types/proxy";
-import {formatJSON} from "../utils";
 
 export function encodeRequest(cfg: ProxyConfiguration, req: Request): string {
 	return formatJSON({

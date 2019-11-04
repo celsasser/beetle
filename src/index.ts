@@ -9,29 +9,15 @@
  * consent of Home Box Office, Inc.
  */
 
+
 import {parseCommandLine} from "./cli";
-import {Server} from "./server";
-import {
-	loadSetup,
-	processProxySetup
-} from "./setup";
-import {ProxySetup} from "./types/proxy";
+import run from "./run";
 
-
-/**
- * Starts up our proxy server as per our setup spec
- */
-function startServer(setup: ProxySetup) {
-	const server = new Server(setup.server);
-	server.start()
-		.then(processProxySetup.bind(null, setup, server));
-}
 
 try {
 	const params = parseCommandLine();
-	const setup = loadSetup(params.setupPath);
-	startServer(setup);
+	run(params);
 } catch(error) {
 	console.error(`Attempt to startup failed: ${error.message}`);
-	console.log("Usage: node index.js <configuration-path>");
+	console.log("Usage: node index.js <cfg-path>");
 }
