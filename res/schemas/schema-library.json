@@ -39,10 +39,10 @@
 			"additionalProperties": false,
 			"properties": {
 				"method": {
-					"pattern": "^forward$"
+					"$ref": "#/http/method"
 				},
 				"type": {
-					"$ref": "#/proxy/actionType"
+					"pattern": "^forward$"
 				},
 				"url": {
 					"type": "string"

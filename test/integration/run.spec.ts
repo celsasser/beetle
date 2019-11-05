@@ -12,7 +12,7 @@ describe("run", function() {
 		const params: CliProperties = {
 			setupPath: "./res/configurations/hurley-libby.json"
 		};
-		return new Promise((resolve, reject)=>{
+		return new Promise((resolve, reject) => {
 			run(params)
 				.catch(reject);
 			// and now we just hang out

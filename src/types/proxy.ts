@@ -16,7 +16,7 @@ import {
 export enum ProxyActionType {
 	FORWARD = "forward",
 	LOG = "log",
-	RESPOND = "respond"
+	RESPONSE = "response"
 }
 
 /**

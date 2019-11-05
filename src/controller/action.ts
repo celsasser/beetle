@@ -34,6 +34,10 @@ export class ControllerAction extends ControllerBase {
 		this.cfg = cfg;
 	}
 
+	public get cliSummary(): string {
+		return `Proxying: ${this.routeDescription}`;
+	}
+
 	public route(req: Request, res: Response, next?: NextFunction): void {
 		this._processResponder(req, res);
 		this._processAncillary(req);
@@ -51,7 +55,7 @@ export class ControllerAction extends ControllerBase {
 			});
 		} else if(action.type === ProxyActionType.LOG) {
 			return logRequest({cfg: this.cfg, req});
-		} else if(action.type === ProxyActionType.RESPOND) {
+		} else if(action.type === ProxyActionType.RESPONSE) {
 			return Promise.resolve((action as ProxyActionRespond).response);
 		} else {
 			return Promise.reject(new Error(`unknown stub action ${action.type}`));

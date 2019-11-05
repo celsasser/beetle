@@ -22,10 +22,10 @@
 		"tslint": "5.20.0",
 		"typescript": "3.6.4"
 	},
-	"description": "",
+	"description": "A service mock",
 	"license": "ISC",
 	"main": "index.js",
-	"name": "hurley-libby-proxy",
+	"name": "beetle",
 	"scripts": {
 		"build": "tsc -d -p tsconfig.json",
 		"coverage": "npm run test -- --coverage",

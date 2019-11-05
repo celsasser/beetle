@@ -7,9 +7,12 @@
 import * as fs from "fs-extra";
 import * as _ from "lodash";
 import {ControllerAction} from "./controller/action";
-import {addRoute} from "./controller/factory";
 import {createUrn} from "./core/urn";
 import {formatProxySummary} from "./core/utils";
+import {
+	addRoute,
+	removeRoute
+} from "./routing";
 import {Server} from "./server";
 import {UrnTypeId} from "./types/core";
 import {
@@ -45,9 +48,9 @@ export function loadSetup(setupPath?: string): ProxySetup {
  * Processes (validates and conditions) the setup and adds each configuration to our server proxy
  * @throws {Error}
  */
-export function processProxySetup(setup: ProxySetup, server: Server): void {
+export function addProxySetup(setup: ProxySetup, server: Server): void {
 	if(setup.proxies !== undefined) {
-		processProxyConfiguration(setup.proxies, server);
+		addProxyConfiguration(setup.proxies, server);
 	}
 }
 
@@ -57,7 +60,7 @@ export function processProxySetup(setup: ProxySetup, server: Server): void {
  * @param server
  * @throws {Error}
  */
-export function processProxyConfiguration(cfg: ProxyConfiguration|ProxyConfiguration[], server: Server): void {
+export function addProxyConfiguration(cfg: ProxyConfiguration|ProxyConfiguration[], server: Server): void {
 	const configurations: ProxyConfiguration[] = _.isArray(cfg)
 		? cfg
 		: [cfg];
@@ -65,8 +68,19 @@ export function processProxyConfiguration(cfg: ProxyConfiguration|ProxyConfigura
 		_conditionProxyConfiguration(configuration, server);
 		const controller = new ControllerAction(server, configuration);
 		addRoute(controller, configuration.id);
-		console.log(`Listening for ${formatProxySummary(configuration)} - actions=${configuration.actions.map(action => action.type).join()}`);
 	});
+}
+
+/**
+ * Removes proxy for the specified ids
+ * @param proxyId
+ * @throws {Error}
+ */
+export function removeProxyConfiguration(proxyId: string|string[]): void {
+	const proxyIds: string[] = _.isArray(proxyId)
+		? proxyId
+		: [proxyId];
+	proxyIds.forEach(removeRoute);
 }
 
 /**
@@ -84,7 +98,7 @@ function _conditionProxyConfiguration(cfg: ProxyConfiguration, server: Server): 
 			cfg.id = createUrn(UrnTypeId.ROUTE);
 		}
 		// let's find the guy who is going to be responsible for responding to the client
-		const responder = _.find<ProxyActionBase>(cfg.actions, action => action.type === ProxyActionType.RESPOND)
+		const responder = _.find<ProxyActionBase>(cfg.actions, action => action.type === ProxyActionType.RESPONSE)
 			|| _.find<ProxyActionBase>(cfg.actions, action => action.type === ProxyActionType.FORWARD)
 			|| cfg.actions[0];
 		responder.responder = true;

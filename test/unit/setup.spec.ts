@@ -5,9 +5,9 @@
  */
 
 import {
-	loadSetup,
-	processProxyConfiguration,
-	processProxySetup
+	addProxyConfiguration,
+	addProxySetup,
+	loadSetup
 } from "../../src/setup";
 
 

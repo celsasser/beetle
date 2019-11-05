@@ -29,10 +29,14 @@ class Validate {
 	public addSchema(schemaPath: string): string {
 		schemaPath = path.resolve(schemaPath);
 		if(!(schemaPath in this.loaded)) {
-			const schema = fs.readJSONSync(schemaPath);
-			assert.ok("$id" in schema);
-			this.ajv.addSchema(schema);
-			this.loaded[schemaPath] = schema.$id;
+			try {
+				const schema = fs.readJSONSync(schemaPath);
+				assert.ok("$id" in schema);
+				this.ajv.addSchema(schema);
+				this.loaded[schemaPath] = schema.$id;
+			} catch(error) {
+				throw new Error(`failed to add schemaPath ${schemaPath} - ${error.message}`);
+			}
 		}
 		return this.loaded[schemaPath];
 	}

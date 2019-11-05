@@ -9,25 +9,35 @@
  * consent of Home Box Office, Inc.
  */
 
+import {
+	ControllerProxyAdd,
+	ControllerProxyRemove
+} from "./controller/proxy";
+import {addRoute} from "./routing";
 import {Server} from "./server";
 import {
-	loadSetup,
-	processProxySetup
+	addProxySetup,
+	loadSetup
 } from "./setup";
 import {CliProperties} from "./types/cli";
-import {ProxySetup} from "./types/proxy";
+import {HttpMethod} from "./types/server";
 
 
 /**
- * Starts up our proxy server as per our setup spec
+ * Configures our API
+ * @param server
  */
-function startServer(setup: ProxySetup): Promise<void> {
-	const server = new Server(setup.server);
-	return server.start()
-		.then(processProxySetup.bind(null, setup, server));
+function setupAPI(server: Server): void {
+	addRoute(new ControllerProxyAdd(server, HttpMethod.POST, "proxy/add"));
+	addRoute(new ControllerProxyRemove(server, HttpMethod.DELETE, "proxy/remove"));
 }
+
 
 export default function run(params: CliProperties): Promise<void> {
 	const setup = loadSetup(params.setupPath);
-	return startServer(setup);
+	const server = new Server(setup.server);
+	setupAPI(server);
+	return server.start()
+		.then(addProxySetup.bind(null, setup, server));
 }
+

@@ -21,7 +21,7 @@
 						"headers": {},
 						"statusCode": 200
 					},
-					"type": "respond"
+					"type": "response"
 				}
 			]
 		}
