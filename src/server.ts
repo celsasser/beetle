@@ -11,6 +11,7 @@
 
 import * as bodyParser from "body-parser";
 import * as express from "express";
+import * as morgan from "morgan";
 import {
 	ServerProtocol
 } from "./types/server";
@@ -52,7 +53,7 @@ export class Server {
 				reject(error);
 			});
 			server.listen(this.port, () => {
-				console.info(`Server.start(): express server listening on port ${this.port}`);
+				console.info(`Server.start(): listening on ${this.protocol}://localhost:${this.port}`);
 				resolve();
 			});
 		});
@@ -64,6 +65,7 @@ export class Server {
 	private _configureExpress() {
 		this.express.set("port", this.port);
 		this.express.use(bodyParser.urlencoded({extended: false}));
+		this.express.use(morgan('[:date[iso]] ":method :url HTTP/:http-version" status=:status length=:res[content-length] remote=:remote-addr agent=":user-agent"'));
 		this.express.use("/", this.router);
 	}
 }

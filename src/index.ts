@@ -14,10 +14,19 @@ import {parseCommandLine} from "./cli";
 import run from "./run";
 
 
-try {
-	const params = parseCommandLine();
-	run(params);
-} catch(error) {
+function logFailedStartup(error: Error): void {
 	console.error(`Attempt to startup failed: ${error.message}`);
 	console.log("Usage: node index.js <cfg-path>");
+}
+
+try {
+	const params = parseCommandLine();
+	run(params)
+		.catch(error => {
+			logFailedStartup(error);
+			process.exit(1);
+		});
+} catch(error) {
+	logFailedStartup(error);
+	process.exit(1);
 }
