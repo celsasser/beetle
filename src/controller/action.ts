@@ -27,7 +27,6 @@ import {
 } from "../types/proxy";
 import {ControllerBase} from "./base";
 
-
 export class ControllerAction extends ControllerBase {
 	public readonly route: ProxyRoute;
 	private actions: ProxyAction[] = [];
@@ -81,7 +80,7 @@ export class ControllerAction extends ControllerBase {
 			});
 		} else if(action.type === ProxyActionType.LOG) {
 			return logRequest(req);
-		} else if(action.type === ProxyActionType.RESPONSE) {
+		} else if(action.type === ProxyActionType.RESPOND) {
 			return Promise.resolve((action as ProxyActionRespond).response);
 		} else {
 			return Promise.reject(new Error(`unknown stub action ${action.type}`));
@@ -94,11 +93,10 @@ export class ControllerAction extends ControllerBase {
 	private _processResponder(req: Request, res: Response): Promise<void> {
 		// let's find the guy who is going to be responsible for responding to the client
 		// todo:
-		const responder = _.find<ProxyActionBase>(stub.actions, action => action.type === ProxyActionType.RESPONSE)
+		const responder = _.find<ProxyActionBase>(stub.actions, action => action.type === ProxyActionType.RESPOND)
 			|| _.find<ProxyActionBase>(stub.actions, action => action.type === ProxyActionType.FORWARD)
 			|| stub.actions[0];
 		responder.responder = true;
-
 
 		const responder = this.cfg.actions.find(action => action.responder);
 		return this._processAction(responder as ProxyActionBase, req)

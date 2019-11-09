@@ -12,9 +12,7 @@
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import * as morgan from "morgan";
-import {
-	ServerProtocol
-} from "./types/server";
+import {ServerProtocol} from "./types/server";
 
 /**
  * Our server instance through which we listen for proxy configurations

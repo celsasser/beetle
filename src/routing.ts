@@ -8,7 +8,6 @@ import {ControllerBase} from "./controller/base";
 import map from "./map";
 import {HttpMethod} from "./types/server";
 
-
 /**
  * Sets up the controllers route and adds controller to our own internal map
  */
@@ -30,7 +29,8 @@ export function removeController(routeId: string): void {
 	map.routeIdToController.delete(routeId);
 	try {
 		// todo: figure out a better method
-		controller.server.router[controller.method](controller.path, () => {});
+		controller.server.router[controller.method](controller.path, () => {
+		});
 	} catch(error) {
 		console.warn(`controller.removeRoute(): exception thrown when trying to remove route - ${error}`);
 	}

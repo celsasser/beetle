@@ -9,10 +9,8 @@
  * consent of Home Box Office, Inc.
  */
 
-
 import {parseCommandLine} from "./cli";
 import run from "./run";
-
 
 function logFailedStartup(error: Error): void {
 	console.error(`Attempt to startup failed: ${error.message}`);

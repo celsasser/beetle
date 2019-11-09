@@ -16,7 +16,7 @@ import {
 export enum ProxyActionType {
 	FORWARD = "forward",
 	LOG = "log",
-	RESPONSE = "response"
+	RESPOND = "respond"
 }
 
 /**
@@ -47,6 +47,19 @@ export interface ProxyActionRespond extends ProxyActionBase {
 export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionRespond;
 
 /**
+ * Describes a single route cfg
+ */
+/**
+ * Response description
+ */
+export interface ProxyResponse {
+	body?: object;
+	contentType?: string;
+	headers?: {[key: string]: string};
+	statusCode?: number;
+}
+
+/**
  * Describes a route's properties
  */
 export interface ProxyRoute {
@@ -59,8 +72,13 @@ export interface ProxyRoute {
 }
 
 /**
- * Describes a single route cfg
+ * Initial setup of the route server
  */
+export interface ProxySetup {
+	stubs?: ProxyStub[];
+	server: ServerProperties;
+}
+
 export interface ProxyStub {
 	actions: ProxyAction[];
 	/**
@@ -68,23 +86,5 @@ export interface ProxyStub {
 	 */
 	id: string;
 	route: ProxyRoute;
-}
-
-/**
- * Response description
- */
-export interface ProxyResponse {
-	body?: object;
-	contentType?: string;
-	headers?: {[key: string]: string};
-	statusCode?: number;
-}
-
-/**
- * Initial setup of the route server
- */
-export interface ProxySetup {
-	stubs?: ProxyStub[];
-	server: ServerProperties;
 }
 

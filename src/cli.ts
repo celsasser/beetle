@@ -9,7 +9,6 @@
  * consent of Home Box Office, Inc.
  */
 
-
 import {CliProperties} from "./types/cli";
 
 export function parseCommandLine(): CliProperties {

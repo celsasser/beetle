@@ -4,7 +4,6 @@
  * @license MIT (see project's LICENSE file)
  */
 
-
 export interface CliProperties {
 	setupPath?: string;
 }

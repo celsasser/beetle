@@ -4,10 +4,7 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {
-	loadSetup
-} from "../../src/setup";
-
+import {loadSetup} from "../../src/setup";
 
 describe("loadSetup", function() {
 	it("should load our defaults if no setup path is specified", function() {

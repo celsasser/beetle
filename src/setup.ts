@@ -14,11 +14,11 @@ import {
 	createRouteId
 } from "./routing";
 import {Server} from "./server";
-import {UrnTypeId} from "./types/core";
 import {
 	ProxySetup,
-	ProxyStub
-} from "./types/proxy";
+	ProxyStub,
+	UrnTypeId
+} from "./types";
 import validate from "./validate";
 
 /**

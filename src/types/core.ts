@@ -5,6 +5,6 @@
  */
 
 export enum UrnTypeId {
-	ROUTE="route",
-	STUB="stub"
+	ROUTE = "route",
+	STUB = "stub"
 }

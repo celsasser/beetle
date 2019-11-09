@@ -9,12 +9,9 @@ import {
 	Request,
 	Response
 } from "express";
-import {
-	format as formatUrl
-} from "url";
+import {format as formatUrl} from "url";
 import {Server} from "../server";
 import {HttpMethod} from "../types/server";
-
 
 export abstract class ControllerBase {
 	public readonly method: HttpMethod;
@@ -33,11 +30,6 @@ export abstract class ControllerBase {
 	public abstract get cliSummary(): string;
 
 	/**
-	 * The route handler
-	 */
-	public abstract handler(req: Request, res: Response, next?: NextFunction): void;
-
-	/**
 	 * Gets a textual description of this route on this host
 	 */
 	get routeDescription(): string {
@@ -49,6 +41,11 @@ export abstract class ControllerBase {
 		});
 		return `[${this.method.toString().toUpperCase()}] ${url}`;
 	}
+
+	/**
+	 * The route handler
+	 */
+	public abstract handler(req: Request, res: Response, next?: NextFunction): void;
 
 	/*********************
 	 * Protected Interface
@@ -70,7 +67,7 @@ export abstract class ControllerBase {
 	protected sendSuccess(res: Response, {
 		body,
 		contentType = "application/json",
-		statusCode = 200,
+		statusCode = 200
 	}: {
 		body?: any
 		contentType?: string,

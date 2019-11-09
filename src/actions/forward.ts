@@ -5,8 +5,10 @@
  */
 
 import {Request} from "express";
-import {ProxyResponse} from "../types/proxy";
-import {HttpMethod} from "../types/server";
+import {
+	HttpMethod,
+	ProxyResponse
+} from "../types";
 import {encodeRequest} from "./_codec";
 
 export async function forwardRequest({method, req, url}: {

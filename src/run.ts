@@ -19,9 +19,10 @@ import {
 	addProxySetup,
 	loadSetup
 } from "./setup";
-import {CliProperties} from "./types/cli";
-import {HttpMethod} from "./types/server";
-
+import {
+	CliProperties,
+	HttpMethod
+} from "./types";
 
 /**
  * Configures our API
@@ -31,7 +32,6 @@ function setupAPI(server: Server): void {
 	addController(new ControllerProxyAdd(server, HttpMethod.POST, "proxy/add"));
 	addController(new ControllerProxyRemove(server, HttpMethod.DELETE, "proxy/remove"));
 }
-
 
 export default function run(params: CliProperties): Promise<void> {
 	const setup = loadSetup(params.setupPath);
