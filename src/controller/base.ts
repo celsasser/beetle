@@ -35,7 +35,7 @@ export abstract class ControllerBase {
 	/**
 	 * The route handler
 	 */
-	public abstract route(req: Request, res: Response, next?: NextFunction): void;
+	public abstract handler(req: Request, res: Response, next?: NextFunction): void;
 
 	/**
 	 * Gets a textual description of this route on this host

@@ -13,7 +13,7 @@ import {
 	ControllerProxyAdd,
 	ControllerProxyRemove
 } from "./controller/proxy";
-import {addRoute} from "./routing";
+import {addController} from "./routing";
 import {Server} from "./server";
 import {
 	addProxySetup,
@@ -28,8 +28,8 @@ import {HttpMethod} from "./types/server";
  * @param server
  */
 function setupAPI(server: Server): void {
-	addRoute(new ControllerProxyAdd(server, HttpMethod.POST, "proxy/add"));
-	addRoute(new ControllerProxyRemove(server, HttpMethod.DELETE, "proxy/remove"));
+	addController(new ControllerProxyAdd(server, HttpMethod.POST, "proxy/add"));
+	addController(new ControllerProxyRemove(server, HttpMethod.DELETE, "proxy/remove"));
 }
 
 

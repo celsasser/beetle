@@ -16,7 +16,7 @@ export enum HttpMethod {
 }
 
 /**
- * Describes the protocol we should use when setting up the proxy server
+ * Describes the protocol we should use when setting up the route server
  */
 export enum ServerProtocol {
 	HTTP = "http",

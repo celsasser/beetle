@@ -3,5 +3,5 @@
 		"port": 8989,
 		"protocol": "http"
 	},
-	"proxies": []
+	"stubs": []
 }

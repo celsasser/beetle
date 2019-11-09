@@ -8,18 +8,16 @@ import * as fs from "fs-extra";
 import * as _ from "lodash";
 import {ControllerAction} from "./controller/action";
 import {createUrn} from "./core/urn";
-import {formatProxySummary} from "./core/utils";
+import map from "./map";
 import {
-	addRoute,
-	removeRoute
+	addController,
+	createRouteId
 } from "./routing";
 import {Server} from "./server";
 import {UrnTypeId} from "./types/core";
 import {
-	ProxyActionBase,
-	ProxyActionType,
-	ProxyConfiguration,
-	ProxySetup
+	ProxySetup,
+	ProxyStub
 } from "./types/proxy";
 import validate from "./validate";
 
@@ -49,62 +47,71 @@ export function loadSetup(setupPath?: string): ProxySetup {
  * @throws {Error}
  */
 export function addProxySetup(setup: ProxySetup, server: Server): void {
-	if(setup.proxies !== undefined) {
-		addProxyConfiguration(setup.proxies, server);
+	addProxyStub(setup.stubs || [], server);
+}
+
+/**
+ * Processes (validates and conditions) the configuration and adds it to our server proxy.
+ * See our readme about how a single route may be amended with actions and those same actions
+ * may be later removed
+ * @throws {Error}
+ */
+export function addProxyStub(stub: ProxyStub|ProxyStub[], server: Server): void {
+	const stubs: ProxyStub[] = _.isArray(stub)
+		? stub
+		: [stub];
+	stubs.map(stub => _conditionProxyStub(stub, server))
+		.forEach(stub => {
+			const routeId = createRouteId(stub.route.method, stub.route.path);
+			const controller = map.routeIdToController.has(routeId)
+				? map.getControllerByRoute<ControllerAction>(routeId)
+				: new ControllerAction(server, stub.route);
+			controller.addActions(stub.actions);
+			addController(controller, routeId);
+			map.stubIdToRouteId.set(stub.id, routeId);
+			map.stubIdToActions.set(stub.id, stub.actions);
+		});
+}
+
+/**
+ * Removes actions for the specified ids
+ * @throws {Error}
+ */
+export function removeProxyStub(stubId: string|string[]): void {
+	const stubIds: string[] = _.isArray(stubId)
+		? stubId
+		: [stubId];
+	const errors = stubIds.reduce<string[]>((errors, stubId) => {
+		try {
+			const routeId = map.getRouteIdByStubId(stubId);
+			const actions = map.getActionsByStubId(stubId);
+			const controller = map.getControllerByRoute<ControllerAction>(routeId);
+			controller.removeActions(actions);
+			map.stubIdToActions.delete(stubId);
+		} catch(error) {
+			errors.push(error.message);
+		}
+		return errors;
+	}, []);
+	if(errors.length > 0) {
+		throw new Error(errors.join("\n"));
 	}
 }
 
 /**
- * Processes (validates and conditions) the configuration and adds it to our server proxy
- * @param cfg - mutates this object
- * @param server
+ * Makes sure he's ready to live in our big-top
  * @throws {Error}
  */
-export function addProxyConfiguration(cfg: ProxyConfiguration|ProxyConfiguration[], server: Server): void {
-	const configurations: ProxyConfiguration[] = _.isArray(cfg)
-		? cfg
-		: [cfg];
-	configurations.forEach(configuration => {
-		_conditionProxyConfiguration(configuration, server);
-		const controller = new ControllerAction(server, configuration);
-		addRoute(controller, configuration.id);
-	});
-}
-
-/**
- * Removes proxy for the specified ids
- * @param proxyId
- * @throws {Error}
- */
-export function removeProxyConfiguration(proxyId: string|string[]): void {
-	const proxyIds: string[] = _.isArray(proxyId)
-		? proxyId
-		: [proxyId];
-	proxyIds.forEach(removeRoute);
-}
-
-/**
- */
-/**
- * @param cfg - mutates this object
- * @param server
- * @throws {Error}
- */
-function _conditionProxyConfiguration(cfg: ProxyConfiguration, server: Server): ProxyConfiguration {
+function _conditionProxyStub(stub: ProxyStub, server: Server): ProxyStub {
 	try {
-		validate.validateData("./res/schemas/schema-proxy.json", cfg);
-		cfg.proxy.protocol = server.protocol;
-		if(!cfg.id) {
-			cfg.id = createUrn(UrnTypeId.ROUTE);
+		validate.validateData("./res/schemas/schema-route.json", stub);
+		stub = _.cloneDeep(stub);
+		stub.route.protocol = server.protocol;
+		if(stub.id === undefined) {
+			stub.id = createUrn(UrnTypeId.STUB);
 		}
-		// let's find the guy who is going to be responsible for responding to the client
-		const responder = _.find<ProxyActionBase>(cfg.actions, action => action.type === ProxyActionType.RESPONSE)
-			|| _.find<ProxyActionBase>(cfg.actions, action => action.type === ProxyActionType.FORWARD)
-			|| cfg.actions[0];
-		responder.responder = true;
-		return cfg;
+		return stub;
 	} catch(error) {
 		throw new Error(`failed to condition the proxy setup - ${error}`);
 	}
 }
-

@@ -5,8 +5,6 @@
  */
 
 import {
-	addProxyConfiguration,
-	addProxySetup,
 	loadSetup
 } from "../../src/setup";
 

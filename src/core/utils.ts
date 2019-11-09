@@ -4,7 +4,7 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {ProxyConfiguration} from "../types/proxy";
+import {ProxyRoute} from "../types/proxy";
 
 /**
  * Converts JSON object into a string and formats.
@@ -14,8 +14,8 @@ export function formatJSON(object: any): string {
 }
 
 /**
- * Puts the proxy's defining characteristics into a string
+ * Puts the route's defining characteristics into a string
  */
-export function formatProxySummary(cfg: ProxyConfiguration): string {
-	return `${cfg.proxy.method.toUpperCase()} ${cfg.proxy.protocol}:/${cfg.proxy.path}`;
+export function formatRouteSummary(route: ProxyRoute): string {
+	return `${route.method.toUpperCase()} ${route.protocol}:/${route.path}`;
 }

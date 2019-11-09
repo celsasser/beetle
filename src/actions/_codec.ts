@@ -6,13 +6,11 @@
 
 import {Request} from "express";
 import {formatJSON} from "../core/utils";
-import {ProxyConfiguration} from "../types/proxy";
 
-export function encodeRequest(cfg: ProxyConfiguration, req: Request): string {
+export function encodeRequest(req: Request): string {
 	return formatJSON({
 		body: req.body,
 		headers: req.body,
-		id: cfg.id,
 		method: req.method,
 		path: req.path,
 		query: req.query

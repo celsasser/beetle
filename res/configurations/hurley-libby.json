@@ -3,10 +3,10 @@
 		"port": 8989,
 		"protocol": "http"
 	},
-	"proxies": [
+	"stubs": [
 		{
 			"id": "urn:route:id",
-			"proxy": {
+			"route": {
 				"method": "get",
 				"path": "/stuff"
 			},

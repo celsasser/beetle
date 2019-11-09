@@ -23,10 +23,6 @@ export enum ProxyActionType {
  * Base interface for all actions
  */
 export interface ProxyActionBase {
-	/**
-	 * Is the action that should respond back to our client? A property we manage.
-	 */
-	responder?: boolean;
 	type: ProxyActionType;
 }
 
@@ -51,19 +47,27 @@ export interface ProxyActionRespond extends ProxyActionBase {
 export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionRespond;
 
 /**
- * Describes a single proxy cfg
+ * Describes a route's properties
  */
-export interface ProxyConfiguration {
+export interface ProxyRoute {
+	method: HttpMethod;
+	path: string;
+	/**
+	 * We track protocol here for convenience
+	 */
+	protocol: ServerProtocol;
+}
+
+/**
+ * Describes a single route cfg
+ */
+export interface ProxyStub {
 	actions: ProxyAction[];
+	/**
+	 * An id that may be used to manage this stubs existence
+	 */
 	id: string;
-	proxy: {
-		method: HttpMethod;
-		path: string;
-		/**
-		 * We track protocol here for convenience
-		 */
-		protocol: ServerProtocol;
-	};
+	route: ProxyRoute;
 }
 
 /**
@@ -77,10 +81,10 @@ export interface ProxyResponse {
 }
 
 /**
- * Initial setup of the proxy server
+ * Initial setup of the route server
  */
 export interface ProxySetup {
-	proxies?: ProxyConfiguration[];
+	stubs?: ProxyStub[];
 	server: ServerProperties;
 }
 

@@ -11,7 +11,7 @@ import validate from "../../src/validate";
  */
 describe("schemas", function() {
 	[
-		"./res/schemas/schema-proxy.json",
+		"./res/schemas/schema-stub.json",
 		"./res/schemas/schema-server.json"
 	].forEach(path => {
 		it(`${path} should be a valid schema`, function() {

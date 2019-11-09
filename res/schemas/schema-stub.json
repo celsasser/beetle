@@ -1,5 +1,5 @@
 {
-	"$id": "schema://beetle/schema-proxy.json",
+	"$id": "schema://beetle/schema-stub.json",
 	"$schema": "http://json-schema.org/draft-07/schema",
 	"type": "object",
 	"required": [
@@ -28,7 +28,7 @@
 		"id": {
 			"type": "string"
 		},
-		"proxy": {
+		"route": {
 			"type": "object",
 			"required": [
 				"method",

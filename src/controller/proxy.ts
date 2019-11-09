@@ -9,8 +9,8 @@ import {
 	Response
 } from "express";
 import {
-	addProxyConfiguration,
-	removeProxyConfiguration
+	addProxyStub,
+	removeProxyStub
 } from "../setup";
 import validate from "../validate";
 import {ControllerBase} from "./base";
@@ -23,13 +23,13 @@ export class ControllerProxyAdd extends ControllerBase {
 		return `Add proxy/proxies: ${this.routeDescription}`;
 	}
 
-	public route(req: Request, res: Response): void {
+	public handler(req: Request, res: Response): void {
 		try {
 			validate.validateData("./schemas/request/schema-proxy-add.json", {
 				body: req.body,
 				params: req.params
 			});
-			addProxyConfiguration(req.body, this.server);
+			addProxyStub(req.body, this.server);
 			this.sendSuccess(res);
 		} catch(error) {
 			this.sendFailure(res, {error});
@@ -46,13 +46,13 @@ export class ControllerProxyRemove extends ControllerBase {
 		return `Remove proxy/proxies: ${this.routeDescription}`;
 	}
 
-	public route(req: Request, res: Response): void {
+	public handler(req: Request, res: Response): void {
 		try {
 			validate.validateData("./schemas/request/schema-proxy-remove.json", {
 				body: req.body,
 				params: req.params
 			});
-			removeProxyConfiguration(req.body);
+			removeProxyStub(req.body);
 			this.sendSuccess(res);
 		} catch(error) {
 			this.sendFailure(res, {error});

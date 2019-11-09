@@ -9,12 +9,12 @@
 		"body": {
 			"anyOf": [
 				{
-					"$ref": "../schema-proxy.json#"
+					"$ref": "../schema-stub.json#"
 				},
 				{
 					"type": "array",
 					"items": {
-						"$ref": "../schema-proxy.json#"
+						"$ref": "../schema-stub.json#"
 					}
 				}
 			]

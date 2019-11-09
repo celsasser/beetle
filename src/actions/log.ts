@@ -5,17 +5,11 @@
  */
 
 import {Request} from "express";
-import {
-	ProxyConfiguration,
-	ProxyResponse
-} from "../types/proxy";
+import {ProxyResponse} from "../types/proxy";
 import {encodeRequest} from "./_codec";
 
-export async function logRequest({cfg, req}: {
-	cfg: ProxyConfiguration,
-	req: Request
-}): Promise<ProxyResponse> {
-	const encoded = encodeRequest(cfg, req);
+export async function logRequest(req: Request): Promise<ProxyResponse> {
+	const encoded = encodeRequest(req);
 	console.log(`Proxying: ${encoded}`);
 	return Promise.resolve({});
 }

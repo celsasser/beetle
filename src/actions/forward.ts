@@ -5,20 +5,16 @@
  */
 
 import {Request} from "express";
-import {
-	ProxyConfiguration,
-	ProxyResponse
-} from "../types/proxy";
+import {ProxyResponse} from "../types/proxy";
 import {HttpMethod} from "../types/server";
 import {encodeRequest} from "./_codec";
 
-export async function forwardRequest({cfg, method, req, url}: {
-	cfg: ProxyConfiguration,
+export async function forwardRequest({method, req, url}: {
 	method: HttpMethod
 	req: Request,
 	url: string
 }): Promise<ProxyResponse> {
-	const encoded = encodeRequest(cfg, req);
+	const encoded = encodeRequest(req);
 	// todo:
 	return Promise.resolve({});
 
