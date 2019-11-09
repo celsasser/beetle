@@ -103,8 +103,10 @@ class Validate {
  */
 function _createInstance(): Validate {
 	const instance = new Validate();
-	// add all of our schemas that act as a library and may not be directly referenced
+	// add all of our schemas on which we have dependencies
 	instance.addSchema("./res/schemas/schema-library.json");
+	instance.addSchema("./res/schemas/schema-server.json");
+	instance.addSchema("./res/schemas/schema-stub.json");
 	return instance;
 }
 

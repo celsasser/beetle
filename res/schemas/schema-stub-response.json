@@ -1,0 +1,5 @@
+{
+	"$id": "schema://beetle/schema-stub-response.json",
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$ref": "schema-library.json#/stub/response"
+}

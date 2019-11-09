@@ -82,7 +82,7 @@ export function createProxyRoute({
 		method,
 		path,
 		protocol
-	}
+	};
 }
 
 export function createProxySetup({
@@ -104,5 +104,5 @@ export function createProxyStub({
 		actions,
 		id,
 		route
-	}
+	};
 }

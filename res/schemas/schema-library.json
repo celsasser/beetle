@@ -21,7 +21,20 @@
 			]
 		}
 	},
-	"proxy": {
+	"stub": {
+		"action": {
+			"anyOf": [
+				{
+					"$ref": "#/stub/actionForward"
+				},
+				{
+					"$ref": "#/stub/actionLog"
+				},
+				{
+					"$ref": "#/stub/actionResponse"
+				}
+			]
+		},
 		"actionType": {
 			"enum": [
 				"forward",
@@ -70,7 +83,7 @@
 			"additionalProperties": false,
 			"properties": {
 				"response": {
-					"$ref": "#/proxy/response"
+					"$ref": "#/stub/response"
 				},
 				"type": {
 					"pattern": "^response$"

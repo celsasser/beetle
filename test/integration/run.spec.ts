@@ -10,7 +10,7 @@ import {CliProperties} from "../../src/types/cli";
 describe("run", function() {
 	it("should start the express server", function() {
 		const params: CliProperties = {
-			setupPath: "./res/configurations/hurley-libby.json"
+			setupPath: "./res/configurations/setup-test.json"
 		};
 		return new Promise((resolve, reject) => {
 			run(params)

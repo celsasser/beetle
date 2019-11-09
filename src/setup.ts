@@ -22,27 +22,6 @@ import {
 import validate from "./validate";
 
 /**
- * Loads setup file from local file system and merges in server defaults
- * @throws {Error}
- */
-export function loadSetup(setupPath?: string): ProxySetup {
-	function _load(path: string): ProxySetup {
-		try {
-			return fs.readJSONSync(path);
-		} catch(error) {
-			throw new Error(`failed to load setup: ${error}`);
-		}
-	}
-
-	let setup = _load("./res/defaults/setup-defaults.json");
-	if(setupPath) {
-		setup = _.merge(setup, _load(setupPath));
-	}
-	validate.validateData("./res/schemas/schema-server.json", setup.server);
-	return setup;
-}
-
-/**
  * Processes (validates and conditions) the setup and adds each configuration to our server proxy
  * @throws {Error}
  */
@@ -71,6 +50,27 @@ export function addProxyStub(stub: ProxyStub|ProxyStub[], server: Server): void 
 			map.stubIdToRouteId.set(stub.id, routeId);
 			map.stubIdToActions.set(stub.id, stub.actions);
 		});
+}
+
+/**
+ * Loads setup file from local file system and merges in server defaults
+ * @throws {Error}
+ */
+export function loadProxySetupByPath(setupPath?: string): ProxySetup {
+	function _load(path: string): ProxySetup {
+		try {
+			return fs.readJSONSync(path);
+		} catch(error) {
+			throw new Error(`failed to load setup: ${error}`);
+		}
+	}
+
+	let setup = _load("./res/defaults/default-setup.json");
+	if(setupPath) {
+		setup = _.merge(setup, _load(setupPath));
+	}
+	validate.validateData("./res/schemas/schema-server.json", setup.server);
+	return setup;
 }
 
 /**

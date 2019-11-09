@@ -17,7 +17,7 @@ import {addController} from "./routing";
 import {Server} from "./server";
 import {
 	addProxySetup,
-	loadSetup
+	loadProxySetupByPath
 } from "./setup";
 import {
 	CliProperties,
@@ -34,7 +34,7 @@ function setupAPI(server: Server): void {
 }
 
 export default function run(params: CliProperties): Promise<void> {
-	const setup = loadSetup(params.setupPath);
+	const setup = loadProxySetupByPath(params.setupPath);
 	const server = new Server(setup.server);
 	setupAPI(server);
 	return server.start()

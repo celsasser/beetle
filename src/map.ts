@@ -7,9 +7,9 @@ import {ControllerBase} from "./controller/base";
 import {ProxyAction} from "./types/proxy";
 
 /**
- * A sort of singleton mapping of some popular characters
+ * A singleton mapping of some popular characters
  */
-class Mapping {
+class BeetleMap {
 	public readonly routeIdToController: Map<string, ControllerBase> = new Map<string, ControllerBase>();
 	public readonly stubIdToActions: Map<string, ProxyAction[]> = new Map<string, ProxyAction[]>();
 	public readonly stubIdToRouteId: Map<string, string> = new Map<string, string>();
@@ -48,4 +48,4 @@ class Mapping {
 	}
 }
 
-export default new Mapping();
+export default new BeetleMap();

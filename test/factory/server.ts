@@ -3,7 +3,7 @@
  * Time: 1:10 AM
  * @license MIT (see project's LICENSE file)
  */
-import {Server} from "../../src/server"
+import {Server} from "../../src/server";
 import {
 	ServerProperties,
 	ServerProtocol

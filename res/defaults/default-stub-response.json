@@ -1,0 +1,9 @@
+{
+	"body": {
+
+	},
+	"headers": {
+		"X-Agent": "Beetle Proxy",
+		"X-Beetle-Warn": "Route not stubbed"
+	}
+}

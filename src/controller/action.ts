@@ -39,14 +39,13 @@ export class ControllerAction extends ControllerBase {
 	/*********************
 	 * Public Properties
 	 **********************/
-
 	public get cliSummary(): string {
 		return `Proxying: ${this.routeDescription}`;
 	}
 
 	/*********************
-	 * Public Functionality
-	 **********************/
+	 * Public Interface
+	 *********************/
 	/**
 	 * We give priority to the most recently added actions to the last added actions
 	 * @param actions
@@ -66,6 +65,15 @@ export class ControllerAction extends ControllerBase {
 	public handler(req: Request, res: Response, next?: NextFunction): void {
 		this._processResponder(req, res);
 		this._processAncillary(req);
+	}
+
+	/*********************
+	 * Private Interface
+	 *********************/
+	private _findResponder(): ProxyActionBase|undefined {
+		return _.find<ProxyActionBase>(this.actions, action => action.type === ProxyActionType.RESPOND)
+			|| _.find<ProxyActionBase>(this.actions, action => action.type === ProxyActionType.FORWARD)
+			|| this.actions[0];
 	}
 
 	/**
@@ -91,26 +99,24 @@ export class ControllerAction extends ControllerBase {
 	 * Finds and processes the action that is designated as the <code>responder</code>
 	 */
 	private _processResponder(req: Request, res: Response): Promise<void> {
-		// let's find the guy who is going to be responsible for responding to the client
-		// todo:
-		const responder = _.find<ProxyActionBase>(stub.actions, action => action.type === ProxyActionType.RESPOND)
-			|| _.find<ProxyActionBase>(stub.actions, action => action.type === ProxyActionType.FORWARD)
-			|| stub.actions[0];
-		responder.responder = true;
-
-		const responder = this.cfg.actions.find(action => action.responder);
-		return this._processAction(responder as ProxyActionBase, req)
-			.then(response => respondToClient(res, response))
-			.catch(error => {
-				console.error(`ControllerAction._processResponder(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
-			});
+		const responder = this._findResponder();
+		if(responder === undefined) {
+			return this._processUnhandledRequest(req, res);
+		} else {
+			return this._processAction(responder as ProxyActionBase, req)
+				.then(response => respondToClient(res, response))
+				.catch(error => {
+					console.error(`ControllerAction._processResponder(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
+				});
+		}
 	}
 
 	/**
 	 * Processes all non responder actions
 	 */
 	private _processAncillary(req: Request): Promise<void> {
-		const actions = this.cfg.actions.filter(action => !action.responder);
+		const responder = this._findResponder();
+		const actions = this.actions.filter(action => action !== responder);
 		const promises = actions.map(action => this._processAction(action, req)
 			.catch(error => {
 				console.error(`ControllerAction._processAncillary(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
@@ -118,5 +124,11 @@ export class ControllerAction extends ControllerBase {
 		);
 		return Promise.all(promises)
 			.then(() => Promise.resolve());
+	}
+
+	private _processUnhandledRequest(req: Request, res: Response): Promise<void> {
+		console.warn(`No responders configured for ${this.routeDescription}`);
+		respondToClient(res, require("./res/defaults/default-stub-response"));
+		return Promise.resolve();
 	}
 }
