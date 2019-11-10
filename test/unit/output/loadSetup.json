@@ -1,7 +1,7 @@
 {
-	"proxies": [],
 	"server": {
 		"port": 8080,
 		"protocol": "https"
-	}
+	},
+	"stubs": []
 }

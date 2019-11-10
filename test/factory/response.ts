@@ -3,11 +3,14 @@
  * Time: 1:39 AM
  * @license MIT (see project's LICENSE file)
  */
+
+/**
 import {Response} from "express";
 import {createRequest} from "./request";
 
 export function createResponse({
 	req = createRequest()
-}: Response = {}): Response {
+}: Partial<Response> = {}): Response {
 	return new Response(req);
 }
+*/

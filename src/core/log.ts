@@ -5,8 +5,8 @@
  */
 import {Severity} from "../types";
 
-type Metadata = {[property: string]: any};
 type Logger = (message: string, metadata?: Metadata) => void;
+type Metadata = {[property: string]: any};
 
 export const debug: Logger = log.bind(null, Severity.DEBUG);
 export const error: Logger = log.bind(null, Severity.ERROR);

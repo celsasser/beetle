@@ -18,12 +18,13 @@ const REQUEST_DEFAULTS = {
 	query: {}
 };
 
+/**
 export function createRequest({
 	body = REQUEST_DEFAULTS.body,
 	headers = REQUEST_DEFAULTS.headers,
 	params = REQUEST_DEFAULTS.params,
 	query = REQUEST_DEFAULTS.query
-}: Request = {}): Request {
+}: Partial<Request> = {}): Request {
 	const request = new Request(new Socket());
 	request.body = body;
 	request.headers = headers;
@@ -31,3 +32,4 @@ export function createRequest({
 	request.query = query;
 	return request;
 }
+*/

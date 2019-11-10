@@ -21,7 +21,7 @@ export function createServer(properties: ServerProperties = createServerProperti
 export function createServerProperties({
 	port = DEFAULTS_SERVER.port,
 	protocol = DEFAULTS_SERVER.protocol
-}: ServerProperties = {}): ServerProperties {
+}: Partial<ServerProperties> = {}): ServerProperties {
 	return {
 		port,
 		protocol

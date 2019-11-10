@@ -8,9 +8,11 @@ import {
 	HttpMethod,
 	ProxyActionForward,
 	ProxyActionLog,
+	ProxyActionRespond,
 	ProxyActionType,
 	ProxyResponse,
 	ProxyRoute,
+	ProxySetup,
 	ProxyStub,
 	ServerProtocol
 } from "../../src/types";
@@ -33,7 +35,7 @@ export function createProxyActionForward({
 	method = HttpMethod.GET,
 	type = ProxyActionType.FORWARD,
 	url = "http://host:9000/forward"
-}: ProxyActionForward = {}): ProxyActionForward {
+}: Partial<ProxyActionForward> = {}): ProxyActionForward {
 	return {
 		method,
 		type,
@@ -43,7 +45,7 @@ export function createProxyActionForward({
 
 export function createProxyActionLog({
 	type = ProxyActionType.FORWARD
-}: ProxyActionLog = {}): ProxyActionLog {
+}: Partial<ProxyActionLog> = {}): ProxyActionLog {
 	return {
 		type
 	};
@@ -52,7 +54,7 @@ export function createProxyActionLog({
 export function createProxyActionResponse({
 	response = createProxyResponse(),
 	type = ProxyActionType.RESPOND
-}: ProxyActionLog = {}): ProxyActionLog {
+}: Partial<ProxyActionRespond> = {}): ProxyActionRespond {
 	return {
 		response,
 		type
@@ -64,7 +66,7 @@ export function createProxyResponse({
 	contentType = PROXY_DEFAULTS.responseContentType,
 	headers = PROXY_DEFAULTS.responseHeaders,
 	statusCode = PROXY_DEFAULTS.responseStatusCode
-}: ProxyResponse = {}): ProxyResponse {
+}: Partial<ProxyResponse> = {}): ProxyResponse {
 	return {
 		body,
 		contentType,
@@ -77,7 +79,7 @@ export function createProxyRoute({
 	method = HttpMethod.GET,
 	path = PROXY_DEFAULTS.path,
 	protocol = ServerProtocol.HTTP
-}: ProxyRoute = {}): ProxyRoute {
+}: Partial<ProxyRoute> = {}): ProxyRoute {
 	return {
 		method,
 		path,
@@ -88,7 +90,7 @@ export function createProxyRoute({
 export function createProxySetup({
 	server = createServer(),
 	stubs = [createProxyStub()]
-}: ProxySetup = {}): ProxySetup {
+}: Partial<ProxySetup> = {}): ProxySetup {
 	return {
 		server,
 		stubs
@@ -99,7 +101,7 @@ export function createProxyStub({
 	actions = [createProxyActionResponse()],
 	id = PROXY_DEFAULTS.stubId,
 	route = createProxyRoute()
-}: ProxyStub = {}): ProxyStub {
+}: Partial<ProxyStub> = {}): ProxyStub {
 	return {
 		actions,
 		id,

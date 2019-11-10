@@ -4,5 +4,7 @@
  * @license MIT (see project's LICENSE file)
  */
 
+export * from "./controller"
 export * from "./proxy";
+export * from "./request";
 export * from "./server";

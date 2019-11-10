@@ -28,6 +28,9 @@ import {
 } from "../types/proxy";
 import {ControllerBase} from "./base";
 
+/**
+ * This is our stub through which we process all actions attached to this stub.
+ */
 export class ControllerAction extends ControllerBase {
 	public readonly route: ProxyRoute;
 	private actions: ProxyAction[] = [];
@@ -71,7 +74,12 @@ export class ControllerAction extends ControllerBase {
 	/*********************
 	 * Private Interface
 	 *********************/
-	private _findResponder(): ProxyActionBase|undefined {
+	private _findNonResponderActions(): ProxyActionBase[] {
+		const responder = this._findResponderAction();
+		return this.actions.filter(action => action !== responder);
+	}
+
+	private _findResponderAction(): ProxyActionBase|undefined {
 		return _.find<ProxyActionBase>(this.actions, action => action.type === ProxyActionType.RESPOND)
 			|| _.find<ProxyActionBase>(this.actions, action => action.type === ProxyActionType.FORWARD)
 			|| this.actions[0];
@@ -97,34 +105,33 @@ export class ControllerAction extends ControllerBase {
 	}
 
 	/**
+	 * Processes all non responder actions
+	 */
+	private _processAncillary(req: Request): Promise<void> {
+		const actions = this._findNonResponderActions();
+		const promises = actions.map(action => this._processAction(action, req)
+			.catch(error => {
+				log.error(`ControllerAction._processAncillary(): attempt to process ${formatRouteSummary(this.route)} failed - ${error}`, {actions});
+			})
+		);
+		return Promise.all(promises)
+			.then(() => Promise.resolve());
+	}
+
+	/**
 	 * Finds and processes the action that is designated as the <code>responder</code>
 	 */
 	private _processResponder(req: Request, res: Response): Promise<void> {
-		const responder = this._findResponder();
+		const responder = this._findResponderAction();
 		if(responder === undefined) {
 			return this._processUnhandledRequest(req, res);
 		} else {
 			return this._processAction(responder as ProxyActionBase, req)
 				.then(response => respondToClient(res, response))
 				.catch(error => {
-					log.error(`ControllerAction._processResponder(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
+					log.error(`ControllerAction._processResponder(): attempt to process ${formatRouteSummary(this.route)} failed - ${error}`, {responder});
 				});
 		}
-	}
-
-	/**
-	 * Processes all non responder actions
-	 */
-	private _processAncillary(req: Request): Promise<void> {
-		const responder = this._findResponder();
-		const actions = this.actions.filter(action => action !== responder);
-		const promises = actions.map(action => this._processAction(action, req)
-			.catch(error => {
-				log.error(`ControllerAction._processAncillary(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
-			})
-		);
-		return Promise.all(promises)
-			.then(() => Promise.resolve());
 	}
 
 	private _processUnhandledRequest(req: Request, res: Response): Promise<void> {
