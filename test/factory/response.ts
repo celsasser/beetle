@@ -5,29 +5,34 @@
  */
 import {Response} from "express";
 
-class MockResponse {
-	contentType(type: string): MockResponse {
+class ResponseApproximation {
+	contentType(type: string): ResponseApproximation {
 		return this;
 	}
 
-	json(body: any): MockResponse {
+	header(name:string, value: any): ResponseApproximation {
 		return this;
 	}
 
-	send(body: any): MockResponse {
+	json(body: any): ResponseApproximation {
 		return this;
 	}
 
-	status(code: number): MockResponse {
+	send(body: any): ResponseApproximation {
+		return this;
+	}
+
+	status(code: number): ResponseApproximation {
 		return this;
 	}
 }
 
-export function createResponse(): Response {
-	let response = new MockResponse();
+export function createResponse(): jest.Mocked<Response> {
+	let response = new ResponseApproximation();
 	response.contentType = jest.fn(() => response);
+	response.header = jest.fn(() => response);
 	response.json = jest.fn(() => response);
 	response.send = jest.fn(() => response);
 	response.status = jest.fn(() => response);
-	return response as unknown as Response;
+	return response as jest.Mocked<Response>;
 }

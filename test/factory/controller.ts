@@ -12,6 +12,7 @@ import {
 import {Server} from "../../src/server";
 import {
 	HttpMethod,
+	ProxyActionBase,
 	ProxyRoute
 } from "../../src/types";
 import {createProxyRoute} from "./proxy";
@@ -25,13 +26,17 @@ export const CONTROLLER_DEFAULTS = {
 };
 
 export function createControllerAction({
+	actions = [],
 	server = CONTROLLER_DEFAULTS.server,
 	route = CONTROLLER_DEFAULTS.route
 }: {
+	actions?: ProxyActionBase[],
 	server?: Server,
 	route?: ProxyRoute
 } = {}): ControllerAction {
-	return new ControllerAction(server, route);
+	const instance = new ControllerAction(server, route);
+	instance.addActions(actions);
+	return instance;
 }
 
 export function createControllerProxyAdd({

@@ -1,0 +1,10 @@
+{
+	"body": {
+		"name": "George"
+	},
+	"contentType": "application/json",
+	"headers": {
+		"X-Species": "cat"
+	},
+	"statusCode": "201"
+}

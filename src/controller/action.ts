@@ -70,9 +70,13 @@ export class ControllerAction extends ControllerBase {
 		actions.forEach(_.pull.bind(_, this._actions));
 	}
 
-	public handler(req: Request, res: Response, next?: NextFunction): void {
-		this._processResponder(req, res);
-		this._processAncillary(req);
+	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
+		Promise.all([
+			this._processResponder(req, res),
+			this._processAncillary(req)
+		])
+			.then(_.ary(next, 0))
+			.catch(next);
 	}
 
 	/*********************
@@ -140,7 +144,7 @@ export class ControllerAction extends ControllerBase {
 
 	private _processUnhandledRequest(req: Request, res: Response): Promise<void> {
 		log.warn(`No responders configured for ${this.routeDescription}`);
-		respondToClient(res, require("./res/defaults/default-stub-response"));
+		respondToClient(res, require("../../res/defaults/default-stub-response.json"));
 		return Promise.resolve();
 	}
 }
