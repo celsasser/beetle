@@ -4,6 +4,13 @@
  * @license MIT (see project's LICENSE file)
  */
 
+export enum Severity {
+	DEBUG = "debug",
+	ERROR = "error",
+	INFO = "info",
+	WARN = "warn"
+}
+
 export enum UrnTypeId {
 	ROUTE = "route",
 	STUB = "stub"

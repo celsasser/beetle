@@ -4,6 +4,14 @@
  * @license MIT (see project's LICENSE file)
  */
 
-export interface CliProperties {
-	setupPath?: string;
+export interface CLIGenerateSetupParams {
+	inputPath: string;
+	outputPath?: string;
+	verbose: boolean;
 }
+
+export interface CLIProxyServerParams {
+	setupPath?: string;
+	verbose: boolean;
+}
+

@@ -5,6 +5,7 @@
  */
 
 import {ControllerBase} from "./controller/base";
+import * as log from "./core/log";
 import map from "./map";
 import {HttpMethod} from "./types/server";
 
@@ -14,7 +15,7 @@ import {HttpMethod} from "./types/server";
 export function addController(controller: ControllerBase, routeId: string = createRouteId(controller.method, controller.path)): void {
 	controller.server.router[controller.method](controller.path, controller.handler.bind(controller));
 	map.routeIdToController.set(routeId, controller);
-	console.log(`${controller.cliSummary}`);
+	log.info(`${controller.cliSummary}`);
 }
 
 export function createRouteId(method: HttpMethod, path: string): string {
@@ -32,6 +33,6 @@ export function removeController(routeId: string): void {
 		controller.server.router[controller.method](controller.path, () => {
 		});
 	} catch(error) {
-		console.warn(`controller.removeRoute(): exception thrown when trying to remove route - ${error}`);
+		log.warn(`controller.removeRoute(): exception thrown when trying to remove route - ${error}`);
 	}
 }

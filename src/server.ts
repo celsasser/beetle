@@ -12,6 +12,7 @@
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import * as morgan from "morgan";
+import * as log from "./core/log";
 import {ServerProtocol} from "./types/server";
 
 /**
@@ -47,11 +48,10 @@ export class Server {
 		const server = protocol.createServer(this.express);
 		return new Promise((resolve, reject) => {
 			server.on("error", (error: Error) => {
-				console.error(`Server.start(): attempt to start server on port ${this.port} failed: ${error}`);
-				reject(error);
+				reject(new Error(`attempt to start server on port ${this.port} failed: ${error}`));
 			});
 			server.listen(this.port, () => {
-				console.info(`Server.start(): listening on ${this.protocol}://localhost:${this.port}`);
+				log.info(`Server.start(): listening on ${this.protocol}://localhost:${this.port}`);
 				resolve();
 			});
 		});

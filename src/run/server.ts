@@ -12,17 +12,17 @@
 import {
 	ControllerProxyAdd,
 	ControllerProxyRemove
-} from "./controller/proxy";
-import {addController} from "./routing";
-import {Server} from "./server";
+} from "../controller/proxy";
+import {addController} from "../routing";
+import {Server} from "../server";
 import {
 	addProxySetup,
 	loadProxySetupByPath
-} from "./setup";
+} from "../setup";
 import {
-	CliProperties,
+	CLIProxyServerParams,
 	HttpMethod
-} from "./types";
+} from "../types";
 
 /**
  * Configures our API
@@ -33,7 +33,7 @@ function setupAPI(server: Server): void {
 	addController(new ControllerProxyRemove(server, HttpMethod.DELETE, "proxy/remove"));
 }
 
-export default function run(params: CliProperties): Promise<void> {
+export default async function run(params: CLIProxyServerParams): Promise<void> {
 	const setup = loadProxySetupByPath(params.setupPath);
 	const server = new Server(setup.server);
 	setupAPI(server);

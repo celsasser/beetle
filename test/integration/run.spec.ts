@@ -4,12 +4,12 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import run from "../../src/run";
-import {CliProperties} from "../../src/types/cli";
+import run from "../../src/run/server";
+import {CLIProxyServerParams} from "../../src/types/cli";
 
 describe("run", function() {
 	it("should start the express server", function() {
-		const params: CliProperties = {
+		const params: CLIProxyServerParams = {
 			setupPath: "./res/configurations/setup-test.json"
 		};
 		return new Promise((resolve, reject) => {

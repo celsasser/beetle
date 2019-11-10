@@ -15,6 +15,7 @@ import {
 	logRequest
 } from "../actions";
 import {respondToClient} from "../actions/respond";
+import * as log from "../core/log";
 import {formatRouteSummary} from "../core/utils";
 import {Server} from "../server";
 import {
@@ -106,7 +107,7 @@ export class ControllerAction extends ControllerBase {
 			return this._processAction(responder as ProxyActionBase, req)
 				.then(response => respondToClient(res, response))
 				.catch(error => {
-					console.error(`ControllerAction._processResponder(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
+					log.error(`ControllerAction._processResponder(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
 				});
 		}
 	}
@@ -119,7 +120,7 @@ export class ControllerAction extends ControllerBase {
 		const actions = this.actions.filter(action => action !== responder);
 		const promises = actions.map(action => this._processAction(action, req)
 			.catch(error => {
-				console.error(`ControllerAction._processAncillary(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
+				log.error(`ControllerAction._processAncillary(): attempt to proxy ${formatRouteSummary(this.route)} failed - ${error}`);
 			})
 		);
 		return Promise.all(promises)
@@ -127,7 +128,7 @@ export class ControllerAction extends ControllerBase {
 	}
 
 	private _processUnhandledRequest(req: Request, res: Response): Promise<void> {
-		console.warn(`No responders configured for ${this.routeDescription}`);
+		log.warn(`No responders configured for ${this.routeDescription}`);
 		respondToClient(res, require("./res/defaults/default-stub-response"));
 		return Promise.resolve();
 	}
