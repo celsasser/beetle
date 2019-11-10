@@ -33,7 +33,7 @@ import {ControllerBase} from "./base";
  */
 export class ControllerAction extends ControllerBase {
 	public readonly route: ProxyRoute;
-	private actions: ProxyAction[] = [];
+	private _actions: ProxyAction[] = [];
 
 	public constructor(server: Server, route: ProxyRoute) {
 		super(server, route.method, route.path);
@@ -43,6 +43,10 @@ export class ControllerAction extends ControllerBase {
 	/*********************
 	 * Public Properties
 	 **********************/
+	public get actions(): ProxyAction[] {
+		return this._actions;
+	}
+
 	public get cliSummary(): string {
 		return `Proxying: ${this.routeDescription}`;
 	}
@@ -55,7 +59,7 @@ export class ControllerAction extends ControllerBase {
 	 * @param actions
 	 */
 	public addActions(actions: ProxyAction[]): void {
-		this.actions = actions.concat(this.actions);
+		this._actions = actions.concat(this._actions);
 	}
 
 	/**
@@ -63,7 +67,7 @@ export class ControllerAction extends ControllerBase {
 	 * @param actions
 	 */
 	public removeActions(actions: ProxyAction[]): void {
-		actions.forEach(_.pull.bind(_, this.actions));
+		actions.forEach(_.pull.bind(_, this._actions));
 	}
 
 	public handler(req: Request, res: Response, next?: NextFunction): void {
@@ -74,15 +78,15 @@ export class ControllerAction extends ControllerBase {
 	/*********************
 	 * Private Interface
 	 *********************/
-	private _findNonResponderActions(): ProxyActionBase[] {
+	public _findNonResponderActions(): ProxyActionBase[] {
 		const responder = this._findResponderAction();
-		return this.actions.filter(action => action !== responder);
+		return this._actions.filter(action => action !== responder);
 	}
 
-	private _findResponderAction(): ProxyActionBase|undefined {
-		return _.find<ProxyActionBase>(this.actions, action => action.type === ProxyActionType.RESPOND)
-			|| _.find<ProxyActionBase>(this.actions, action => action.type === ProxyActionType.FORWARD)
-			|| this.actions[0];
+	public _findResponderAction(): ProxyActionBase|undefined {
+		return _.find<ProxyActionBase>(this._actions, action => action.type === ProxyActionType.RESPOND)
+			|| _.find<ProxyActionBase>(this._actions, action => action.type === ProxyActionType.FORWARD)
+			|| this._actions[0];
 	}
 
 	/**

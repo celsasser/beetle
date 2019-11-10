@@ -5,7 +5,6 @@
  */
 
 import {Request} from "express";
-import {Socket} from "net";
 
 const REQUEST_DEFAULTS = {
 	body: {
@@ -18,18 +17,16 @@ const REQUEST_DEFAULTS = {
 	query: {}
 };
 
-/**
 export function createRequest({
 	body = REQUEST_DEFAULTS.body,
 	headers = REQUEST_DEFAULTS.headers,
 	params = REQUEST_DEFAULTS.params,
 	query = REQUEST_DEFAULTS.query
 }: Partial<Request> = {}): Request {
-	const request = new Request(new Socket());
-	request.body = body;
-	request.headers = headers;
-	request.params = params;
-	request.query = query;
-	return request;
+	return {
+		body,
+		headers,
+		params,
+		query
+	} as Request;
 }
-*/
