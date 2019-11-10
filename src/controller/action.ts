@@ -70,6 +70,9 @@ export class ControllerAction extends ControllerBase {
 		actions.forEach(_.pull.bind(_, this._actions));
 	}
 
+	/**
+	 * Route handler. He handles next so that tests may know when processing is complete
+	 */
 	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
 		Promise.all([
 			this._processResponder(req, res),
