@@ -1,5 +1,5 @@
 {
-	"$id": "schema://beetle/request/schema-proxy-remove.json",
+	"$id": "schema://beetle/request/schema-stub-remove.json",
 	"$schema": "http://json-schema.org/draft-07/schema",
 	"type": "object",
 	"required": [

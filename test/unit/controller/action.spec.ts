@@ -5,27 +5,30 @@
  */
 
 import {Response} from "express";
+import * as log from "../../../src/core/log";
 import {ProxyResponse} from "../../../src/types";
-import {createProxyActionResponse} from "../../factory";
 import * as factory from "../../factory";
+import {createProxyActionResponse} from "../../factory";
 
-describe.only("ControllerAction", function() {
+jest.mock("../../../src/core/log");
+
+describe("ControllerAction", function() {
 	function assertExpectedResponse(res: jest.Mocked<Response>, expected: ProxyResponse) {
 		if(expected.contentType) {
-			expect(res.contentType.mock.calls[0]).toEqual([expected.contentType]);
+			expect(res.contentType).toBeCalledWith(expected.contentType);
 		} else {
-			expect(res.contentType.mock.calls.length).toEqual(0);
+			expect(res.contentType).toBeCalledTimes(0);
 		}
 		res.header.mock.calls.forEach(([name, value]) => {
 			// @ts-ignore
 			expect(expected.headers[name]).toEqual(value);
 		});
 		if(expected.statusCode) {
-			expect(res.status.mock.calls[0]).toEqual([expected.statusCode]);
+			expect(res.status).toBeCalledWith(expected.statusCode);
 		} else {
-			expect(res.contentType.mock.calls.length).toEqual(0);
+			expect(res.contentType).toBeCalledTimes(0);
 		}
-		expect(res.send.mock.calls[0]).toEqual([expected.body]);
+		expect(res.send).toBeCalledWith(expected.body);
 	}
 
 	describe("contructor", function() {
@@ -54,7 +57,10 @@ describe.only("ControllerAction", function() {
 			const instance = factory.createControllerAction();
 			const actionLog = factory.createProxyActionLog();
 			const actionResponse = factory.createProxyActionResponse();
-			instance.addActions([actionLog, actionResponse]);
+			instance.addActions([
+				actionLog,
+				actionResponse
+			]);
 			expect(instance._findNonResponderActions()).toEqual([actionLog]);
 		});
 	});
@@ -76,7 +82,10 @@ describe.only("ControllerAction", function() {
 			const instance = factory.createControllerAction();
 			const actionLog = factory.createProxyActionLog();
 			const actionResponse = factory.createProxyActionResponse();
-			instance.addActions([actionLog, actionResponse]);
+			instance.addActions([
+				actionLog,
+				actionResponse
+			]);
 			expect(instance._findResponderAction()).toEqual(actionResponse);
 		});
 	});
@@ -95,7 +104,11 @@ describe.only("ControllerAction", function() {
 			const action2 = factory.createProxyActionResponse();
 			instance.addActions([action1]);
 			instance.addActions([action2]);
-			expect(instance.actions).toEqual([action2, action1]);
+			expect(instance.actions)
+				.toEqual([
+					action2,
+					action1
+				]);
 		});
 	});
 
@@ -104,7 +117,10 @@ describe.only("ControllerAction", function() {
 			const instance = factory.createControllerAction();
 			const action1 = factory.createProxyActionLog();
 			const action2 = factory.createProxyActionResponse();
-			instance.addActions([action1, action2]);
+			instance.addActions([
+				action1,
+				action2
+			]);
 			instance.removeActions([action1]);
 			expect(instance.actions).toEqual([action2]);
 		});
@@ -115,15 +131,16 @@ describe.only("ControllerAction", function() {
 			const instance = factory.createControllerAction();
 			const req = factory.createRequest();
 			const res = factory.createResponse();
-			instance.handler(req, res, (error)=>{
+			instance.handler(req, res, (error) => {
 				expect(error).toBeUndefined();
-				assertExpectedResponse(res, require("../../../res/defaults/default-stub-response.json"));
+				assertExpectedResponse(res, require("../../../res/defaults/default-stub-response"));
+				expect(log.warn).toBeCalledWith(`No responders configured for ${instance.routeDescription}`);
 				done();
 			});
 		});
 
 		it("should respond as per responder's response", function(done) {
-			const response = require("./input/actionTestResponse.json");
+			const response = require("./input/actionTestResponse");
 			const instance = factory.createControllerAction({
 				actions: [
 					createProxyActionResponse({response})
@@ -131,7 +148,7 @@ describe.only("ControllerAction", function() {
 			});
 			const req = factory.createRequest();
 			const res = factory.createResponse();
-			instance.handler(req, res, (error)=>{
+			instance.handler(req, res, (error) => {
 				expect(error).toBeUndefined();
 				assertExpectedResponse(res, response);
 				done();

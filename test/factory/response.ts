@@ -6,29 +6,29 @@
 import {Response} from "express";
 
 class ResponseApproximation {
-	contentType(type: string): ResponseApproximation {
+	public contentType(type: string): ResponseApproximation {
 		return this;
 	}
 
-	header(name:string, value: any): ResponseApproximation {
+	public header(name: string, value: any): ResponseApproximation {
 		return this;
 	}
 
-	json(body: any): ResponseApproximation {
+	public json(body: any): ResponseApproximation {
 		return this;
 	}
 
-	send(body: any): ResponseApproximation {
+	public send(body: any): ResponseApproximation {
 		return this;
 	}
 
-	status(code: number): ResponseApproximation {
+	public status(code: number): ResponseApproximation {
 		return this;
 	}
 }
 
 export function createResponse(): jest.Mocked<Response> {
-	let response = new ResponseApproximation();
+	const response = new ResponseApproximation();
 	response.contentType = jest.fn(() => response);
 	response.header = jest.fn(() => response);
 	response.json = jest.fn(() => response);

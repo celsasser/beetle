@@ -6,8 +6,8 @@
 
 import {
 	ControllerAction,
-	ControllerProxyAdd,
-	ControllerProxyRemove
+	ControllerStubAdd,
+	ControllerStubRemove
 } from "../../src/controller";
 import {Server} from "../../src/server";
 import {
@@ -47,8 +47,8 @@ export function createControllerProxyAdd({
 	server?: Server,
 	method?: HttpMethod,
 	path?: string
-} = {}): ControllerProxyAdd {
-	return new ControllerProxyAdd(server, method, path);
+} = {}): ControllerStubAdd {
+	return new ControllerStubAdd(server, method, path);
 }
 
 export function createControllerProxyRemove({
@@ -59,6 +59,6 @@ export function createControllerProxyRemove({
 	server?: Server,
 	method?: HttpMethod,
 	path?: string
-} = {}): ControllerProxyRemove {
-	return new ControllerProxyRemove(server, method, path);
+} = {}): ControllerStubRemove {
+	return new ControllerStubRemove(server, method, path);
 }

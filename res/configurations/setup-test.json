@@ -5,7 +5,7 @@
 	},
 	"stubs": [
 		{
-			"id": "urn:route:id",
+			"id": "urn:stub:id",
 			"route": {
 				"method": "get",
 				"path": "/stuff"

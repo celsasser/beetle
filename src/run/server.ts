@@ -10,9 +10,9 @@
  */
 
 import {
-	ControllerProxyAdd,
-	ControllerProxyRemove
-} from "../controller/proxy";
+	ControllerStubAdd,
+	ControllerStubRemove
+} from "../controller/stub";
 import {addController} from "../routing";
 import {Server} from "../server";
 import {
@@ -29,8 +29,8 @@ import {
  * @param server
  */
 function setupAPI(server: Server): void {
-	addController(new ControllerProxyAdd(server, HttpMethod.POST, "proxy/add"));
-	addController(new ControllerProxyRemove(server, HttpMethod.DELETE, "proxy/remove"));
+	addController(new ControllerStubAdd(server, HttpMethod.POST, "proxy/add"));
+	addController(new ControllerStubRemove(server, HttpMethod.DELETE, "proxy/remove"));
 }
 
 export default async function run(params: CLIProxyServerParams): Promise<void> {

@@ -104,7 +104,7 @@ export function removeProxyStub(stubId: string|string[]): void {
  */
 function _conditionProxyStub(stub: ProxyStub, server: Server): ProxyStub {
 	try {
-		validate.validateData("./res/schemas/schema-route.json", stub);
+		validate.validateData("./res/schemas/schema-stub.json", stub);
 		stub = _.cloneDeep(stub);
 		stub.route.protocol = server.protocol;
 		if(stub.id === undefined) {
