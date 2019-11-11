@@ -25,22 +25,22 @@ export abstract class ControllerBase {
 	}
 
 	/**
-	 * Gets a summary well suited for presentation in the console
-	 */
-	public abstract get cliSummary(): string;
-
-	/**
 	 * Gets a textual description of this route on this host
 	 */
-	get routeDescription(): string {
+	get description(): string {
 		const url = formatUrl({
 			hostname: "localhost",
 			pathname: this.path,
 			port: this.server.port,
 			protocol: this.server.protocol
 		});
-		return `[${this.method.toString().toUpperCase()}] ${url}`;
+		return `[${this.method.toUpperCase()}] ${url}`;
 	}
+
+	/**
+	 * Gets brief function of this controller
+	 */
+	public abstract get purpose(): string;
 
 	/**
 	 * The route handler

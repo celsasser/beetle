@@ -21,8 +21,8 @@ import {createServer} from "./server";
 export const CONTROLLER_DEFAULTS = {
 	method: HttpMethod.GET,
 	path: "/controller/route",
-	server: createServer(),
-	route: createProxyRoute()
+	route: createProxyRoute(),
+	server: createServer()
 };
 
 export function createControllerAction({

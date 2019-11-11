@@ -1,19 +1,15 @@
 /**
- * Copyright (c) 2018 Home Box Office, Inc. as an unpublished
- * work. Neither this material nor any portion hereof may be copied or
- * distributed without the express written consent of Home Box Office, Inc.
- *
- * This material also contains proprietary and confidential information
- * of Home Box Office, Inc. and its suppliers, and may not be used by or
- * disclosed to any person, in whole or in part, without the prior written
- * consent of Home Box Office, Inc.
+ * Date: 11/1/19
+ * Time: 10:00 PM
+ * @license MIT (see project's LICENSE file)
  */
 
 import {
 	ControllerStubAdd,
 	ControllerStubRemove
 } from "../controller/stub";
-import {addController} from "../routing";
+import {dumpRouteConfiguration} from "../dump";
+import {addController, getCurrentRouteConfiguration} from "../routing";
 import {Server} from "../server";
 import {
 	addProxySetup,
@@ -38,6 +34,9 @@ export default async function run(params: CLIProxyServerParams): Promise<void> {
 	const server = new Server(setup.server);
 	setupAPI(server);
 	return server.start()
-		.then(addProxySetup.bind(null, setup, server));
+		.then(() => {
+			addProxySetup(setup, server);
+			dumpRouteConfiguration(getCurrentRouteConfiguration());
+		});
 }
 

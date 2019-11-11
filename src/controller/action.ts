@@ -47,8 +47,8 @@ export class ControllerAction extends ControllerBase {
 		return this._actions;
 	}
 
-	public get cliSummary(): string {
-		return `Proxying: ${this.routeDescription}`;
+	get purpose(): string {
+		return "Stub route";
 	}
 
 	/*********************
@@ -146,7 +146,7 @@ export class ControllerAction extends ControllerBase {
 	}
 
 	private _processUnhandledRequest(req: Request, res: Response): Promise<void> {
-		log.warn(`No responders configured for ${this.routeDescription}`);
+		log.warn(`No responders configured for ${this.description}`);
 		respondToClient(res, require("../../res/defaults/default-stub-response"));
 		return Promise.resolve();
 	}

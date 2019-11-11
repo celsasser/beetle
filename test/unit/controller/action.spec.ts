@@ -134,7 +134,7 @@ describe("ControllerAction", function() {
 			instance.handler(req, res, (error) => {
 				expect(error).toBeUndefined();
 				assertExpectedResponse(res, require("../../../res/defaults/default-stub-response"));
-				expect(log.warn).toBeCalledWith(`No responders configured for ${instance.routeDescription}`);
+				expect(log.warn).toBeCalledWith(`No responders configured for ${instance.description}`);
 				done();
 			});
 		});

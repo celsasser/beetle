@@ -4,9 +4,11 @@
  * @license MIT (see project's LICENSE file)
  */
 
+import * as _ from "lodash";
 import {ControllerBase} from "./controller/base";
 import * as log from "./core/log";
 import map from "./map";
+import {RouteProperties} from "./types/route";
 import {HttpMethod} from "./types/server";
 
 /**
@@ -15,11 +17,27 @@ import {HttpMethod} from "./types/server";
 export function addController(controller: ControllerBase, routeId: string = createRouteId(controller.method, controller.path)): void {
 	controller.server.router[controller.method](controller.path, controller.handler.bind(controller));
 	map.routeIdToController.set(routeId, controller);
-	log.info(`${controller.cliSummary}`);
 }
 
 export function createRouteId(method: HttpMethod, path: string): string {
 	return `urn:${method}:${path.toLowerCase()}`;
+}
+
+/**
+ * Gets a description of the routes we are currently listening for
+ */
+export function getCurrentRouteConfiguration(): RouteProperties[] {
+	return _.chain(Array.from(map.routeIdToController.values()))
+		.map((controller: ControllerBase): RouteProperties => ({
+			hostname: "localhost",
+			method: controller.method,
+			path: controller.path,
+			port: controller.server.port,
+			protocol: controller.server.protocol,
+			purpose: controller.purpose
+		}))
+		.sortBy(["description", "path", "method"])
+		.value();
 }
 
 /**

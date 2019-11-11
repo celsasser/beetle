@@ -22,8 +22,8 @@ import {ControllerBase} from "./base";
  * Allow configurations to be added via route
  */
 export class ControllerStubAdd extends ControllerBase {
-	public get cliSummary(): string {
-		return `Add proxy/proxies: ${this.routeDescription}`;
+	get purpose(): string {
+		return "Add stub";
 	}
 
 	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
@@ -46,8 +46,8 @@ export class ControllerStubAdd extends ControllerBase {
  * Allow configurations to be removed via route
  */
 export class ControllerStubRemove extends ControllerBase {
-	public get cliSummary(): string {
-		return `Remove proxy/proxies: ${this.routeDescription}`;
+	get purpose(): string {
+		return "Remove stub";
 	}
 
 	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
