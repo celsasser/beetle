@@ -1,0 +1,114 @@
+{
+	"library": {
+		"forward-default": {
+			"method": "get",
+			"type": "forward",
+			"url": "http://hostname:port/stub"
+		}
+	},
+	"server": {
+		"description": "Test proxy server",
+		"port": 8080,
+		"protocol": "http"
+	},
+	"stubs": [
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-default"
+					}
+				},
+				{
+					"response": {
+						"body": {
+							"$source": {
+								"file": "./pets.get-response.json"
+							}
+						},
+						"contentType": "application/json",
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:pets:get",
+			"method": "get",
+			"path": "/pets"
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-default"
+					}
+				},
+				{
+					"response": {
+						"body": {
+							"$source": {
+								"file": "./pets.post-response.json"
+							}
+						},
+						"contentType": "application/json",
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:pets:post",
+			"method": "post",
+			"path": "/pets"
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-default"
+					}
+				},
+				{
+					"response": {
+						"body": {
+							"$source": {
+								"file": "./pets.put-response.json"
+							}
+						},
+						"contentType": "application/json",
+						"headers": {},
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:pets:put",
+			"method": "put",
+			"path": "/pets/:id"
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-default"
+					}
+				},
+				{
+					"response": {
+						"body": {
+							"$source": {
+								"file": "./pets.delete-response.json"
+							}
+						},
+						"contentType": "application/json",
+						"headers": {},
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:pets:delete",
+			"method": "delete",
+			"path": "/pets"
+		}
+	]
+}

@@ -8,7 +8,7 @@
 			"id": "urn:stub:id",
 			"route": {
 				"method": "get",
-				"path": "/stuff"
+				"path": "/pets"
 			},
 			"actions": [
 				{
