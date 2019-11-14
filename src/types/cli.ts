@@ -7,11 +7,11 @@
 export interface CLIGenerateSetupParams {
 	inputPath: string;
 	outputPath?: string;
-	verbose: boolean;
+	verbose?: boolean;
 }
 
 export interface CLIProxyServerParams {
 	setupPath?: string;
-	verbose: boolean;
+	verbose?: boolean;
 }
 

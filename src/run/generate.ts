@@ -4,64 +4,96 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import * as _ from "lodash";
 import * as fs from "fs-extra";
-import {CLIGenerateSetupParams, ProxySetup} from "../types";
+import * as _ from "lodash";
+import {relative as relativePath} from "path";
+import {
+	CLIGenerateSetupParams,
+	ProxySetup,
+	ProxyStub,
+	ServerProperties
+} from "../types";
 
 interface ResourceReference {
-	$source: {
-		file?: string;
-		library?: string;
-	};
+	file?: string;
+	library?: string;
 }
 
+type Object = {[property: string]: any};
+
+/**
+ * Processes a script and generates a setup configuration
+ */
 class Script {
 	private readonly scriptPath: string;
-	private library: {[property: string]: any} = {};
-	private scriptData: {[key: string]: any} = {};
+	private library: Object = {};
+	private scriptData: Object = {};
 
 	public constructor(path: string) {
 		this.scriptPath = path;
 	}
 
-	public async generate(): Promise<ProxySetup> {
-		this.scriptData = await fs.readJSON(this.scriptPath);
-		await this._loadLibrary();
+	/**
+	 * Translates the script into a setup configuration
+	 */
+	public generate(): ProxySetup {
+		this.scriptData = this._loadJSON(this.scriptPath);
+		this._loadLibrary();
 		return {
-			server: await this._processScriptData(this.scriptData.server),
-			stubs: await this._processScriptData(this.scriptData.stubs)
+			server: this._loadScriptData(this.scriptData.server) as ServerProperties,
+			stubs: this._loadScriptData(this.scriptData.stubs) as ProxyStub[]
 		}
 
 	}
 
-	private async _loadLibrary(): Promise<void> {
+	private _loadJSON(path: string): any {
+		try {
+			return fs.readJSONSync(path);
+		} catch(error) {
+			throw new Error(`could not load ${path} - ${error.message}`);
+		}
+	}
+
+	/**
+	 * Loads the library if there is one. Note that the script supports "file" type resource references
+	 */
+	private _loadLibrary(): void {
 		if("library" in this.scriptData) {
-
+			this.library = this._loadScriptData(this.scriptData.library);
 		}
 	}
 
-	private async _processScriptData(data?: any): Promise<any> {
+	/**
+	 * Processes any blob of script data.
+	 * @param data
+	 * @private
+	 */
+	private _loadScriptData(data?: any): any {
 		if(_.isArray(data)) {
-			return _.map(data, this._processScriptData.bind(this));
+			return _.map(data, this._loadScriptData.bind(this));
 		} else if(_.isPlainObject(data)) {
-			return _.reduce(data, (result, value, key) => {
+			let result: any = {};
+			for(let [key, value] of Object.entries(data)) {
 				if(key === "$source") {
-					result = this._processScriptReference(value);
+					// this should be the only property within and we want to entirely replace result
+					// with the returned value. If there are other values then the script is wrong and
+					// will mostly likely yield unexpected results
+					result = this._resolveScriptReference(value as ResourceReference);
 				} else {
-					result[key] = this._processScriptData(value);
+					result[key] = this._loadScriptData(value);
 				}
-				return result;
-			}, {});
+			}
+			return result;
 		}
 		return data;
 	}
 
-	private async _processScriptReference(reference: ResourceReference): Promise<any> {
-		if("file" in reference.$source) {
-			const path: string = reference.$source.file as string;
-			return fs.readJSON(path);
-		} else if("library" in reference.$source) {
-			const path: string = reference.$source.library as string;
+	private _resolveScriptReference(reference: ResourceReference): any {
+		if("file" in reference) {
+			const path: string = relativePath(this.scriptPath, reference.file as string);
+			return this._loadJSON(path);
+		} else if("library" in reference) {
+			const path: string = reference.library as string;
 			if(_.has(this.library, path)) {
 				return _.get(this.library, path);
 			} else {
@@ -73,14 +105,15 @@ class Script {
 	}
 }
 
-export default async function run(params: CLIGenerateSetupParams): Promise<void> {
+export default async function run(params: CLIGenerateSetupParams): Promise<ProxySetup> {
 	const script: Script = new Script(params.inputPath);
-	const setup = await script.generate();
+	const setup = script.generate();
 	const formatted = JSON.stringify(setup, null, "\t");
 	if(params.outputPath) {
-		return fs.writeFileSync(params.outputPath, formatted, {encoding: "utf8"});
+		await fs.writeFile(params.outputPath, formatted, {encoding: "utf8"});
 	} else {
 		console.log(formatted);
 	}
+	return setup;
 }
 
