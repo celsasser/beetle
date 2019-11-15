@@ -45,8 +45,8 @@ describe("ControllerStubAdd", function() {
 
 		it("should successfully add an array of proxy configurations", function(done) {
 			const instance = factory.createControllerProxyAdd();
-			const input = require("./input/proxyAddRequestMultipleStubs");
-			const req = factory.createRequest(require("./input/proxyAddRequestStubs"));
+			const input = require("./input/proxyAddRequestStubs");
+			const req = factory.createRequest(input);
 			const res = factory.createResponse();
 			instance.handler(req, res, (error) => {
 				expect(error).toBeUndefined();

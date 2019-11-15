@@ -12,3 +12,13 @@ it("should properly load a valid script", async function() {
 	});
 	expect(setup).toEqual(require("./output/generate-script-valid.json"));
 });
+
+it("should raise an exception with error information if script cannot be parsed", async function() {
+	return run({
+		inputPath: `${__dirname}/input/generate-script-broken.json`
+	})
+		.catch((error: Error) => {
+			expect(error.message).toEqual(expect.stringContaining("could not load relative path ./file-does-not-exist.json"));
+		})
+		.then(()=>expect.assertions(1));
+});

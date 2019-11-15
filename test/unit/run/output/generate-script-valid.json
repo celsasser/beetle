@@ -1,3 +1,34 @@
 {
-
+	"server": {
+		"description": "Test proxy server",
+		"port": 8080,
+		"protocol": "http"
+	},
+	"stubs": [
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
+				},
+				{
+					"response": {
+						"body": {
+							"name": "George"
+						},
+						"contentType": "application/json",
+						"headers": {
+							"X-Agent": "beetle"
+						},
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:pets:get",
+			"method": "get",
+			"path": "/pets"
+		}
+	]
 }

@@ -11,6 +11,7 @@ import runProxyServer from "./run/server";
 import validate from "./validate";
 
 interface GenerateOptions {
+	validate?: boolean;
 	verbose?: boolean;
 }
 
@@ -19,6 +20,7 @@ interface RunOptions {
 }
 
 const program = new Command();
+// tslint:disable-next-line: no-var-requires
 program.version(require("../package.json").version);
 
 /**
@@ -26,12 +28,14 @@ program.version(require("../package.json").version);
  */
 program.command("generate <templatePath> [specPath]")
 	.description("Generates a setup configuration from <templatePath>. By default writest ot stdout")
+	.option("-t, --validate", "validate rendered script")
 	.option("-v, --verbose", "log verbose")
 	.action(async function(inputPath: string, outputPath: string, options: GenerateOptions) {
 		try {
 			await runGenerateSetup({
 				inputPath,
 				outputPath,
+				validate: Boolean(options.validate),
 				verbose: Boolean(options.verbose)
 			});
 		} catch(error) {

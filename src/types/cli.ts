@@ -7,6 +7,7 @@
 export interface CLIGenerateSetupParams {
 	inputPath: string;
 	outputPath?: string;
+	validate?: boolean;
 	verbose?: boolean;
 }
 

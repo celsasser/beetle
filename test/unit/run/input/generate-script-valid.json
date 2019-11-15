@@ -21,13 +21,9 @@
 				},
 				{
 					"response": {
-						"body": {
-							"$source": {
-								"file": "./pets.get-response.json"
-							}
-						},
-						"contentType": "application/json",
-						"statusCode": 200
+						"$source": {
+							"file": "./pets.get-response.json"
+						}
 					},
 					"type": "response"
 				}

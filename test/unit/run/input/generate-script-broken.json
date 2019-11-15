@@ -1,5 +1,5 @@
 {
-	"broken-reference": {
+	"server": {
 		"$source": {
 			"file": "./file-does-not-exist.json"
 		}
