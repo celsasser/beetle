@@ -7,7 +7,7 @@
 import {Request} from "express";
 import {
 	HttpMethod,
-	ProxyResponse
+	HttpResponse
 } from "../types";
 import {encodeRequest} from "./_codec";
 
@@ -15,7 +15,7 @@ export async function forwardRequest({method, req, url}: {
 	method: HttpMethod
 	req: Request,
 	url: string
-}): Promise<ProxyResponse> {
+}): Promise<HttpResponse> {
 	const encoded = encodeRequest(req);
 	// todo:
 	return Promise.resolve({});

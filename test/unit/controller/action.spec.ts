@@ -6,14 +6,14 @@
 
 import {Response} from "express";
 import * as log from "../../../src/core/log";
-import {ProxyResponse} from "../../../src/types";
+import {HttpResponse} from "../../../src/types";
 import * as factory from "../../factory";
 import {createProxyActionResponse} from "../../factory";
 
 jest.mock("../../../src/core/log");
 
 describe("ControllerAction", function() {
-	function assertExpectedResponse(res: jest.Mocked<Response>, expected: ProxyResponse) {
+	function assertExpectedResponse(res: jest.Mocked<Response>, expected: HttpResponse) {
 		if(expected.contentType) {
 			expect(res.contentType).toBeCalledWith(expected.contentType);
 		} else {

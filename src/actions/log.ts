@@ -6,10 +6,10 @@
 
 import {Request} from "express";
 import * as log from "../core/log";
-import {ProxyResponse} from "../types/proxy";
+import {HttpResponse} from "../types";
 import {encodeRequest} from "./_codec";
 
-export async function logRequest(req: Request): Promise<ProxyResponse> {
+export async function logRequest(req: Request): Promise<HttpResponse> {
 	const encoded = encodeRequest(req);
 	log.info(`Proxying: ${encoded}`);
 	return Promise.resolve({});

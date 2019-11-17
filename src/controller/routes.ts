@@ -4,20 +4,20 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {ControllerBase} from "./base";
-import {getCurrentRouteConfiguration} from "../routing";
 import {NextFunction, Request, Response} from "express";
+import {getCurrentRouteConfiguration} from "../routing";
+import {ControllerBase} from "./base";
 
 
 /**
  * Gets the current route configuration and sends it back to client
  */
-export class ConfigurationGetRouteConfiguration extends ControllerBase {
+export class ControllerGetRouteConfiguration extends ControllerBase {
 	get purpose(): string {
 		return "Explore Routes";
 	}
 
-	handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
+	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
 		const descriptions = getCurrentRouteConfiguration();
 		super.sendSuccess(res, {
 			body: descriptions

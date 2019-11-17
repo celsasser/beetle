@@ -6,11 +6,11 @@
 
 import {
 	HttpMethod,
+	HttpResponse,
 	ProxyActionForward,
 	ProxyActionLog,
 	ProxyActionRespond,
 	ProxyActionType,
-	ProxyResponse,
 	ProxyRoute,
 	ProxySetup,
 	ProxyStub,
@@ -66,7 +66,7 @@ export function createProxyResponse({
 	contentType = PROXY_DEFAULTS.responseContentType,
 	headers = PROXY_DEFAULTS.responseHeaders,
 	statusCode = PROXY_DEFAULTS.responseStatusCode
-}: Partial<ProxyResponse> = {}): ProxyResponse {
+}: Partial<HttpResponse> = {}): HttpResponse {
 	return {
 		body,
 		contentType,

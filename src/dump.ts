@@ -17,7 +17,7 @@ export function dumpRouteConfiguration(routes: RouteProperties[]): void {
 			port: route.port,
 			protocol: route.protocol
 		});
-		return `  ${route.purpose}: [${route.method.toUpperCase()}] ${url}`;
+		return `   ${route.purpose}: [${route.method.toUpperCase()}] ${url}`;
 	});
 	log.info(`Route configuration:\n${descriptions.join("\n")}`);
 }

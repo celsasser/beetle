@@ -6,6 +6,7 @@
 
 import {
 	HttpMethod,
+	HttpResponse,
 	ServerProperties,
 	ServerProtocol
 } from "./server";
@@ -41,23 +42,10 @@ export interface ProxyActionLog extends ProxyActionBase {
 }
 
 export interface ProxyActionRespond extends ProxyActionBase {
-	response: ProxyResponse;
+	response: HttpResponse;
 }
 
 export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionRespond;
-
-/**
- * Describes a single route cfg
- */
-/**
- * Response description
- */
-export interface ProxyResponse {
-	body?: object;
-	contentType?: string;
-	headers?: {[key: string]: string};
-	statusCode?: number;
-}
 
 /**
  * Describes a route's properties
@@ -79,6 +67,9 @@ export interface ProxySetup {
 	server: ServerProperties;
 }
 
+/**
+ * Describes a single route cfg
+ */
 export interface ProxyStub {
 	actions: ProxyAction[];
 	/**

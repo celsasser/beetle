@@ -4,6 +4,7 @@
  * @license MIT (see project's LICENSE file)
  */
 
+import * as assert from "assert";
 import {
 	NextFunction,
 	Request,
@@ -11,7 +12,10 @@ import {
 } from "express";
 import {format as formatUrl} from "url";
 import {Server} from "../server";
-import {HttpMethod} from "../types/server";
+import {
+	HttpMethod,
+	HttpResponse
+} from "../types/server";
 
 export abstract class ControllerBase {
 	public readonly method: HttpMethod;
@@ -19,6 +23,7 @@ export abstract class ControllerBase {
 	public readonly server: Server;
 
 	public constructor(server: Server, method: HttpMethod, path: string) {
+		assert.ok(path.startsWith("/"), "more unexpected results than expected");
 		this.method = method;
 		this.path = path;
 		this.server = server;
@@ -67,14 +72,15 @@ export abstract class ControllerBase {
 	protected sendSuccess(res: Response, {
 		body,
 		contentType = "application/json",
+		headers,
 		statusCode = 200
-	}: {
-		body?: any
-		contentType?: string,
-		statusCode?: number
-	} = {}) {
-		res.status(statusCode)
-			.contentType(contentType)
+	}: HttpResponse = {}) {
+		Object.entries(headers || {})
+			.forEach(([value, key]) => {
+				res.header(key, value);
+			});
+		res.contentType(contentType)
+			.status(statusCode)
 			.send(body);
 	}
 }

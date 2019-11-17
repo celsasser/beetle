@@ -6,9 +6,9 @@
 
 import {Response} from "express";
 import * as _ from "lodash";
-import {ProxyResponse} from "../types/proxy";
+import {HttpResponse} from "../types";
 
-export function respondToClient(res: Response, data: ProxyResponse): void {
+export function respondToClient(res: Response, data: HttpResponse): void {
 	if(data.contentType) {
 		res.contentType(data.contentType);
 	}

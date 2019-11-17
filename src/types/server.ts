@@ -16,6 +16,16 @@ export enum HttpMethod {
 }
 
 /**
+ * Response description
+ */
+export interface HttpResponse {
+	body?: object;
+	contentType?: string;
+	headers?: {[key: string]: string};
+	statusCode?: number;
+}
+
+/**
  * Describes the protocol we should use when setting up the route server
  */
 export enum ServerProtocol {
@@ -30,3 +40,4 @@ export interface ServerProperties {
 	port: number;
 	protocol: ServerProtocol;
 }
+
