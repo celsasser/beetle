@@ -101,11 +101,7 @@ export class ControllerAction extends ControllerBase {
 	 */
 	private _processAction(action: ProxyActionBase, req: Request): Promise<object> {
 		if(action.type === ProxyActionType.FORWARD) {
-			return forwardRequest({
-				method: (action as ProxyActionForward).method,
-				req,
-				url: (action as ProxyActionForward).url
-			});
+			return forwardRequest(req, (action as ProxyActionForward));
 		} else if(action.type === ProxyActionType.LOG) {
 			return logRequest(req);
 		} else if(action.type === ProxyActionType.RESPOND) {

@@ -48,6 +48,7 @@ class Validate {
 	 * @throws {Error}
 	 */
 	public validateData(schemaPath: string, data: any): void {
+		// todo: need to divide schemaPath into id and path
 		const id = this.addSchema(schemaPath);
 		const validator = this.ajv.getSchema(id);
 		if(!validator) {
@@ -66,6 +67,7 @@ class Validate {
 	 * @throws {Error}
 	 */
 	public validateDataAtPath(schemaPath: string, dataPath: string): any {
+		// todo: need to divide schemaPath into id and path
 		const data = fs.readJSONSync(dataPath);
 		const id = this.addSchema(schemaPath);
 		const validator = this.ajv.getSchema(id);

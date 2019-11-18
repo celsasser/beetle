@@ -5,17 +5,11 @@
  */
 
 import * as assert from "assert";
-import {
-	NextFunction,
-	Request,
-	Response
-} from "express";
+import {NextFunction, Request, Response} from "express";
+import * as _ from "lodash";
 import {format as formatUrl} from "url";
 import {Server} from "../server";
-import {
-	HttpMethod,
-	HttpResponse
-} from "../types/server";
+import {HttpHeaders, HttpMethod, HttpResponse} from "../types/server";
 
 export abstract class ControllerBase {
 	public readonly method: HttpMethod;
@@ -58,12 +52,17 @@ export abstract class ControllerBase {
 	protected sendFailure(res: Response, {
 		error,
 		contentType = "text/plain",
+		headers,
 		statusCode = 400
 	}: {
 		error: Error
 		contentType?: string,
+		headers?: HttpHeaders,
 		statusCode?: number
 	}) {
+		_.forEach(headers, (value, key) => {
+			res.header(key, value);
+		});
 		res.status(statusCode)
 			.contentType(contentType)
 			.send(error.message);
@@ -75,10 +74,9 @@ export abstract class ControllerBase {
 		headers,
 		statusCode = 200
 	}: HttpResponse = {}) {
-		Object.entries(headers || {})
-			.forEach(([value, key]) => {
-				res.header(key, value);
-			});
+		_.forEach(headers, (value, key) => {
+			res.header(key, value);
+		});
 		res.contentType(contentType)
 			.status(statusCode)
 			.send(body);

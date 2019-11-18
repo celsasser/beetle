@@ -5,6 +5,7 @@
  */
 
 import {
+	HttpHeaders,
 	HttpMethod,
 	HttpResponse,
 	ServerProperties,
@@ -32,6 +33,7 @@ export interface ProxyActionBase {
  * call serves as the response to the client
  */
 export interface ProxyActionForward extends ProxyActionBase {
+	headers?: HttpHeaders;
 	method: HttpMethod;
 	url: string;
 }

@@ -18,7 +18,7 @@ describe("validate", function() {
 		},
 		{
 			dataPath: "./res/defaults/default-stub-response.json",
-			specPath: "./res/schemas/schema-stub-response.json"
+			specPath: "./res/schemas/schema-library.json#/stub/response"
 		},
 	].forEach(({dataPath, specPath})=> {
 		it(`${dataPath} should conform with ${specPath}`, function() {

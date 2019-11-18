@@ -15,13 +15,15 @@ export enum HttpMethod {
 	PUT = "put",
 }
 
+export type HttpHeaders = {[key: string]: string};
+
 /**
  * Response description
  */
 export interface HttpResponse {
 	body?: object;
 	contentType?: string;
-	headers?: {[key: string]: string};
+	headers?: HttpHeaders;
 	statusCode?: number;
 }
 
