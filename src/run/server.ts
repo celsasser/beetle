@@ -26,17 +26,17 @@ function setupAPI(server: Server): void {
 		statusCode: 200
 	};
 	addController(new ControllerFixedResponse({
-		data: healthCheckResponse,
 		method: HttpMethod.GET,
 		path: "/healthcheck",
 		purpose: "Healthcheck",
+		resData: healthCheckResponse,
 		server
 	}));
 	addController(new ControllerFixedResponse({
-		data: informationResponse,
 		method: HttpMethod.GET,
 		path: "/information",
 		purpose: "Build Information",
+		resData: informationResponse,
 		server
 	}));
 	addController(new ControllerStubAdd(server, HttpMethod.POST, "/proxy/add"));

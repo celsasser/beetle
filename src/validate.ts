@@ -48,11 +48,11 @@ class Validate {
 	 * @throws {Error}
 	 */
 	public validateData(schemaPath: string, data: any): void {
-		// todo: need to divide schemaPath into id and path
-		const id = this.addSchema(schemaPath);
-		const validator = this.ajv.getSchema(id);
+		const {filePath, refPath} = this.parseSchemaPath(schemaPath);
+		const reference = `${this.addSchema(filePath)}${refPath ? refPath : ""}`;
+		const validator = this.ajv.getSchema(reference);
 		if(!validator) {
-			throw new Error(`could not find schema for schemaId=${id}`);
+			throw new Error(`could not find schema for ${reference}`);
 		}
 		if(!validator(data)) {
 			throw new Error(formatJSON(validator.errors));
@@ -67,16 +67,16 @@ class Validate {
 	 * @throws {Error}
 	 */
 	public validateDataAtPath(schemaPath: string, dataPath: string): any {
-		// todo: need to divide schemaPath into id and path
-		const data = fs.readJSONSync(dataPath);
-		const id = this.addSchema(schemaPath);
-		const validator = this.ajv.getSchema(id);
+		const {filePath, refPath} = this.parseSchemaPath(schemaPath);
+		const reference = `${this.addSchema(filePath)}${refPath ? refPath : ""}`;
+		const validator = this.ajv.getSchema(reference);
 		if(!validator) {
-			throw new Error(`could not find schema for schemaId=${id}`);
+			throw new Error(`could not find schema for ${reference}`);
 		}
+		const data = fs.readJSONSync(dataPath);
 		if(!validator(data)) {
 			const errors = (validator.errors || []).map(error => Object.assign({
-				dataFile: dataPath
+				dataFile: refPath
 			}, error));
 			throw new Error(formatJSON(errors));
 		}
@@ -96,6 +96,23 @@ class Validate {
 			this.ajv.getSchema(this.addSchema(schemaPath));
 		} catch(error) {
 			throw new Error(`failed to compile schema ${schemaPath}: ${error}`);
+		}
+	}
+
+	private parseSchemaPath(schemaPath: string): {
+		filePath: string,
+		refPath?: string
+	} {
+		const index = schemaPath.lastIndexOf("#");
+		if(index > -1) {
+			return {
+				filePath: schemaPath.substr(0, index),
+				refPath: schemaPath.substr(index),
+			};
+		} else {
+			return {
+				filePath: schemaPath
+			};
 		}
 	}
 }

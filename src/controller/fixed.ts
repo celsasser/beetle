@@ -13,18 +13,18 @@ import {ControllerBase} from "./base";
  * Responds to requests with response data set at construction time.
  */
 export class ControllerFixedResponse extends ControllerBase {
-	private readonly _data: HttpResponse;
+	public readonly resData: HttpResponse;
 	private readonly _purpose: string;
 
-	constructor({data, method, path, purpose, server}: {
-		data: HttpResponse,
+	constructor({method, path, purpose, resData, server}: {
 		method: HttpMethod,
 		path: string,
 		purpose: string,
+		resData: HttpResponse,
 		server: Server
 	}) {
 		super(server, method, path);
-		this._data = data;
+		this.resData = resData;
 		this._purpose = purpose;
 	}
 
@@ -33,7 +33,7 @@ export class ControllerFixedResponse extends ControllerBase {
 	}
 
 	public handler(req: Request, res: Response, next: NextFunction = () => {}): void {
-		super.sendSuccess(res, this._data);
+		super.sendSuccess(res, this.resData);
 		process.nextTick(next);
 	}
 }

@@ -4,33 +4,14 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {Response} from "express";
 import * as log from "../../../src/core/log";
-import {HttpResponse} from "../../../src/types";
 import * as factory from "../../factory";
 import {createProxyActionResponse} from "../../factory";
+import {performRouteHandlerTest} from "./perform";
 
 jest.mock("../../../src/core/log");
 
 describe("ControllerAction", function() {
-	function assertExpectedResponse(res: jest.Mocked<Response>, expected: HttpResponse) {
-		if(expected.contentType) {
-			expect(res.contentType).toBeCalledWith(expected.contentType);
-		} else {
-			expect(res.contentType).toBeCalledTimes(0);
-		}
-		res.header.mock.calls.forEach(([name, value]) => {
-			// @ts-ignore
-			expect(expected.headers[name]).toEqual(value);
-		});
-		if(expected.statusCode) {
-			expect(res.status).toBeCalledWith(expected.statusCode);
-		} else {
-			expect(res.contentType).toBeCalledTimes(0);
-		}
-		expect(res.send).toBeCalledWith(expected.body);
-	}
-
 	describe("contructor", function() {
 		it("should construct properly", function() {
 			const instance = factory.createControllerAction();
@@ -127,31 +108,26 @@ describe("ControllerAction", function() {
 	});
 
 	describe("handler", function() {
-		it("should respond with default response if there are no responders", function(done) {
-			const instance = factory.createControllerAction();
-			const req = factory.createRequest();
-			const res = factory.createResponse();
-			instance.handler(req, res, (error) => {
-				expect(error).toBeUndefined();
-				assertExpectedResponse(res, require("../../../res/defaults/default-stub-response"));
-				expect(log.warn).toBeCalledWith(`No responders configured for ${instance.description}`);
-				done();
+		it("should respond with default response if there are no responders", async function() {
+			const controller = factory.createControllerAction();
+			return performRouteHandlerTest({
+				controller,
+				expected: require("../../../res/defaults/default-stub-response")
+			}).then(() => {
+				expect(log.warn).toBeCalledWith(`No responders configured for ${controller.description}`);
 			});
 		});
 
-		it("should respond as per responder's response", function(done) {
+		it("should respond as per responder's response", async function() {
 			const response = require("./input/actionTestResponse");
-			const instance = factory.createControllerAction({
+			const controller = factory.createControllerAction({
 				actions: [
 					createProxyActionResponse({response})
 				]
 			});
-			const req = factory.createRequest();
-			const res = factory.createResponse();
-			instance.handler(req, res, (error) => {
-				expect(error).toBeUndefined();
-				assertExpectedResponse(res, response);
-				done();
+			return performRouteHandlerTest({
+				controller,
+				expected: response
 			});
 		});
 	});
