@@ -27,9 +27,8 @@ program.version(require("../package.json").version);
  * Generate setup configurations
  */
 program.command("generate <templatePath> [specPath]")
-	.description("Generates a setup configuration from <templatePath>. By default writest ot stdout")
-	.option("-t, --validate", "validate rendered script")
-	.option("-v, --verbose", "log verbose")
+	.description("Generates a setup configuration from <templatePath>. By default writes to stdout")
+	.option("-v, --validate", "validate rendered script")
 	.action(async function(inputPath: string, outputPath: string, options: GenerateOptions) {
 		try {
 			await runGenerateSetup({

@@ -122,14 +122,14 @@ class Script {
 export default async function run(params: CLIGenerateSetupParams): Promise<ProxySetup> {
 	const script: Script = new Script(params.inputPath);
 	const setup = script.generate();
-	if(params.validate) {
-		validate.validateData("./res/schemas/schema-setup.json", setup);
-	}
 	const formatted = JSON.stringify(setup, null, "\t");
 	if(params.outputPath) {
 		await fs.writeFile(params.outputPath, formatted, {encoding: "utf8"});
 	} else {
 		console.log(formatted);
+	}
+	if(params.validate) {
+		validate.validateData("./res/schemas/schema-setup.json", setup);
 	}
 	return setup;
 }

@@ -1,0 +1,14 @@
+{
+    "body": {
+        "address": {
+            "city": "NY",
+            "name": "Animal Haven",
+            "state": "New York",
+            "street": "200 Centre Street",
+            "zip": 10013
+        },
+        "name": "Animal Haven"
+    },
+    "contentType": "application/json",
+    "statusCode": 200
+}

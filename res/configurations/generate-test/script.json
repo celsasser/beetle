@@ -7,7 +7,7 @@
 		}
 	},
 	"server": {
-		"description": "Test proxy server",
+		"description": "Test proxy server: Pets",
 		"port": 8080,
 		"protocol": "http"
 	},
@@ -21,20 +21,18 @@
 				},
 				{
 					"response": {
-						"body": {
-							"$source": {
-								"file": "./pets.get-response.json"
-							}
-						},
-						"contentType": "application/json",
-						"statusCode": 200
+						"$source": {
+							"file": "./pets.get-response.json"
+						}
 					},
 					"type": "response"
 				}
 			],
 			"id": "urn:stub:pets:get",
-			"method": "get",
-			"path": "/pets"
+			"route": {
+				"method": "get",
+				"path": "/pets"
+			}
 		},
 		{
 			"actions": [
@@ -45,20 +43,18 @@
 				},
 				{
 					"response": {
-						"body": {
-							"$source": {
-								"file": "./pets.post-response.json"
-							}
-						},
-						"contentType": "application/json",
-						"statusCode": 200
+						"$source": {
+							"file": "./pets.post-response.json"
+						}
 					},
 					"type": "response"
 				}
 			],
 			"id": "urn:stub:pets:post",
-			"method": "post",
-			"path": "/pets"
+			"route": {
+				"method": "post",
+				"path": "/pets"
+			}
 		},
 		{
 			"actions": [
@@ -69,21 +65,18 @@
 				},
 				{
 					"response": {
-						"body": {
-							"$source": {
-								"file": "./pets.put-response.json"
-							}
-						},
-						"contentType": "application/json",
-						"headers": {},
-						"statusCode": 200
+						"$source": {
+							"file": "./pets.put-response.json"
+						}
 					},
 					"type": "response"
 				}
 			],
 			"id": "urn:stub:pets:put",
-			"method": "put",
-			"path": "/pets/:id"
+			"route": {
+				"method": "put",
+				"path": "/pets/:id"
+			}
 		},
 		{
 			"actions": [
@@ -94,21 +87,106 @@
 				},
 				{
 					"response": {
-						"body": {
-							"$source": {
-								"file": "./pets.delete-response.json"
-							}
-						},
-						"contentType": "application/json",
-						"headers": {},
-						"statusCode": 200
+						"$source": {
+							"file": "./pets.delete-response.json"
+						}
 					},
 					"type": "response"
 				}
 			],
 			"id": "urn:stub:pets:delete",
-			"method": "delete",
-			"path": "/pets"
+			"route": {
+				"method": "delete",
+				"path": "/pets/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-default"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./shelter.get-response.json"
+						}
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:shelter:get",
+			"route": {
+				"method": "get",
+				"path": "/shelter"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-default"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./shelter.post-response.json"
+						}
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:shelter:post",
+			"route": {
+				"method": "post",
+				"path": "/shelter"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-default"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./shelter.put-response.json"
+						}
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:shelter:put",
+			"route": {
+				"method": "put",
+				"path": "/shelter/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-default"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./shelter.delete-response.json"
+						}
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:shelter:delete",
+			"route": {
+				"method": "delete",
+				"path": "/shelter/:id"
+			}
 		}
 	]
 }

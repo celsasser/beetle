@@ -1,29 +1,193 @@
 {
 	"server": {
-		"port": 8989,
+		"description": "Test proxy server: Pets",
+		"port": 8080,
 		"protocol": "http"
 	},
 	"stubs": [
 		{
-			"id": "urn:stub:id",
-			"route": {
-				"method": "get",
-				"path": "/pets"
-			},
 			"actions": [
 				{
-					"type": "log"
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
 				},
 				{
 					"response": {
-						"body": {},
+						"body": {
+							"name": "George",
+							"type": "Cat"
+						},
 						"contentType": "application/json",
-						"headers": {},
 						"statusCode": 200
 					},
 					"type": "response"
 				}
-			]
+			],
+			"id": "urn:stub:pets:get",
+			"route": {
+				"method": "get",
+				"path": "/pets"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
+				},
+				{
+					"response": {
+						"body": {
+							"id": "urn:pet:cat:george"
+						},
+						"contentType": "application/json",
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:pets:post",
+			"route": {
+				"method": "post",
+				"path": "/pets"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
+				},
+				{
+					"response": {
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:pets:put",
+			"route": {
+				"method": "put",
+				"path": "/pets/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
+				},
+				{
+					"response": {
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:pets:delete",
+			"route": {
+				"method": "delete",
+				"path": "/pets/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
+				},
+				{
+					"response": {
+						"body": {
+							"address": {
+								"city": "NY",
+								"name": "Animal Haven",
+								"state": "New York",
+								"street": "200 Centre Street",
+								"zip": 10013
+							},
+							"name": "Animal Haven"
+						},
+						"contentType": "application/json",
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:shelter:get",
+			"route": {
+				"method": "get",
+				"path": "/shelter"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
+				},
+				{
+					"response": {
+						"body": {
+							"id": "urn:pet:cat:george"
+						},
+						"contentType": "application/json",
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:shelter:post",
+			"route": {
+				"method": "post",
+				"path": "/shelter"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
+				},
+				{
+					"response": {
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:shelter:put",
+			"route": {
+				"method": "put",
+				"path": "/shelter/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://hostname:port/stub"
+				},
+				{
+					"response": {
+						"statusCode": 200
+					},
+					"type": "response"
+				}
+			],
+			"id": "urn:stub:shelter:delete",
+			"route": {
+				"method": "delete",
+				"path": "/shelter/:id"
+			}
 		}
 	]
 }
