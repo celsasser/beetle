@@ -23,7 +23,7 @@
 						},
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:pets:get",

@@ -36,7 +36,6 @@ export function getCurrentRouteConfiguration(): RouteProperties[] {
 			protocol: controller.server.protocol,
 			purpose: controller.purpose
 		}))
-		.sortBy(["description", "path", "method"])
 		.value();
 }
 

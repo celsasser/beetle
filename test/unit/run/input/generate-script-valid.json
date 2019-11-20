@@ -25,7 +25,7 @@
 							"file": "./pets.get-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:pets:get",

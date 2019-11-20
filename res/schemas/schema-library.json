@@ -86,7 +86,7 @@
 					"$ref": "#/stub/response"
 				},
 				"type": {
-					"pattern": "^response$"
+					"pattern": "^respond$"
 				}
 			}
 		},
@@ -95,7 +95,13 @@
 			"additionalProperties": false,
 			"properties": {
 				"body": {
-					"type": "object"
+					"type": [
+						"array",
+						"boolean",
+						"number",
+						"object",
+						"string"
+					]
 				},
 				"contentType": {
 					"type": "string"

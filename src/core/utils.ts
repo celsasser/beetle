@@ -17,5 +17,5 @@ export function formatJSON(object: any): string {
  * Puts the route's defining characteristics into a string
  */
 export function formatRouteSummary(route: ProxyRoute): string {
-	return `${route.method.toUpperCase()} ${route.protocol}:/${route.path}`;
+	return `[${route.method.toUpperCase()}] ${route.protocol}:/${route.path}`;
 }

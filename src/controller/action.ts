@@ -116,11 +116,12 @@ export class ControllerAction extends ControllerBase {
 	 */
 	private _processAncillary(req: Request): Promise<void> {
 		const actions = this._findNonResponderActions();
-		const promises = actions.map(action => this._processAction(action, req)
-			.catch(error => {
-				log.error(`ControllerAction._processAncillary(): attempt to process ${formatRouteSummary(this.route)} failed - ${error}`, {actions});
-			})
-		);
+		const promises = actions.map(action => {
+			this._processAction(action, req)
+				.catch(error => {
+					log.error(`Processing ancillary action ${formatRouteSummary(this.route)} failed - ${error}`, {action});
+				});
+		});
 		return Promise.all(promises)
 			.then(() => Promise.resolve());
 	}
@@ -136,7 +137,7 @@ export class ControllerAction extends ControllerBase {
 			return this._processAction(responder as ProxyActionBase, req)
 				.then(response => respondToClient(res, response))
 				.catch(error => {
-					log.error(`ControllerAction._processResponder(): attempt to process ${formatRouteSummary(this.route)} failed - ${error}`, {responder});
+					log.error(`Processing responder route ${formatRouteSummary(this.route)} failed - ${error}`, {responder});
 				});
 		}
 	}

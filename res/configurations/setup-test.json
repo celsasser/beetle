@@ -14,14 +14,20 @@
 				},
 				{
 					"response": {
-						"body": {
-							"name": "George",
-							"type": "Cat"
-						},
+						"body": [
+							{
+								"name": "Helen",
+								"type": "Cat"
+							},
+							{
+								"name": "George",
+								"type": "Cat"
+							}
+						],
 						"contentType": "application/json",
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:pets:get",
@@ -45,13 +51,13 @@
 						"contentType": "application/json",
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
-			"id": "urn:stub:pets:post",
+			"id": "urn:stub:pet:post",
 			"route": {
 				"method": "post",
-				"path": "/pets"
+				"path": "/pet"
 			}
 		},
 		{
@@ -65,13 +71,13 @@
 					"response": {
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
-			"id": "urn:stub:pets:put",
+			"id": "urn:stub:pet:put",
 			"route": {
 				"method": "put",
-				"path": "/pets/:id"
+				"path": "/pet/:id"
 			}
 		},
 		{
@@ -85,13 +91,13 @@
 					"response": {
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
-			"id": "urn:stub:pets:delete",
+			"id": "urn:stub:pet:delete",
 			"route": {
 				"method": "delete",
-				"path": "/pets/:id"
+				"path": "/pet/:id"
 			}
 		},
 		{
@@ -116,13 +122,13 @@
 						"contentType": "application/json",
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
-			"id": "urn:stub:shelter:get",
+			"id": "urn:stub:shelters:get",
 			"route": {
 				"method": "get",
-				"path": "/shelter"
+				"path": "/shelters"
 			}
 		},
 		{
@@ -140,7 +146,7 @@
 						"contentType": "application/json",
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:shelter:post",
@@ -160,7 +166,7 @@
 					"response": {
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:shelter:put",
@@ -180,7 +186,7 @@
 					"response": {
 						"statusCode": 200
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:shelter:delete",

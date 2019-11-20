@@ -25,7 +25,7 @@
 							"file": "./pets.get-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:pets:get",
@@ -47,13 +47,13 @@
 							"file": "./pets.post-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
-			"id": "urn:stub:pets:post",
+			"id": "urn:stub:pet:post",
 			"route": {
 				"method": "post",
-				"path": "/pets"
+				"path": "/pet"
 			}
 		},
 		{
@@ -69,13 +69,13 @@
 							"file": "./pets.put-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
-			"id": "urn:stub:pets:put",
+			"id": "urn:stub:pet:put",
 			"route": {
 				"method": "put",
-				"path": "/pets/:id"
+				"path": "/pet/:id"
 			}
 		},
 		{
@@ -91,13 +91,13 @@
 							"file": "./pets.delete-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
-			"id": "urn:stub:pets:delete",
+			"id": "urn:stub:pet:delete",
 			"route": {
 				"method": "delete",
-				"path": "/pets/:id"
+				"path": "/pet/:id"
 			}
 		},
 		{
@@ -113,13 +113,13 @@
 							"file": "./shelter.get-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
-			"id": "urn:stub:shelter:get",
+			"id": "urn:stub:shelters:get",
 			"route": {
 				"method": "get",
-				"path": "/shelter"
+				"path": "/shelters"
 			}
 		},
 		{
@@ -135,7 +135,7 @@
 							"file": "./shelter.post-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:shelter:post",
@@ -157,7 +157,7 @@
 							"file": "./shelter.put-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:shelter:put",
@@ -179,7 +179,7 @@
 							"file": "./shelter.delete-response.json"
 						}
 					},
-					"type": "response"
+					"type": "respond"
 				}
 			],
 			"id": "urn:stub:shelter:delete",

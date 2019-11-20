@@ -1,8 +1,14 @@
 {
-    "body": {
-        "name": "George",
-        "type": "Cat"
-    },
+    "body": [
+        {
+            "name": "Helen",
+            "type": "Cat"
+        },
+        {
+            "name": "George",
+            "type": "Cat"
+        }
+    ],
     "contentType": "application/json",
     "statusCode": 200
 }
