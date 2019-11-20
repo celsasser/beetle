@@ -93,6 +93,8 @@ class Script {
 					// with the returned value. If there are other values then the script is wrong and
 					// will mostly likely yield unexpected results
 					result = this._resolveScriptReference(value as ResourceReference);
+					// we pass it back through the machine so that refs in refs are picked up
+					result = this._loadScriptData(result);
 				} else {
 					result[key] = this._loadScriptData(value);
 				}

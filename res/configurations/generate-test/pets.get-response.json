@@ -1,12 +1,14 @@
 {
     "body": [
         {
-            "name": "Helen",
-            "type": "Cat"
+            "$source": {
+                "file": "./pet-helen.json"
+            }
         },
         {
-            "name": "George",
-            "type": "Cat"
+            "$source": {
+                "file": "./pet-george.json"
+            }
         }
     ],
     "contentType": "application/json",
