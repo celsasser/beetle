@@ -33,7 +33,7 @@
 	"name": "beetle",
 	"repository": "https://github.com/celsasser/beetle",
 	"scripts": {
-		"build": "tsc -d -p tsconfig.json",
+		"build": "tsc -d -p tsconfig.json && chmod u+x dist/index.js",
 		"coverage": "npm run test -- --coverage",
 		"lint": "tslint --config tslint.json \"./src/**/*.ts\" \"./test/**/*.ts\"",
 		"rebuild": "rm -rf dist && npm run build",

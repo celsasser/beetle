@@ -20,23 +20,27 @@ import {CLIProxyServerParams, HttpMethod, HttpResponse} from "../types";
  * @param server
  */
 function setupAPI(server: Server): void {
-	const healthCheckResponse: HttpResponse = loadDefaultResource("default-healthcheck.json");
-	const informationResponse: HttpResponse = {
-		body: _.pick(require("../../package.json"), ["author", "description", "license", "name", "scripts", "version"]),
-		statusCode: 200
-	};
 	addController(new ControllerFixedResponse({
 		method: HttpMethod.GET,
 		path: "/healthcheck",
 		purpose: "Healthcheck",
-		resData: healthCheckResponse,
+		resData: loadDefaultResource("default-healthcheck.json"),
 		server
 	}));
 	addController(new ControllerFixedResponse({
 		method: HttpMethod.GET,
 		path: "/information",
 		purpose: "Build Information",
-		resData: informationResponse,
+		resData: {
+			body: _.pick(require("../../package.json"), [
+				"author",
+				"description",
+				"license",
+				"name",
+				"scripts",
+				"version"
+			])
+		},
 		server
 	}));
 	addController(new ControllerStubAdd(server, HttpMethod.POST, "/proxy/add"));
@@ -48,9 +52,9 @@ export default async function run(params: CLIProxyServerParams): Promise<void> {
 	const setup = loadProxySetupByPath(params.setupPath);
 	const server = new Server(setup.server);
 	setupAPI(server);
+	addProxySetup(server, setup);
 	return server.start()
 		.then(() => {
-			addProxySetup(setup, server);
 			dumpRouteConfiguration(getCurrentRouteConfiguration());
 		});
 }

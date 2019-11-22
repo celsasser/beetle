@@ -25,8 +25,8 @@ import validate from "./validate";
  * Processes (validates and conditions) the setup and adds each configuration to our server proxy
  * @throws {Error}
  */
-export function addProxySetup(setup: ProxySetup, server: Server): void {
-	addProxyStub(setup.stubs || [], server);
+export function addProxySetup(server: Server, setup: ProxySetup): void {
+	addProxyStub(server, setup.stubs || []);
 }
 
 /**
@@ -35,7 +35,7 @@ export function addProxySetup(setup: ProxySetup, server: Server): void {
  * may be later removed
  * @throws {Error}
  */
-export function addProxyStub(stub: ProxyStub|ProxyStub[], server: Server): void {
+export function addProxyStub(server: Server, stub: ProxyStub|ProxyStub[]): void {
 	const stubs: ProxyStub[] = _.isArray(stub)
 		? stub
 		: [stub];

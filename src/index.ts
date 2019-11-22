@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Date: 11/1/19
  * Time: 10:00 PM
