@@ -1,14 +1,14 @@
 {
 	"library": {
-		"forward-default": {
+		"forward-to-logger": {
 			"method": "get",
 			"type": "forward",
-			"url": "http://hostname:port/stub"
+			"url": "http://localhost:9000/log"
 		}
 	},
 	"server": {
 		"description": "Test proxy server: Pets",
-		"port": 8080,
+		"port": 8000,
 		"protocol": "http"
 	},
 	"stubs": [
@@ -16,7 +16,7 @@
 			"actions": [
 				{
 					"$source": {
-						"library": "forward-default"
+						"library": "forward-to-logger"
 					}
 				},
 				{
@@ -38,13 +38,35 @@
 			"actions": [
 				{
 					"$source": {
-						"library": "forward-default"
+						"library": "forward-to-logger"
 					}
 				},
 				{
 					"response": {
 						"$source": {
-							"file": "./pets.post-response.json"
+							"file": "./pet.get-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:pet:get",
+			"route": {
+				"method": "get",
+				"path": "/pet/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-to-logger"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./pet.post-response.json"
 						}
 					},
 					"type": "respond"
@@ -60,13 +82,13 @@
 			"actions": [
 				{
 					"$source": {
-						"library": "forward-default"
+						"library": "forward-to-logger"
 					}
 				},
 				{
 					"response": {
 						"$source": {
-							"file": "./pets.put-response.json"
+							"file": "./pet.put-response.json"
 						}
 					},
 					"type": "respond"
@@ -82,13 +104,13 @@
 			"actions": [
 				{
 					"$source": {
-						"library": "forward-default"
+						"library": "forward-to-logger"
 					}
 				},
 				{
 					"response": {
 						"$source": {
-							"file": "./pets.delete-response.json"
+							"file": "./pet.delete-response.json"
 						}
 					},
 					"type": "respond"
@@ -103,17 +125,9 @@
 		{
 			"actions": [
 				{
-					"$source": {
-						"library": "forward-default"
-					}
-				},
-				{
-					"response": {
-						"$source": {
-							"file": "./shelter.get-response.json"
-						}
-					},
-					"type": "respond"
+					"method": "get",
+					"type": "forward",
+					"url": "http://localhost:9000/shelters/get"
 				}
 			],
 			"id": "urn:stub:shelters:get",
@@ -125,17 +139,9 @@
 		{
 			"actions": [
 				{
-					"$source": {
-						"library": "forward-default"
-					}
-				},
-				{
-					"response": {
-						"$source": {
-							"file": "./shelter.post-response.json"
-						}
-					},
-					"type": "respond"
+					"method": "get",
+					"type": "forward",
+					"url": "http://localhost:9000/shelter/post"
 				}
 			],
 			"id": "urn:stub:shelter:post",
@@ -147,17 +153,9 @@
 		{
 			"actions": [
 				{
-					"$source": {
-						"library": "forward-default"
-					}
-				},
-				{
-					"response": {
-						"$source": {
-							"file": "./shelter.put-response.json"
-						}
-					},
-					"type": "respond"
+					"method": "get",
+					"type": "forward",
+					"url": "http://localhost:9000/shelter/put"
 				}
 			],
 			"id": "urn:stub:shelter:put",
@@ -169,17 +167,9 @@
 		{
 			"actions": [
 				{
-					"$source": {
-						"library": "forward-default"
-					}
-				},
-				{
-					"response": {
-						"$source": {
-							"file": "./shelter.delete-response.json"
-						}
-					},
-					"type": "respond"
+					"method": "get",
+					"type": "forward",
+					"url": "http://localhost:9000/shelter/delete"
 				}
 			],
 			"id": "urn:stub:shelter:delete",

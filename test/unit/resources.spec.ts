@@ -9,7 +9,7 @@ import validate from "../../src/validate";
 describe("validate", function() {
 	[
 		{
-			dataPath: "./res/configurations/setup-test.json",
+			dataPath: "./res/configurations/setup-test-mock.json",
 			specPath: "./res/schemas/schema-setup.json"
 		},
 		{

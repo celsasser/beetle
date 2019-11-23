@@ -10,7 +10,7 @@ import {CLIProxyServerParams} from "../../src/types/cli";
 describe("run", function() {
 	it("should start the express server", function() {
 		const params: CLIProxyServerParams = {
-			setupPath: "./res/configurations/setup-test.json"
+			setupPath: "./res/configurations/setup-test-mock.json"
 		};
 		return new Promise((resolve, reject) => {
 			run(params)

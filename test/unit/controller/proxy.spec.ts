@@ -88,7 +88,7 @@ describe("ControllerStubRemove", function() {
 			const req = factory.createRequest(require("./input/proxyRemoveRequestStubs"));
 			const res = factory.createResponse();
 			// setup a stub that we are going to remove
-			addProxyStub(require("./input/proxyAddRequestStub").body, server);
+			addProxyStub(server, require("./input/proxyAddRequestStub").body);
 			expect(map.stubIdToActions.has("urn:stub:id")).toEqual(true);
 			instance.handler(req, res, (error) => {
 				expect(error).toBeUndefined();

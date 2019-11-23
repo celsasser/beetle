@@ -1,7 +1,7 @@
 {
 	"server": {
 		"description": "Test proxy server: Pets",
-		"port": 8080,
+		"port": 8000,
 		"protocol": "http"
 	},
 	"stubs": [
@@ -10,16 +10,18 @@
 				{
 					"method": "get",
 					"type": "forward",
-					"url": "http://hostname:port/stub"
+					"url": "http://localhost:9000/log"
 				},
 				{
 					"response": {
 						"body": [
 							{
+								"id": "urn:pet:helen",
 								"name": "Helen",
 								"type": "Cat"
 							},
 							{
+								"id": "urn:pet:helen",
 								"name": "George",
 								"type": "Cat"
 							}
@@ -41,7 +43,33 @@
 				{
 					"method": "get",
 					"type": "forward",
-					"url": "http://hostname:port/stub"
+					"url": "http://localhost:9000/log"
+				},
+				{
+					"response": {
+						"body": {
+							"id": "urn:pet:helen",
+							"name": "Helen",
+							"type": "Cat"
+						},
+						"contentType": "application/json",
+						"statusCode": 200
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:pet:get",
+			"route": {
+				"method": "get",
+				"path": "/pet/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "get",
+					"type": "forward",
+					"url": "http://localhost:9000/log"
 				},
 				{
 					"response": {
@@ -65,7 +93,7 @@
 				{
 					"method": "get",
 					"type": "forward",
-					"url": "http://hostname:port/stub"
+					"url": "http://localhost:9000/log"
 				},
 				{
 					"response": {
@@ -85,7 +113,7 @@
 				{
 					"method": "get",
 					"type": "forward",
-					"url": "http://hostname:port/stub"
+					"url": "http://localhost:9000/log"
 				},
 				{
 					"response": {
@@ -105,24 +133,7 @@
 				{
 					"method": "get",
 					"type": "forward",
-					"url": "http://hostname:port/stub"
-				},
-				{
-					"response": {
-						"body": {
-							"address": {
-								"city": "NY",
-								"name": "Animal Haven",
-								"state": "New York",
-								"street": "200 Centre Street",
-								"zip": 10013
-							},
-							"name": "Animal Haven"
-						},
-						"contentType": "application/json",
-						"statusCode": 200
-					},
-					"type": "respond"
+					"url": "http://localhost:9000/shelters/get"
 				}
 			],
 			"id": "urn:stub:shelters:get",
@@ -136,17 +147,7 @@
 				{
 					"method": "get",
 					"type": "forward",
-					"url": "http://hostname:port/stub"
-				},
-				{
-					"response": {
-						"body": {
-							"id": "urn:pet:cat:george"
-						},
-						"contentType": "application/json",
-						"statusCode": 200
-					},
-					"type": "respond"
+					"url": "http://localhost:9000/shelter/post"
 				}
 			],
 			"id": "urn:stub:shelter:post",
@@ -160,13 +161,7 @@
 				{
 					"method": "get",
 					"type": "forward",
-					"url": "http://hostname:port/stub"
-				},
-				{
-					"response": {
-						"statusCode": 200
-					},
-					"type": "respond"
+					"url": "http://localhost:9000/shelter/put"
 				}
 			],
 			"id": "urn:stub:shelter:put",
@@ -180,13 +175,7 @@
 				{
 					"method": "get",
 					"type": "forward",
-					"url": "http://hostname:port/stub"
-				},
-				{
-					"response": {
-						"statusCode": 200
-					},
-					"type": "respond"
+					"url": "http://localhost:9000/shelter/delete"
 				}
 			],
 			"id": "urn:stub:shelter:delete",
