@@ -16,6 +16,7 @@ export enum HttpMethod {
 }
 
 export type HttpHeaders = {[key: string]: string};
+export type HttpParams = {[key: string]: string};
 
 /**
  * Response description

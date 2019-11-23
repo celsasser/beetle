@@ -13,7 +13,7 @@ import {loadDefaultResource} from "../resources";
 import {addController, getCurrentRouteConfiguration} from "../routing";
 import {Server} from "../server";
 import {addProxySetup, loadProxySetupByPath} from "../setup";
-import {CLIProxyServerParams, HttpMethod, HttpResponse} from "../types";
+import {CLIProxyServerParams, HttpMethod} from "../types";
 
 /**
  * Configures our own API to support everything we want to be able to do

@@ -4,13 +4,7 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {
-	HttpHeaders,
-	HttpMethod,
-	HttpResponse,
-	ServerProperties,
-	ServerProtocol
-} from "./server";
+import {HttpHeaders, HttpMethod, HttpParams, HttpResponse, ServerProperties, ServerProtocol} from "./server";
 
 /**
  * Describes what should be performed when proxying
@@ -48,6 +42,15 @@ export interface ProxyActionRespond extends ProxyActionBase {
 }
 
 export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionRespond;
+
+export interface ProxyDataSet {
+	body?: any;
+	headers?: HttpHeaders;
+	method: HttpMethod;
+	params: HttpParams;
+	path: string;
+	query: any;
+}
 
 /**
  * Describes a route's properties

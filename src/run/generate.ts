@@ -6,16 +6,8 @@
 
 import * as fs from "fs-extra";
 import * as _ from "lodash";
-import {
-	parse as parsePath,
-	resolve as resolvePath
-} from "path";
-import {
-	CLIGenerateSetupParams,
-	ProxySetup,
-	ProxyStub,
-	ServerProperties
-} from "../types";
+import {parse as parsePath, resolve as resolvePath} from "path";
+import {CLIGenerateSetupParams, ProxySetup, ProxyStub, ServerProperties} from "../types";
 import validate from "../validate";
 
 interface ResourceReference {

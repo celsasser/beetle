@@ -4,16 +4,9 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {
-	NextFunction,
-	Request,
-	Response
-} from "express";
+import {NextFunction, Request, Response} from "express";
 import * as _ from "lodash";
-import {
-	forwardRequest,
-	logRequest
-} from "../actions";
+import {forwardRequest, logRequest} from "../actions";
 import {respondToClient} from "../actions/respond";
 import * as log from "../core/log";
 import {formatRouteSummary} from "../core/utils";
@@ -99,7 +92,7 @@ export class ControllerAction extends ControllerBase {
 	/**
 	 * Forwards the specified action to the appropriate action handler
 	 */
-	private _processAction(action: ProxyActionBase, req: Request): Promise<object> {
+	private _processAction(action: ProxyActionBase, req: Request): Promise<any> {
 		if(action.type === ProxyActionType.FORWARD) {
 			return forwardRequest(req, (action as ProxyActionForward));
 		} else if(action.type === ProxyActionType.LOG) {
@@ -138,6 +131,8 @@ export class ControllerAction extends ControllerBase {
 				.then(response => respondToClient(res, response))
 				.catch(error => {
 					log.error(`Processing responder route ${formatRouteSummary(this.route)} failed - ${error}`, {responder});
+					// we are in a weird position here. I don't think we have any choice but to respond with error?
+					this.sendFailure(res, {error});
 				});
 		}
 	}

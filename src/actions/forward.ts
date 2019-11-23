@@ -6,38 +6,38 @@
 
 import axios, {AxiosResponse, Method} from "axios";
 import {Request} from "express";
-import * as log from "../core/log";
-import {
-	HttpHeaders,
-	HttpMethod,
-	HttpResponse
-} from "../types";
+import * as _ from "lodash";
+import {HttpHeaders, HttpMethod, HttpResponse} from "../types";
 import validate from "../validate";
-import {encodeRequest} from "./_codec";
+import {requestToProxyDataSet} from "./_codec";
 
-export async function forwardRequest(request: Request, forward: {
+export async function forwardRequest(req: Request, forward: {
 	headers?: HttpHeaders,
 	method: HttpMethod
 	url: string
 }): Promise<HttpResponse> {
-	const encoded = encodeRequest(request);
 	return axios.request({
-		data: encoded,
+		data: requestToProxyDataSet(req),
 		headers: forward.headers,
 		method: forward.method as Method,
+		responseType: "json",
 		url: forward.url
-	}).then((axiosResponse: AxiosResponse) => {
-		const response = axiosResponse.data as HttpResponse;
-		try {
-			validate.validateData("./res/schemas/schema-library.json#/stub/response", response);
-		} catch(error) {
-			log.error("action.forwardRequest(): response schema failed validation", {
-				error: error.message,
-				forward,
-				response
-			});
-		}
-		return response;
-
-	});
+	})
+		.then((axiosResponse: AxiosResponse) => {
+			// here we have a few concerns:
+			// 1. it's an error. This means that something happened with the server to which we forwarded. Not much to do here.
+			// 2. It's a JSON response in which case we assume it is an HttpResponse.
+			// 3. Otherwise we respond with a bare bones HttpResponse
+			if(axiosResponse.status >= 400) {
+				const message = _.isEmpty(axiosResponse.data)
+					? ""
+					: `: ${String(axiosResponse.data)}`;
+				throw new Error(`${axiosResponse.statusText} ${(axiosResponse.status)}${message}`);
+			} else if(_.isPlainObject(axiosResponse.data)) {
+				validate.validateData("./res/schemas/schema-library.json#/stub/response", axiosResponse.data);
+				return axiosResponse.data as HttpResponse;
+			} else {
+				return {};
+			}
+		});
 }

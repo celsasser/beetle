@@ -9,16 +9,9 @@ import * as _ from "lodash";
 import {ControllerAction} from "./controller/action";
 import {createUrn} from "./core/urn";
 import map from "./map";
-import {
-	addController,
-	createRouteId
-} from "./routing";
+import {addController, createRouteId} from "./routing";
 import {Server} from "./server";
-import {
-	ProxySetup,
-	ProxyStub,
-	UrnTypeId
-} from "./types";
+import {ProxySetup, ProxyStub, UrnTypeId} from "./types";
 import validate from "./validate";
 
 /**

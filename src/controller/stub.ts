@@ -4,15 +4,8 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {
-	NextFunction,
-	Request,
-	Response
-} from "express";
-import {
-	addProxyStub,
-	removeProxyStub
-} from "../setup";
+import {NextFunction, Request, Response} from "express";
+import {addProxyStub, removeProxyStub} from "../setup";
 import validate from "../validate";
 import {ControllerBase} from "./base";
 
@@ -32,7 +25,7 @@ export class ControllerStubAdd extends ControllerBase {
 				body: req.body,
 				params: req.params
 			});
-			addProxyStub(req.body, this.server);
+			addProxyStub(this.server, req.body);
 			this.sendSuccess(res);
 			process.nextTick(next);
 		} catch(error) {

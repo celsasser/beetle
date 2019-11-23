@@ -4,11 +4,13 @@
  * @license MIT (see project's LICENSE file)
  */
 
+import {ErrorObject} from "ajv";
 import * as ajv from "ajv";
 import * as assert from "assert";
 import * as fs from "fs-extra";
 import * as path from "path";
 import {formatJSON} from "./core/utils";
+import validate = WebAssembly.validate;
 
 class Validate {
 	private ajv: ajv.Ajv;
@@ -55,7 +57,7 @@ class Validate {
 			throw new Error(`could not find schema for ${reference}`);
 		}
 		if(!validator(data)) {
-			throw new Error(formatJSON(validator.errors));
+			throw this.errorsToError(validator.errors as ErrorObject[], schemaPath, data);
 		}
 	}
 
@@ -75,10 +77,7 @@ class Validate {
 		}
 		const data = fs.readJSONSync(dataPath);
 		if(!validator(data)) {
-			const errors = (validator.errors || []).map(error => Object.assign({
-				dataFile: refPath
-			}, error));
-			throw new Error(formatJSON(errors));
+			throw this.errorsToError(validator.errors as ErrorObject[], schemaPath, data);
 		}
 		return data;
 	}
@@ -97,6 +96,15 @@ class Validate {
 		} catch(error) {
 			throw new Error(`failed to compile schema ${schemaPath}: ${error}`);
 		}
+	}
+
+	private errorsToError(errors: ErrorObject[], schemaPath: string, data: any): Error {
+		return new Error(formatJSON({
+			schemaPath,
+			// tslint:disable-next-line: object-literal-sort-keys
+			errors,
+			data,
+		}));
 	}
 
 	private parseSchemaPath(schemaPath: string): {
