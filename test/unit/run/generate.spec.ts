@@ -18,7 +18,8 @@ it("should raise an exception with error information if script cannot be parsed"
 		inputPath: `${__dirname}/input/generate-script-broken.json`
 	})
 		.catch((error: Error) => {
-			expect(error.message).toEqual(expect.stringContaining("could not load relative path ./file-does-not-exist.json"));
+			expect(error.message)
+				.toEqual(expect.stringContaining("could not load relative path ./file-does-not-exist.json"));
 		})
-		.then(()=>expect.assertions(1));
+		.then(() => expect.assertions(1));
 });

@@ -13,7 +13,7 @@
 			],
 			"id": "urn:stub:log:all",
 			"route": {
-				"method": "get",
+				"method": "put",
 				"path": "/log"
 			}
 		},
@@ -42,7 +42,7 @@
 			],
 			"id": "urn:stub:shelters:get",
 			"route": {
-				"method": "get",
+				"method": "put",
 				"path": "/shelters/get"
 			}
 		},
@@ -64,7 +64,7 @@
 			],
 			"id": "urn:stub:shelter:post",
 			"route": {
-				"method": "get",
+				"method": "put",
 				"path": "/shelter/post"
 			}
 		},
@@ -82,7 +82,7 @@
 			],
 			"id": "urn:stub:shelter:put",
 			"route": {
-				"method": "get",
+				"method": "put",
 				"path": "/shelter/put"
 			}
 		},
@@ -100,7 +100,7 @@
 			],
 			"id": "urn:stub:shelter:delete",
 			"route": {
-				"method": "get",
+				"method": "put",
 				"path": "/shelter/delete"
 			}
 		}

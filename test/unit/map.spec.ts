@@ -7,10 +7,7 @@
 import {createUrn} from "../../src/core/urn";
 import map from "../../src/map";
 import {UrnTypeId} from "../../src/types";
-import {
-	createControllerAction,
-	createProxyActionLog
-} from "../factory";
+import {createControllerAction, createProxyActionLog} from "../factory";
 
 describe("getActionsByStubId", function() {
 	it("should properly get mapped actions to a stub-id", function() {
@@ -22,7 +19,8 @@ describe("getActionsByStubId", function() {
 
 	it("should throw an exception if id does not exist", function() {
 		const stubId = createUrn(UrnTypeId.STUB);
-		expect(map.getActionsByStubId.bind(map, stubId)).toThrow(`could not find actions for ${stubId}`);
+		expect(map.getActionsByStubId.bind(map, stubId))
+			.toThrow(`could not find actions for ${stubId}`);
 	});
 });
 
@@ -36,7 +34,8 @@ describe("getControllerByRoute", function() {
 
 	it("should throw an exception if id does not exist", function() {
 		const routeId = createUrn(UrnTypeId.ROUTE);
-		expect(map.getControllerByRoute.bind(map, routeId)).toThrow(`could not find route for ${routeId}`);
+		expect(map.getControllerByRoute.bind(map, routeId))
+			.toThrow(`could not find route for ${routeId}`);
 	});
 });
 
@@ -50,6 +49,7 @@ describe("getRouteIdByStubId", function() {
 
 	it("should throw an exception if id does not exist", function() {
 		const stubId = createUrn(UrnTypeId.STUB);
-		expect(map.getRouteIdByStubId.bind(map, stubId)).toThrow(`could not find route for ${stubId}`);
+		expect(map.getRouteIdByStubId.bind(map, stubId))
+			.toThrow(`could not find route for ${stubId}`);
 	});
 });

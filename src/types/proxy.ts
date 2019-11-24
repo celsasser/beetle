@@ -4,7 +4,14 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {HttpHeaders, HttpMethod, HttpParams, HttpResponse, ServerProperties, ServerProtocol} from "./server";
+import {
+	HttpHeaders,
+	HttpMethod,
+	HttpParams,
+	HttpResponse,
+	ServerProperties,
+	ServerProtocol
+} from "./server";
 
 /**
  * Describes what should be performed when proxying

@@ -12,6 +12,7 @@ export interface CLIGenerateSetupParams {
 }
 
 export interface CLIProxyServerParams {
+	debug?: boolean;
 	setupPath?: string;
 	verbose?: boolean;
 }

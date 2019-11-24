@@ -38,7 +38,7 @@
 		"lint": "tslint --config tslint.json \"./src/**/*.ts\" \"./test/**/*.ts\"",
 		"rebuild": "rm -rf dist && npm run build",
 		"start": "node dist/index.js",
-		"test": "jest ./test/unit"
+		"test": "jest ./test/unit && npm run lint"
 	},
 	"version": "0.0.1"
 }

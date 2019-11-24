@@ -62,7 +62,7 @@ export class Server {
 	 **********************/
 	private _configureExpress() {
 		this.express.set("port", this.port);
-		this.express.use(bodyParser.urlencoded({extended: false}));
+		this.express.use(bodyParser.json());
 		this.express.use(morgan('[:date[iso]] ":method :url HTTP/:http-version" status=:status length=:res[content-length] remote=:remote-addr agent=":user-agent"'));
 		this.express.use("/", this.router);
 	}

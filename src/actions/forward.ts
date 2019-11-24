@@ -33,11 +33,17 @@ export async function forwardRequest(req: Request, forward: {
 					? ""
 					: `: ${String(axiosResponse.data)}`;
 				throw new Error(`${axiosResponse.statusText} ${(axiosResponse.status)}${message}`);
-			} else if(_.isPlainObject(axiosResponse.data)) {
-				validate.validateData("./res/schemas/schema-library.json#/stub/response", axiosResponse.data);
-				return axiosResponse.data as HttpResponse;
 			} else {
-				return {};
+				try {
+					// the policy for the return is either to accept a fully described <code>HttpResponse</code>. If it
+					// does pass validation as such then we assume that the response is intended to be the body.
+					validate.validateData("./res/schemas/schema-library.json#/stub/response", axiosResponse.data);
+					return axiosResponse.data as HttpResponse;
+				} catch(error) {
+					return {
+						body: axiosResponse.data
+					};
+				}
 			}
 		});
 }

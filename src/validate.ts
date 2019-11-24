@@ -4,13 +4,12 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {ErrorObject} from "ajv";
 import * as ajv from "ajv";
+import {ErrorObject} from "ajv";
 import * as assert from "assert";
 import * as fs from "fs-extra";
 import * as path from "path";
 import {formatJSON} from "./core/utils";
-import validate = WebAssembly.validate;
 
 class Validate {
 	private ajv: ajv.Ajv;
@@ -103,7 +102,7 @@ class Validate {
 			schemaPath,
 			// tslint:disable-next-line: object-literal-sort-keys
 			errors,
-			data,
+			data
 		}));
 	}
 
@@ -115,7 +114,7 @@ class Validate {
 		if(index > -1) {
 			return {
 				filePath: schemaPath.substr(0, index),
-				refPath: schemaPath.substr(index),
+				refPath: schemaPath.substr(index)
 			};
 		} else {
 			return {

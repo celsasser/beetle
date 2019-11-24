@@ -52,7 +52,11 @@
 			"additionalProperties": false,
 			"properties": {
 				"method": {
-					"$ref": "#/http/method"
+					"description": "We must be able to send a body. To avoid dumb errors we limit the methods to put and post",
+					"enum": [
+						"put",
+						"post"
+					]
 				},
 				"type": {
 					"pattern": "^forward$"

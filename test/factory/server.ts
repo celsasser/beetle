@@ -4,10 +4,7 @@
  * @license MIT (see project's LICENSE file)
  */
 import {Server} from "../../src/server";
-import {
-	ServerProperties,
-	ServerProtocol
-} from "../../src/types";
+import {ServerProperties, ServerProtocol} from "../../src/types";
 
 const DEFAULTS_SERVER = {
 	port: 8080,

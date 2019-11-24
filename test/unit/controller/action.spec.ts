@@ -114,7 +114,8 @@ describe("ControllerAction", function() {
 				controller,
 				expected: require("../../../res/defaults/default-stub-response")
 			}).then(() => {
-				expect(log.warn).toBeCalledWith(`No responders configured for ${controller.description}`);
+				expect(log.warn)
+					.toBeCalledWith(`No responders configured for ${controller.description}`);
 			});
 		});
 

@@ -1,7 +1,7 @@
 {
 	"library": {
 		"forward-to-logger": {
-			"method": "get",
+			"method": "put",
 			"type": "forward",
 			"url": "http://localhost:9000/log"
 		}
@@ -125,7 +125,7 @@
 		{
 			"actions": [
 				{
-					"method": "get",
+					"method": "put",
 					"type": "forward",
 					"url": "http://localhost:9000/shelters/get"
 				}
@@ -139,7 +139,7 @@
 		{
 			"actions": [
 				{
-					"method": "get",
+					"method": "put",
 					"type": "forward",
 					"url": "http://localhost:9000/shelter/post"
 				}
@@ -153,7 +153,7 @@
 		{
 			"actions": [
 				{
-					"method": "get",
+					"method": "put",
 					"type": "forward",
 					"url": "http://localhost:9000/shelter/put"
 				}
@@ -167,7 +167,7 @@
 		{
 			"actions": [
 				{
-					"method": "get",
+					"method": "put",
 					"type": "forward",
 					"url": "http://localhost:9000/shelter/delete"
 				}

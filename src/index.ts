@@ -8,6 +8,7 @@
 
 import {Command} from "commander";
 import * as log from "./core/log";
+import environment from "./environment";
 import runGenerateSetup from "./run/generate";
 import runProxyServer from "./run/server";
 import validate from "./validate";
@@ -32,13 +33,15 @@ program.command("generate <templatePath> [specPath]")
 	.description("Generates a setup configuration from <templatePath>. By default writes to stdout")
 	.option("-v, --validate", "validate rendered script")
 	.action(async function(inputPath: string, outputPath: string, options: GenerateOptions) {
+		const configuration = {
+			inputPath,
+			outputPath,
+			validate: Boolean(options.validate),
+			verbose: Boolean(options.verbose)
+		};
+		environment.set(configuration);
 		try {
-			await runGenerateSetup({
-				inputPath,
-				outputPath,
-				validate: Boolean(options.validate),
-				verbose: Boolean(options.verbose)
-			});
+			await runGenerateSetup(configuration);
 		} catch(error) {
 			log.error(`Attempt to generate ${inputPath} failed: ${error.message}`);
 			process.exit(1);
@@ -52,11 +55,13 @@ program.command("run [specPath]", {isDefault: true})
 	.description("Start the proxy machine")
 	.option("-v, --verbose", "log verbose")
 	.action(async function(setupPath: string, options: RunOptions) {
+		const configuration = {
+			setupPath,
+			verbose: Boolean(options.verbose)
+		};
+		environment.set(configuration);
 		try {
-			await runProxyServer({
-				setupPath,
-				verbose: Boolean(options.verbose)
-			});
+			await runProxyServer(configuration);
 		} catch(error) {
 			log.error(`Attempt to run failed: ${error.message}`);
 			process.exit(1);

@@ -7,7 +7,7 @@
 import run from "../../src/run/server";
 import {CLIProxyServerParams} from "../../src/types/cli";
 
-describe("run", function() {
+describe("run test-mock", function() {
 	it("should start the express server", function() {
 		const params: CLIProxyServerParams = {
 			setupPath: "./res/configurations/setup-test-mock.json"

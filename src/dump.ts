@@ -8,7 +8,6 @@ import {format as formatUrl} from "url";
 import * as log from "./core/log";
 import {RouteProperties} from "./types/route";
 
-
 export function dumpRouteConfiguration(routes: RouteProperties[]): void {
 	const descriptions = routes.map(route => {
 		const url = formatUrl({

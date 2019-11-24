@@ -8,7 +8,6 @@ import {NextFunction, Request, Response} from "express";
 import {getCurrentRouteConfiguration} from "../routing";
 import {ControllerBase} from "./base";
 
-
 /**
  * Gets the current route configuration and sends it back to client
  */
