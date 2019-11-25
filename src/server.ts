@@ -66,7 +66,9 @@ export class Server {
 		// may be getting request with payloads other than JSON. We probably should be forwarding the raw data. For the
 		// time being we are going to let these guys do our dirty work and build the <code>Request.body</code> property.
 		this.express.use(bodyParser.json());
-		this.express.use(bodyParser.urlencoded());
+		this.express.use(bodyParser.urlencoded({
+			extended: true
+		}));
 		this.express.use(bodyParser.text());
 		this.express.use(bodyParser.raw());
 		this.express.use(morgan('[:date[iso]] ":method :url HTTP/:http-version" status=:status length=:res[content-length] remote=:remote-addr agent=":user-agent"'));

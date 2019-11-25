@@ -1,0 +1,10 @@
+{
+	"data": {
+		"body": "Not Authorized",
+		"contentType": "application/text",
+		"headers": {
+			"X-Property": "header-value"
+		},
+		"statusCode": 403
+	}
+}

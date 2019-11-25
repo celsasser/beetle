@@ -1,0 +1,18 @@
+{
+	"data": {
+		"body": {
+			"property": "body-value"
+		},
+		"headers": {
+			"X-Property": "header-value"
+		},
+		"params": {},
+		"query": {}
+	},
+	"headers": {
+		"X-Property": "value"
+	},
+	"method": "put",
+	"responseType": "json",
+	"url": "http://domain:port/path"
+}

@@ -8,10 +8,10 @@ import {Request} from "express";
 
 const REQUEST_DEFAULTS = {
 	body: {
-		type: "request"
+		property: "body-value"
 	},
 	headers: {
-		"X-Type": "request"
+		"X-Property": "header-value"
 	},
 	params: {},
 	query: {}
