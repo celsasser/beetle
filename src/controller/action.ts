@@ -6,8 +6,7 @@
 
 import {NextFunction, Request, Response} from "express";
 import * as _ from "lodash";
-import {forwardRequest, logRequest} from "../actions";
-import {respondToClient} from "../actions/respond";
+import {forwardRequest, logRequest, respondToClient} from "../actions";
 import * as log from "../core/log";
 import {formatRouteSummary} from "../core/utils";
 import {Server} from "../server";

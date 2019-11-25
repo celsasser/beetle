@@ -1,0 +1,10 @@
+{
+	"body": {
+		"property": "body-value"
+	},
+	"contentType": "application/json",
+	"headers": {
+		"X-Property": "value"
+	},
+	"statusCode": 200
+}
