@@ -15,5 +15,6 @@ node_modules
 package-lock.json
 
 # build stuff that we don't want to keep in VCS
+coverage
 dist
 reports
