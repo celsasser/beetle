@@ -22,7 +22,7 @@ export type HttpParams = {[key: string]: string};
  * Response description
  */
 export interface HttpResponse {
-	body?: object;
+	body?: any;
 	contentType?: string;
 	headers?: HttpHeaders;
 	statusCode?: number;

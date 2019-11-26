@@ -8,6 +8,7 @@ import * as assert from "assert";
 import {NextFunction, Request, Response} from "express";
 import * as _ from "lodash";
 import {format as formatUrl} from "url";
+import {respondToClient} from "../actions";
 import {Server} from "../server";
 import {HttpHeaders, HttpMethod, HttpResponse} from "../types/server";
 
@@ -60,12 +61,12 @@ export abstract class ControllerBase {
 		headers?: HttpHeaders,
 		statusCode?: number
 	}) {
-		_.forEach(headers, (value, key) => {
-			res.header(key, value);
+		respondToClient(res, {
+			body: error.message,
+			contentType,
+			headers,
+			statusCode
 		});
-		res.status(statusCode)
-			.contentType(contentType)
-			.send(error.message);
 	}
 
 	protected sendSuccess(res: Response, {
@@ -74,11 +75,11 @@ export abstract class ControllerBase {
 		headers,
 		statusCode = 200
 	}: HttpResponse = {}) {
-		_.forEach(headers, (value, key) => {
-			res.header(key, value);
+		respondToClient(res, {
+			body,
+			contentType,
+			headers,
+			statusCode
 		});
-		res.contentType(contentType)
-			.status(statusCode)
-			.send(body);
 	}
 }

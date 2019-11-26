@@ -1,28 +1,24 @@
 /**
- * Date: 11/9/19
- * Time: 12:52 PM
+ * Date: 11/25/19
+ * Time: 9:36 PM
  * @license MIT (see project's LICENSE file)
  */
 
-import validate from "../../src/validate";
+import {readJSONSync} from "fs-extra";
+import {loadConfigurationResource, loadDefaultResource} from "../../src/resources";
 
-describe("validate", function() {
-	[
-		{
-			dataPath: "./res/configurations/setup-test-mock.json",
-			specPath: "./res/schemas/schema-setup.json"
-		},
-		{
-			dataPath: "./res/defaults/default-setup.json",
-			specPath: "./res/schemas/schema-setup.json"
-		},
-		{
-			dataPath: "./res/defaults/default-stub-response.json",
-			specPath: "./res/schemas/schema-library.json#/stub/response"
-		}
-	].forEach(({dataPath, specPath}) => {
-		it(`${dataPath} should conform with ${specPath}`, function() {
-			validate.validateDataAtPath(specPath, dataPath);
-		});
+describe("loadConfigurationResource", function() {
+	it("should properly resolve path and return file contents", function() {
+		const loaded = loadConfigurationResource("setup-test-mock.json");
+		const expected = readJSONSync("res/configurations/setup-test-mock.json");
+		expect(loaded).toEqual(expected);
+	});
+});
+
+describe("loadDefaultResource", function() {
+	it("should properly resolve path and return file contents", function() {
+		const loaded = loadDefaultResource("default-setup.json");
+		const expected = readJSONSync("res/defaults/default-setup.json");
+		expect(loaded).toEqual(expected);
 	});
 });
