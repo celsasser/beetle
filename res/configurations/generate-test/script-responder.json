@@ -84,8 +84,10 @@
 				},
 				{
 					"response": {
-						"$source": {
-							"file": "./shelter.delete-response.json"
+						"body": {
+							"$source": {
+								"file": "./shelter.delete-response.json"
+							}
 						}
 					},
 					"type": "respond"

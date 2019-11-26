@@ -1,3 +1,5 @@
 {
-	"statusCode": 200
+	"body": "could not find specified shelter",
+	"contentType": "application/text",
+	"statusCode": 403
 }
