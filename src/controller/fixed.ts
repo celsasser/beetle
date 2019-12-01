@@ -5,6 +5,7 @@
  */
 
 import {NextFunction, Request, Response} from "express";
+import {respondToClient} from "../actions";
 import {Server} from "../server";
 import {HttpMethod, HttpResponse} from "../types";
 import {ControllerBase} from "./base";
@@ -33,7 +34,7 @@ export class ControllerFixedResponse extends ControllerBase {
 	}
 
 	public handler(req: Request, res: Response, next: NextFunction = () => {}): void {
-		super.sendSuccess(res, this.resData);
+		respondToClient(res, this.resData);
 		process.nextTick(next);
 	}
 }
