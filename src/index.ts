@@ -13,6 +13,7 @@ import runGenerateSetup from "./run/generate";
 import runProxyServer from "./run/server";
 import validate from "./validate";
 
+// todo: move these guys to types
 interface GenerateOptions {
 	validate?: boolean;
 	verbose?: boolean;
@@ -25,6 +26,11 @@ interface RunOptions {
 const program = new Command();
 // tslint:disable-next-line: no-var-requires
 program.version(require("../package.json").version);
+
+/**
+ * todo: let's get all functionality into the handlers. And match param signatures so that we don't
+ * have to have redundant'ish structures.
+ */
 
 /**
  * Generate setup configurations
@@ -71,7 +77,7 @@ program.command("run [specPath]", {isDefault: true})
 /**
  * Validate setup configuration
  */
-program.command("validate [setupPath]")
+program.command("validate <setupPath>")
 	.description("Validates the setup specification")
 	.action(async function(setupPath: string) {
 		try {
