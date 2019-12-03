@@ -6,7 +6,6 @@
 
 import * as assert from "assert";
 import {NextFunction, Request, Response} from "express";
-import * as _ from "lodash";
 import {format as formatUrl} from "url";
 import {respondToClient} from "../actions";
 import {Server} from "../server";
@@ -18,7 +17,8 @@ export abstract class ControllerBase {
 	public readonly server: Server;
 
 	public constructor(server: Server, method: HttpMethod, path: string) {
-		assert.ok(path.startsWith("/"), "more unexpected results than expected");
+		// There are probably places where a fragment may be useful but it causes grief in our world.
+		assert.ok(path.startsWith("/"), `begin "${path}" route's path with "/"?`);
 		this.method = method;
 		this.path = path;
 		this.server = server;
