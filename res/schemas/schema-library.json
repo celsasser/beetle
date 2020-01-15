@@ -1,0 +1,122 @@
+{
+	"$id": "schema://beetle/schema-library.json",
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"http": {
+		"method": {
+			"enum": [
+				"all",
+				"delete",
+				"get",
+				"head",
+				"options",
+				"patch",
+				"post",
+				"put"
+			]
+		},
+		"protocol": {
+			"enum": [
+				"http",
+				"https"
+			]
+		}
+	},
+	"stub": {
+		"action": {
+			"anyOf": [
+				{
+					"$ref": "#/stub/actionForward"
+				},
+				{
+					"$ref": "#/stub/actionLog"
+				},
+				{
+					"$ref": "#/stub/actionResponse"
+				}
+			]
+		},
+		"actionType": {
+			"enum": [
+				"forward",
+				"log",
+				"respond"
+			]
+		},
+		"actionForward": {
+			"type": "object",
+			"required": [
+				"method",
+				"type",
+				"url"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"method": {
+					"description": "We must be able to send a body. To avoid dumb errors we limit the methods to put and post",
+					"enum": [
+						"put",
+						"post"
+					]
+				},
+				"type": {
+					"pattern": "^forward$"
+				},
+				"url": {
+					"type": "string"
+				}
+			}
+		},
+		"actionLog": {
+			"type": "object",
+			"required": [
+				"type"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"pattern": "^log$"
+				}
+			}
+		},
+		"actionResponse": {
+			"type": "object",
+			"required": [
+				"response",
+				"type"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"response": {
+					"$ref": "#/stub/response"
+				},
+				"type": {
+					"pattern": "^respond$"
+				}
+			}
+		},
+		"response": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"body": {
+					"type": [
+						"array",
+						"boolean",
+						"number",
+						"object",
+						"string"
+					]
+				},
+				"contentType": {
+					"type": "string"
+				},
+				"headers": {
+					"type": "object"
+				},
+				"statusCode": {
+					"type": "number"
+				}
+			}
+		}
+	}
+}

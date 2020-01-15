@@ -1,0 +1,16 @@
+{
+    "body": [
+        {
+            "$source": {
+                "file": "./pet-helen.json"
+            }
+        },
+        {
+            "$source": {
+                "file": "./pet-george.json"
+            }
+        }
+    ],
+    "contentType": "application/json",
+    "statusCode": 200
+}

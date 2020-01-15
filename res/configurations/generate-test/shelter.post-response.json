@@ -1,0 +1,7 @@
+{
+	"body": {
+		"id": "urn:pet:cat:george"
+	},
+	"contentType": "application/json",
+	"statusCode": 200
+}

@@ -1,0 +1,16 @@
+{
+	"body": {
+		"id": "urn:stub:id",
+		"route": {
+			"method": "get",
+			"path": "/test/route"
+		},
+		"actions": [
+			{
+				"type": "log"
+			}
+		]
+	},
+	"params": {
+	}
+}

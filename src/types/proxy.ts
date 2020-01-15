@@ -5,7 +5,10 @@
  */
 
 import {
+	HttpHeaders,
 	HttpMethod,
+	HttpParams,
+	HttpResponse,
 	ServerProperties,
 	ServerProtocol
 } from "./server";
@@ -23,10 +26,6 @@ export enum ProxyActionType {
  * Base interface for all actions
  */
 export interface ProxyActionBase {
-	/**
-	 * Is the action that should respond back to our client? A property we manage.
-	 */
-	responder?: boolean;
 	type: ProxyActionType;
 }
 
@@ -35,6 +34,7 @@ export interface ProxyActionBase {
  * call serves as the response to the client
  */
 export interface ProxyActionForward extends ProxyActionBase {
+	headers?: HttpHeaders;
 	method: HttpMethod;
 	url: string;
 }
@@ -45,42 +45,49 @@ export interface ProxyActionLog extends ProxyActionBase {
 }
 
 export interface ProxyActionRespond extends ProxyActionBase {
-	response: ProxyResponse;
+	response: HttpResponse;
 }
 
 export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionRespond;
 
-/**
- * Describes a single proxy configuration
- */
-export interface ProxyConfiguration {
-	actions: ProxyAction[];
-	id: string;
-	proxy: {
-		method: HttpMethod;
-		path: string;
-		/**
-		 * We track protocol here for convenience
-		 */
-		protocol: ServerProtocol;
-	};
+export interface ProxyDataSet {
+	body?: any;
+	headers?: HttpHeaders;
+	method: HttpMethod;
+	params: HttpParams;
+	path: string;
+	query: any;
 }
 
 /**
- * Response description
+ * Describes a route's properties
  */
-export interface ProxyResponse {
-	body?: object;
-	contentType?: string;
-	headers?: {[key: string]: string};
-	statusCode?: number;
+export interface ProxyRoute {
+	method: HttpMethod;
+	path: string;
+	/**
+	 * We track protocol here for convenience
+	 */
+	protocol: ServerProtocol;
 }
 
 /**
- * Initial setup of the proxy server
+ * Initial setup of the route server
  */
 export interface ProxySetup {
-	proxies?: ProxyConfiguration[];
+	stubs?: ProxyStub[];
 	server: ServerProperties;
+}
+
+/**
+ * Describes a single route cfg
+ */
+export interface ProxyStub {
+	actions: ProxyAction[];
+	/**
+	 * An id that may be used to manage this stubs existence
+	 */
+	id: string;
+	route: ProxyRoute;
 }
 

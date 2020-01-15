@@ -1,0 +1,30 @@
+{
+	"body": [
+		{
+			"id": "urn:stub:id1",
+			"route": {
+				"method": "get",
+				"path": "/test/route1"
+			},
+			"actions": [
+				{
+					"type": "log"
+				}
+			]
+		},
+		{
+			"id": "urn:stub:id2",
+			"route": {
+				"method": "get",
+				"path": "/test/route2"
+			},
+			"actions": [
+				{
+					"type": "log"
+				}
+			]
+		}
+	],
+	"params": {
+	}
+}

@@ -4,16 +4,18 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {
-	Request,
-	Response
-} from "express";
-import {ProxyConfiguration} from "../types/proxy";
-import {encodeRequest} from "./_codec";
-import {respondToClient} from "./_respond";
+import {Request} from "express";
+import * as log from "../core/log";
+import {formatRouteSummary} from "../core/utils";
+import {HttpMethod, HttpResponse, ServerProtocol} from "../types";
+import {requestToProxyDataSet} from "./_codec";
 
-export async function logRequest(cfg: ProxyConfiguration, req: Request, res: Response): Promise<void> {
-	const encoded = encodeRequest(cfg, req);
-	console.log(`Proxying: ${encoded}`);
-	respondToClient(res, cfg.action.response/**/);
+export async function logRequest(req: Request): Promise<HttpResponse> {
+	const summary = formatRouteSummary({
+		method: req.method as HttpMethod,
+		path: req.path,
+		protocol: req.protocol as ServerProtocol
+	});
+	log.info(summary, requestToProxyDataSet(req));
+	return Promise.resolve({});
 }

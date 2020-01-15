@@ -1,0 +1,26 @@
+{
+	"$id": "schema://beetle/request/schema-stub-add.json",
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"type": "object",
+	"required": [
+		"body"
+	],
+	"properties": {
+		"body": {
+			"anyOf": [
+				{
+					"$ref": "../schema-stub.json#"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "../schema-stub.json#"
+					}
+				}
+			]
+		},
+		"params": {
+			"type": "object"
+		}
+	}
+}

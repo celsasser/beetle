@@ -15,8 +15,21 @@ export enum HttpMethod {
 	PUT = "put",
 }
 
+export type HttpHeaders = {[key: string]: string};
+export type HttpParams = {[key: string]: string};
+
 /**
- * Describes the protocol we should use when setting up the proxy server
+ * Response description
+ */
+export interface HttpResponse {
+	body?: any;
+	contentType?: string;
+	headers?: HttpHeaders;
+	statusCode?: number;
+}
+
+/**
+ * Describes the protocol we should use when setting up the route server
  */
 export enum ServerProtocol {
 	HTTP = "http",
@@ -30,3 +43,4 @@ export interface ServerProperties {
 	port: number;
 	protocol: ServerProtocol;
 }
+

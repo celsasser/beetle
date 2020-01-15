@@ -7,20 +7,31 @@
 	},
 	"rules": {
 		"arrow-parens": false,
-		"comment-format": [true, "check-space"],
+		"comment-format": [
+			true,
+			"check-space"
+		],
 		"indent": [
 			true,
 			"tabs"
 		],
 		"interface-name": false,
 		"interface-over-type-literal": false,
-		"linebreak-style": [true, "LF"],
+		"linebreak-style": [
+			true,
+			"LF"
+		],
+		"max-classes-per-file": false,
 		"no-angle-bracket-type-assertion": false,
 		"no-bitwise": false,
 		"no-conditional-assignment": false,
-		"no-consecutive-blank-lines": [true, 2],
+		"no-consecutive-blank-lines": [
+			true,
+			2
+		],
 		"no-console": false,
 		"no-empty": false,
+		"no-shadowed-variable": false,
 		"object-literal-sort-keys": true,
 		"only-arrow-functions": false,
 		"ordered-imports": true,
@@ -29,7 +40,11 @@
 				"limit": 160
 			}
 		},
-		"quotemark": true,
+		"quotemark": [
+			true,
+			"double",
+			"avoid-escape"
+		],
 		"trailing-comma": {
 			"severity": "error"
 		},
@@ -41,7 +56,9 @@
 			]
 		},
 		"whitespace": {
-			"options": ["check-branch"],
+			"options": [
+				"check-branch"
+			],
 			"severity": "off"
 		}
 	}

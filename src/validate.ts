@@ -5,10 +5,11 @@
  */
 
 import * as ajv from "ajv";
+import {ErrorObject} from "ajv";
 import * as assert from "assert";
 import * as fs from "fs-extra";
 import * as path from "path";
-import {formatJSON} from "./utils";
+import {formatJSON} from "./core/utils";
 
 class Validate {
 	private ajv: ajv.Ajv;
@@ -29,10 +30,14 @@ class Validate {
 	public addSchema(schemaPath: string): string {
 		schemaPath = path.resolve(schemaPath);
 		if(!(schemaPath in this.loaded)) {
-			const schema = fs.readJSONSync(schemaPath);
-			assert.ok("$id" in schema);
-			this.ajv.addSchema(schema);
-			this.loaded[schemaPath] = schema.$id;
+			try {
+				const schema = fs.readJSONSync(schemaPath);
+				assert.ok("$id" in schema);
+				this.ajv.addSchema(schema);
+				this.loaded[schemaPath] = schema.$id;
+			} catch(error) {
+				throw new Error(`failed to add schemaPath ${schemaPath} - ${error.message}`);
+			}
 		}
 		return this.loaded[schemaPath];
 	}
@@ -44,13 +49,14 @@ class Validate {
 	 * @throws {Error}
 	 */
 	public validateData(schemaPath: string, data: any): void {
-		const id = this.addSchema(schemaPath);
-		const validator = this.ajv.getSchema(id);
+		const {filePath, refPath} = this.parseSchemaPath(schemaPath);
+		const reference = `${this.addSchema(filePath)}${refPath ? refPath : ""}`;
+		const validator = this.ajv.getSchema(reference);
 		if(!validator) {
-			throw new Error(`could not find schema for schemaId=${id}`);
+			throw new Error(`could not find schema for ${reference}`);
 		}
 		if(!validator(data)) {
-			throw new Error(formatJSON(validator.errors));
+			throw this.errorsToError(validator.errors as ErrorObject[], schemaPath, data);
 		}
 	}
 
@@ -58,20 +64,21 @@ class Validate {
 	 * Validate data in <param>path</param> using the specified schema
 	 * @param schemaPath - file path of the schema
 	 * @param dataPath - file path of data
+	 * @returns data loaded in <code>dataPath<code>
 	 * @throws {Error}
 	 */
-	public validateDataAtPath(schemaPath: string, dataPath: string): void {
-		const data = fs.readJSONSync(dataPath);
-		const id = this.addSchema(schemaPath);
-		const validator = this.ajv.getSchema(id);
+	public validateDataAtPath(schemaPath: string, dataPath: string): any {
+		const {filePath, refPath} = this.parseSchemaPath(schemaPath);
+		const reference = `${this.addSchema(filePath)}${refPath ? refPath : ""}`;
+		const validator = this.ajv.getSchema(reference);
 		if(!validator) {
-			throw new Error(`could not find schema for schemaId=${id}`);
+			throw new Error(`could not find schema for ${reference}`);
 		}
+		const data = fs.readJSONSync(dataPath);
 		if(!validator(data)) {
-			throw (validator.errors || []).map(error => Object.assign({
-				dataFile: dataPath
-			}, error));
+			throw this.errorsToError(validator.errors as ErrorObject[], schemaPath, data);
 		}
+		return data;
 	}
 
 	/**
@@ -89,6 +96,32 @@ class Validate {
 			throw new Error(`failed to compile schema ${schemaPath}: ${error}`);
 		}
 	}
+
+	private errorsToError(errors: ErrorObject[], schemaPath: string, data: any): Error {
+		return new Error(formatJSON({
+			schemaPath,
+			// tslint:disable-next-line: object-literal-sort-keys
+			errors,
+			data
+		}));
+	}
+
+	private parseSchemaPath(schemaPath: string): {
+		filePath: string,
+		refPath?: string
+	} {
+		const index = schemaPath.lastIndexOf("#");
+		if(index > -1) {
+			return {
+				filePath: schemaPath.substr(0, index),
+				refPath: schemaPath.substr(index)
+			};
+		} else {
+			return {
+				filePath: schemaPath
+			};
+		}
+	}
 }
 
 /**
@@ -96,9 +129,10 @@ class Validate {
  */
 function _createInstance(): Validate {
 	const instance = new Validate();
-	// add all of our schemas that act as a library and may not be directly referenced
-	instance.addSchema("./res/schemas/schema-server-library.json");
-	instance.addSchema("./res/schemas/schema-proxy-library.json");
+	// add all of our schemas on which we have dependencies
+	instance.addSchema("./res/schemas/schema-library.json");
+	instance.addSchema("./res/schemas/schema-server.json");
+	instance.addSchema("./res/schemas/schema-stub.json");
 	return instance;
 }
 

@@ -5,16 +5,19 @@
  */
 
 import {Request} from "express";
-import {ProxyConfiguration} from "../types/proxy";
-import {formatJSON} from "../utils";
+import {HttpHeaders, HttpMethod, ProxyDataSet} from "../types";
 
-export function encodeRequest(cfg: ProxyConfiguration, req: Request): string {
-	return formatJSON({
+/**
+ * encodes and formats a request as a string. Formats for presentation
+ * which means that it uses spaces vs. tabs.
+ */
+export function requestToProxyDataSet(req: Request): ProxyDataSet {
+	return {
 		body: req.body,
-		headers: req.body,
-		id: cfg.id,
-		method: req.method,
+		headers: req.headers as HttpHeaders,
+		method: req.method as HttpMethod,
+		params: req.params,
 		path: req.path,
 		query: req.query
-	});
+	};
 }

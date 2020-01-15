@@ -1,0 +1,10 @@
+{
+	"body": {
+		"name": "George"
+	},
+	"contentType": "application/json",
+	"headers": {
+		"X-Agent": "beetle"
+	},
+	"statusCode": 200
+}

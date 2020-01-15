@@ -1,0 +1,182 @@
+{
+	"library": {
+		"forward-to-logger": {
+			"method": "put",
+			"type": "forward",
+			"url": "http://localhost:9000/log"
+		}
+	},
+	"server": {
+		"description": "Test proxy server: Pets",
+		"port": 8000,
+		"protocol": "http"
+	},
+	"stubs": [
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-to-logger"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./pets.get-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:pets:get",
+			"route": {
+				"method": "get",
+				"path": "/pets"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-to-logger"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./pet.get-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:pet:get",
+			"route": {
+				"method": "get",
+				"path": "/pet/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-to-logger"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./pet.post-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:pet:post",
+			"route": {
+				"method": "post",
+				"path": "/pet"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-to-logger"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./pet.put-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:pet:put",
+			"route": {
+				"method": "put",
+				"path": "/pet/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"$source": {
+						"library": "forward-to-logger"
+					}
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./pet.delete-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:pet:delete",
+			"route": {
+				"method": "delete",
+				"path": "/pet/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "put",
+					"type": "forward",
+					"url": "http://localhost:9000/shelters/get"
+				}
+			],
+			"id": "urn:stub:shelters:get",
+			"route": {
+				"method": "get",
+				"path": "/shelters"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "put",
+					"type": "forward",
+					"url": "http://localhost:9000/shelter/post"
+				}
+			],
+			"id": "urn:stub:shelter:post",
+			"route": {
+				"method": "post",
+				"path": "/shelter"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "put",
+					"type": "forward",
+					"url": "http://localhost:9000/shelter/put"
+				}
+			],
+			"id": "urn:stub:shelter:put",
+			"route": {
+				"method": "put",
+				"path": "/shelter/:id"
+			}
+		},
+		{
+			"actions": [
+				{
+					"method": "put",
+					"type": "forward",
+					"url": "http://localhost:9000/shelter/delete"
+				}
+			],
+			"id": "urn:stub:shelter:delete",
+			"route": {
+				"method": "delete",
+				"path": "/shelter/:id"
+			}
+		}
+	]
+}

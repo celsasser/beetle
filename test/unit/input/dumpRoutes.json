@@ -1,0 +1,18 @@
+[
+	{
+		"hostname": "localhost",
+		"method": "get",
+		"path": "pets",
+		"port": 8080,
+		"protocol": "http",
+		"purpose": "Stub"
+	},
+	{
+		"hostname": "localhost",
+		"method": "delete",
+		"path": "pet/:id",
+		"port": 8080,
+		"protocol": "http",
+		"purpose": "Stub"
+	}
+]

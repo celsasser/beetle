@@ -1,0 +1,7 @@
+{
+	"headers": {
+		"X-Property": "value"
+	},
+	"method": "put",
+	"url": "http://domain:port/path"
+}

@@ -1,0 +1,103 @@
+{
+	"server": {
+		"description": "Test proxy responder: Pets",
+		"port": 9000,
+		"protocol": "http"
+	},
+	"stubs": [
+		{
+			"actions": [
+				{
+					"type": "log"
+				}
+			],
+			"id": "urn:stub:log:all",
+			"route": {
+				"method": "put",
+				"path": "/log"
+			}
+		},
+		{
+			"actions": [
+				{
+					"type": "log"
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./shelter.get-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:shelters:get",
+			"route": {
+				"method": "put",
+				"path": "/shelters/get"
+			}
+		},
+		{
+			"actions": [
+				{
+					"type": "log"
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./shelter.post-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:shelter:post",
+			"route": {
+				"method": "put",
+				"path": "/shelter/post"
+			}
+		},
+		{
+			"actions": [
+				{
+					"type": "log"
+				},
+				{
+					"response": {
+						"$source": {
+							"file": "./shelter.put-response.json"
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:shelter:put",
+			"route": {
+				"method": "put",
+				"path": "/shelter/put"
+			}
+		},
+		{
+			"actions": [
+				{
+					"type": "log"
+				},
+				{
+					"response": {
+						"body": {
+							"$source": {
+								"file": "./shelter.delete-response.json"
+							}
+						}
+					},
+					"type": "respond"
+				}
+			],
+			"id": "urn:stub:shelter:delete",
+			"route": {
+				"method": "put",
+				"path": "/shelter/delete"
+			}
+		}
+	]
+}
