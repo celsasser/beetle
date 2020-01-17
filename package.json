@@ -37,6 +37,8 @@
 		"coverage": "jest --coverage ./test/unit ",
 		"lint": "tslint --config tslint.json \"./src/**/*.ts\" \"./test/**/*.ts\"",
 		"rebuild": "rm -rf dist && npm run build",
+		"sample:start:mock": "dist/index.js run ./res/configurations/setup-test-mock.json &",
+		"sample:start:responder": "dist/index.js run ./res/configurations/setup-test-responder.json &",
 		"start": "node dist/index.js",
 		"test": "jest ./test/unit && npm run lint"
 	},
