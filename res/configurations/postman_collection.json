@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "dcdd983a-fdc8-4326-9166-fcafbfa097a8",
+		"name": "Beetle",
+		"description": "testing mocking and stubbing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "pet-stubs",
+			"item": [
+				{
+					"name": "pets get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/pets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shelters get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/shelters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"shelters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pet get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/pet/urn:pet:helen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pet",
+								"urn:pet:helen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pet post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"urn:pet:tiny\",\n\t\"name\": \"Tiny\",\n\t\"type\": \"Cat\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/pet",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pet delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"urn:pet:tiny\",\n\t\"name\": \"Tiny\",\n\t\"type\": \"Cat\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/pet/urn:pet:helen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pet",
+								"urn:pet:helen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shelter delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"urn:pet:tiny\",\n\t\"name\": \"Tiny\",\n\t\"type\": \"Cat\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/shelter/urn:shelter:unknown",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"shelter",
+								"urn:shelter:unknown"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b3028269-6e1d-4644-885c-05df33e5efa0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "93c897d6-8171-4cdc-9ec1-237d9e7f0e58",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
