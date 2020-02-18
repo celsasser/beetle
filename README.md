@@ -47,8 +47,8 @@ If all went well then you are ready to startup the _mock server_ and the _forwar
 You have the choice of running the following in the foreground in which case you will want to use separate terminal shells or in the backround by appending `&` to each command.
 
 ```
-npm run sample:mock:start
-npm run sample:responder:start
+npm run sample:start:mock
+npm run sample:start:responder
 ```
 
 You now have a _mock server_ running on port `8000`.
