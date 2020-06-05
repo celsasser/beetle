@@ -45,6 +45,7 @@
 			"double",
 			"avoid-escape"
 		],
+		"semicolon": true,
 		"trailing-comma": {
 			"severity": "error"
 		},

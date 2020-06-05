@@ -5,6 +5,7 @@
  */
 
 import {NextFunction, Request, Response} from "express";
+import {getSchemaResourcePath} from "../resources";
 import {addProxyStub, removeProxyStub} from "../setup";
 import validate from "../validate";
 import {ControllerBase} from "./base";
@@ -21,7 +22,7 @@ export class ControllerStubAdd extends ControllerBase {
 
 	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
 		try {
-			validate.validateData("./res/schemas/request/schema-stub-add.json", {
+			validate.validateData(getSchemaResourcePath("request/schema-stub-add.json"), {
 				body: req.body,
 				params: req.params
 			});
@@ -45,7 +46,7 @@ export class ControllerStubRemove extends ControllerBase {
 
 	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
 		try {
-			validate.validateData("./res/schemas/request/schema-stub-remove.json", {
+			validate.validateData(getSchemaResourcePath("request/schema-stub-remove.json"), {
 				body: req.body,
 				params: req.params
 			});

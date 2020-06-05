@@ -17,7 +17,7 @@ import {
 	ProxyActionRespond,
 	ProxyActionType,
 	ProxyRoute
-} from "../types/proxy";
+} from "../types";
 import {ControllerBase} from "./base";
 
 /**

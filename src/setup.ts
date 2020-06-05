@@ -9,6 +9,7 @@ import * as _ from "lodash";
 import {ControllerAction} from "./controller/action";
 import {createUrn} from "./core/urn";
 import map from "./map";
+import {getDefaultResourcePath, getSchemaResourcePath} from "./resources";
 import {addController, createRouteId} from "./routing";
 import {Server} from "./server";
 import {ProxySetup, ProxyStub, UrnTypeId} from "./types";
@@ -58,11 +59,11 @@ export function loadProxySetupByPath(setupPath?: string): ProxySetup {
 		}
 	}
 
-	let setup = _load("./res/defaults/default-setup.json");
+	let setup = _load(getDefaultResourcePath("default-setup.json"));
 	if(setupPath) {
 		setup = _.merge(setup, _load(setupPath));
 	}
-	validate.validateData("./res/schemas/schema-server.json", setup.server);
+	validate.validateData(getSchemaResourcePath("schema-server.json"), setup.server);
 	return setup;
 }
 
@@ -97,7 +98,7 @@ export function removeProxyStub(stubId: string|string[]): void {
  */
 function _conditionProxyStub(stub: ProxyStub, server: Server): ProxyStub {
 	try {
-		validate.validateData("./res/schemas/schema-stub.json", stub);
+		validate.validateData(getSchemaResourcePath("schema-stub.json"), stub);
 		stub = _.cloneDeep(stub);
 		stub.route.protocol = server.protocol;
 		if(stub.id === undefined) {

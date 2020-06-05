@@ -7,4 +7,5 @@
 export * from "./cli";
 export * from "./core";
 export * from "./proxy";
+export * from "./route";
 export * from "./server";

@@ -5,7 +5,7 @@
  */
 
 import run from "../../src/run/server";
-import {CLIProxyServerParams} from "../../src/types/cli";
+import {CLIProxyServerParams} from "../../src/types";
 
 describe("run test-responder", function() {
 	it("should start the express server", function() {
