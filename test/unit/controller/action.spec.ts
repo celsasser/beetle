@@ -24,6 +24,7 @@ describe("ControllerAction", function() {
 	describe("_findNonResponderActions", function() {
 		it("should return empty array if no actions exist", function() {
 			const instance = factory.createControllerAction();
+			// @ts-ignore
 			expect(instance._findNonResponderActions()).toEqual([]);
 		});
 
@@ -31,6 +32,7 @@ describe("ControllerAction", function() {
 			const instance = factory.createControllerAction({
 				actions: [factory.createProxyActionResponse()]
 			});
+			// @ts-ignore
 			expect(instance._findNonResponderActions()).toEqual([]);
 		});
 
@@ -42,6 +44,7 @@ describe("ControllerAction", function() {
 				actionLog,
 				actionResponse
 			]);
+			// @ts-ignore
 			expect(instance._findNonResponderActions()).toEqual([actionLog]);
 		});
 	});
@@ -49,6 +52,7 @@ describe("ControllerAction", function() {
 	describe("_findResponderAction", function() {
 		it("should return undefined if no actions exist", function() {
 			const instance = factory.createControllerAction();
+			// @ts-ignore
 			expect(instance._findResponderAction()).toBeUndefined();
 		});
 
@@ -56,6 +60,7 @@ describe("ControllerAction", function() {
 			const instance = factory.createControllerAction();
 			const action = factory.createProxyActionLog();
 			instance.addActions([action]);
+			// @ts-ignore
 			expect(instance._findResponderAction()).toEqual(action);
 		});
 
@@ -67,6 +72,7 @@ describe("ControllerAction", function() {
 				actionLog,
 				actionResponse
 			]);
+			// @ts-ignore
 			expect(instance._findResponderAction()).toEqual(actionResponse);
 		});
 	});

@@ -7,6 +7,8 @@
 import * as shortid from "shortid";
 import {UrnTypeId} from "../types";
 
-export function createUrn(type: UrnTypeId): string {
-	return `urn:beetle:${type}:${shortid.generate()}`;
+export function createUrn(type: UrnTypeId, suffix?: string): string {
+	return (suffix)
+		? `urn:beetle:${type}:${suffix}:${shortid.generate()}`
+		: `urn:beetle:${type}:${shortid.generate()}`;
 }

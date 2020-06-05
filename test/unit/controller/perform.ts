@@ -20,7 +20,7 @@ export function performRouteHandlerTest({
 	res?: jest.Mocked<Response>
 }): Promise<void> {
 	return new Promise((resolve, reject) => {
-		controller.handler(req, res, function(error: Error) {
+		controller.handler(req, res, function(error: any) {
 			try {
 				expect(error).toBeUndefined();
 				if(expected.contentType) {

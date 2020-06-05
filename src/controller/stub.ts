@@ -20,7 +20,7 @@ export class ControllerStubAdd extends ControllerBase {
 		return "Add stub";
 	}
 
-	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
+	public handler(req: Request, res: Response, next: NextFunction = (error?: any) => {}): void {
 		try {
 			validate.validateData(getSchemaResourcePath("request/schema-stub-add.json"), {
 				body: req.body,
@@ -44,7 +44,7 @@ export class ControllerStubRemove extends ControllerBase {
 		return "Remove stub";
 	}
 
-	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
+	public handler(req: Request, res: Response, next: NextFunction = (error: any) => {}): void {
 		try {
 			validate.validateData(getSchemaResourcePath("request/schema-stub-remove.json"), {
 				body: req.body,

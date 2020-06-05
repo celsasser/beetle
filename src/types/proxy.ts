@@ -19,6 +19,7 @@ import {
 export enum ProxyActionType {
 	FORWARD = "forward",
 	LOG = "log",
+	REFLECT = "reflect",
 	RESPOND = "respond"
 }
 
@@ -39,9 +40,10 @@ export interface ProxyActionForward extends ProxyActionBase {
 	url: string;
 }
 
-// tslint:disable-next-line: no-empty-interface
 export interface ProxyActionLog extends ProxyActionBase {
+}
 
+export interface ProxyActionReflect extends ProxyActionBase {
 }
 
 export interface ProxyActionRespond extends ProxyActionBase {
@@ -89,5 +91,29 @@ export interface ProxyStub {
 	 */
 	id: string;
 	route: ProxyRoute;
+}
+
+/**
+ * Metadata that describes one or more route's properties
+ */
+export interface MetaProxyRoute {
+	method: HttpMethod|HttpMethod[];
+	path: string;
+	/**
+	 * We track protocol here for convenience
+	 */
+	protocol: ServerProtocol;
+}
+
+/**
+ * Metadata that describes one or more routes configuration
+ */
+export interface MetaProxyStub {
+	actions: ProxyAction[];
+	/**
+	 * An id that may be used to manage this stubs existence
+	 */
+	id: string;
+	route: MetaProxyRoute;
 }
 

@@ -11,7 +11,7 @@ import map from "./map";
 import {HttpMethod, RouteProperties} from "./types";
 
 /**
- * Sets up the controllers route and adds controller to our own internal map
+ * Sets up the controllers route and adds controller to our own internal beetleMap
  */
 export function addController(controller: ControllerBase, routeId: string = createRouteId(controller.method, controller.path)): void {
 	controller.server.router[controller.method](controller.path, controller.handler.bind(controller));
@@ -39,7 +39,7 @@ export function getCurrentRouteConfiguration(): RouteProperties[] {
 }
 
 /**
- * Removes this route from the express router and from our map
+ * Removes this route from the express router and from our beetleMap
  */
 export function removeController(routeId: string): void {
 	const controller = map.getControllerByRoute(routeId);

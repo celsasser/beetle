@@ -8,11 +8,11 @@ import * as fs from "fs-extra";
 import * as _ from "lodash";
 import {ControllerAction} from "./controller/action";
 import {createUrn} from "./core/urn";
-import map from "./map";
+import beetleMap from "./map";
 import {getDefaultResourcePath, getSchemaResourcePath} from "./resources";
 import {addController, createRouteId} from "./routing";
 import {Server} from "./server";
-import {ProxySetup, ProxyStub, UrnTypeId} from "./types";
+import {MetaProxyStub, ProxySetup, ProxyStub, UrnTypeId} from "./types";
 import validate from "./validate";
 
 /**
@@ -29,20 +29,22 @@ export function addProxySetup(server: Server, setup: ProxySetup): void {
  * may be later removed
  * @throws {Error}
  */
-export function addProxyStub(server: Server, stub: ProxyStub|ProxyStub[]): void {
-	const stubs: ProxyStub[] = _.isArray(stub)
+export function addProxyStub(server: Server, stub: MetaProxyStub|MetaProxyStub[]): void {
+	const stubs: MetaProxyStub[] = Array.isArray(stub)
 		? stub
 		: [stub];
-	stubs.map(stub => _conditionProxyStub(stub, server))
+	stubs.reduce<ProxyStub[]>((accumulator, stub) => {
+		return accumulator.concat(metaStubProxyToProxyStub(stub, server));
+	}, [])
 		.forEach(stub => {
 			const routeId = createRouteId(stub.route.method, stub.route.path);
-			const controller = map.routeIdToController.has(routeId)
-				? map.getControllerByRoute<ControllerAction>(routeId)
+			const controller = beetleMap.routeIdToController.has(routeId)
+				? beetleMap.getControllerByRoute<ControllerAction>(routeId)
 				: new ControllerAction(server, stub.route);
 			controller.addActions(stub.actions);
 			addController(controller, routeId);
-			map.stubIdToRouteId.set(stub.id, routeId);
-			map.stubIdToActions.set(stub.id, stub.actions);
+			beetleMap.stubIdToRouteId.set(stub.id, routeId);
+			beetleMap.stubIdToActions.set(stub.id, stub.actions);
 		});
 }
 
@@ -51,7 +53,7 @@ export function addProxyStub(server: Server, stub: ProxyStub|ProxyStub[]): void 
  * @throws {Error}
  */
 export function loadProxySetupByPath(setupPath?: string): ProxySetup {
-	function _load(path: string): ProxySetup {
+	function load(path: string): ProxySetup {
 		try {
 			return fs.readJSONSync(path);
 		} catch(error) {
@@ -59,9 +61,9 @@ export function loadProxySetupByPath(setupPath?: string): ProxySetup {
 		}
 	}
 
-	let setup = _load(getDefaultResourcePath("default-setup.json"));
+	let setup = load(getDefaultResourcePath("default-setup.json"));
 	if(setupPath) {
-		setup = _.merge(setup, _load(setupPath));
+		setup = _.merge(setup, load(setupPath));
 	}
 	validate.validateData(getSchemaResourcePath("schema-server.json"), setup.server);
 	return setup;
@@ -72,16 +74,16 @@ export function loadProxySetupByPath(setupPath?: string): ProxySetup {
  * @throws {Error}
  */
 export function removeProxyStub(stubId: string|string[]): void {
-	const stubIds: string[] = _.isArray(stubId)
+	const stubIds: string[] = Array.isArray(stubId)
 		? stubId
 		: [stubId];
 	const errors = stubIds.reduce<string[]>((errors, stubId) => {
 		try {
-			const routeId = map.getRouteIdByStubId(stubId);
-			const actions = map.getActionsByStubId(stubId);
-			const controller = map.getControllerByRoute<ControllerAction>(routeId);
+			const routeId = beetleMap.getRouteIdByStubId(stubId);
+			const actions = beetleMap.getActionsByStubId(stubId);
+			const controller = beetleMap.getControllerByRoute<ControllerAction>(routeId);
 			controller.removeActions(actions);
-			map.stubIdToActions.delete(stubId);
+			beetleMap.stubIdToActions.delete(stubId);
 		} catch(error) {
 			errors.push(error.message);
 		}
@@ -96,15 +98,23 @@ export function removeProxyStub(stubId: string|string[]): void {
  * Makes sure he's ready to live in our big-top
  * @throws {Error}
  */
-function _conditionProxyStub(stub: ProxyStub, server: Server): ProxyStub {
+function metaStubProxyToProxyStub(metaStub: MetaProxyStub, server: Server): ProxyStub[] {
 	try {
-		validate.validateData(getSchemaResourcePath("schema-stub.json"), stub);
-		stub = _.cloneDeep(stub);
-		stub.route.protocol = server.protocol;
-		if(stub.id === undefined) {
-			stub.id = createUrn(UrnTypeId.STUB);
-		}
-		return stub;
+		const methods = Array.isArray(metaStub.route.method)
+			? metaStub.route.method
+			: [metaStub.route.method];
+		return methods.map(method => {
+			const stub = _.chain(metaStub)
+				.cloneDeep()
+				.set("route.method", method)
+				.set("route.protocol", server.protocol)
+				.value() as ProxyStub;
+			validate.validateData(getSchemaResourcePath("schema-stub.json"), stub);
+			if(stub.id === undefined) {
+				stub.id = createUrn(UrnTypeId.STUB, stub.route.method);
+			}
+			return stub;
+		});
 	} catch(error) {
 		throw new Error(`failed to condition the proxy setup - ${error}`);
 	}
