@@ -7,7 +7,7 @@
 import * as _ from "lodash";
 import {ControllerBase} from "./controller/base";
 import * as log from "./core/log";
-import map from "./map";
+import beetleMap from "./map";
 import {HttpMethod, RouteProperties} from "./types";
 
 /**
@@ -15,7 +15,7 @@ import {HttpMethod, RouteProperties} from "./types";
  */
 export function addController(controller: ControllerBase, routeId: string = createRouteId(controller.method, controller.path)): void {
 	controller.server.router[controller.method](controller.path, controller.handler.bind(controller));
-	map.routeIdToController.set(routeId, controller);
+	beetleMap.routeIdToController.set(routeId, controller);
 }
 
 export function createRouteId(method: HttpMethod, path: string): string {
@@ -26,7 +26,7 @@ export function createRouteId(method: HttpMethod, path: string): string {
  * Gets a description of the routes we are currently listening for
  */
 export function getCurrentRouteConfiguration(): RouteProperties[] {
-	return _.chain(Array.from(map.routeIdToController.values()))
+	return _.chain(Array.from(beetleMap.routeIdToController.values()))
 		.map((controller: ControllerBase): RouteProperties => ({
 			hostname: "localhost",
 			method: controller.method,
@@ -42,8 +42,8 @@ export function getCurrentRouteConfiguration(): RouteProperties[] {
  * Removes this route from the express router and from our beetleMap
  */
 export function removeController(routeId: string): void {
-	const controller = map.getControllerByRoute(routeId);
-	map.routeIdToController.delete(routeId);
+	const controller = beetleMap.getControllerByRoute(routeId);
+	beetleMap.routeIdToController.delete(routeId);
 	try {
 		// todo: figure out a better method
 		controller.server.router[controller.method](controller.path, () => {

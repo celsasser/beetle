@@ -4,7 +4,7 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import map from "../../../src/map";
+import beetleMap from "../../../src/map";
 import {addProxyStub} from "../../../src/setup";
 import * as factory from "../../factory";
 
@@ -36,8 +36,8 @@ describe("ControllerStubAdd", function() {
 			const res = factory.createResponse();
 			instance.handler(req, res, (error: any) => {
 				expect(error).toBeUndefined();
-				expect(map.getRouteIdByStubId("urn:stub:id")).toEqual("urn:get:/test/route");
-				expect(map.getActionsByStubId("urn:stub:id")).toEqual(input.body.actions);
+				expect(beetleMap.getRouteIdByStubId("urn:stub:id")).toEqual("urn:get:/test/route");
+				expect(beetleMap.getActionsByStubId("urn:stub:id")).toEqual(input.body.actions);
 				expect(res.send).toBeCalledTimes(1);
 				done();
 			});
@@ -50,10 +50,10 @@ describe("ControllerStubAdd", function() {
 			const res = factory.createResponse();
 			instance.handler(req, res, (error: any) => {
 				expect(error).toBeUndefined();
-				expect(map.getRouteIdByStubId("urn:stub:id1")).toEqual("urn:get:/test/route1");
-				expect(map.getRouteIdByStubId("urn:stub:id2")).toEqual("urn:get:/test/route2");
-				expect(map.getActionsByStubId("urn:stub:id1")).toEqual(input.body[0].actions);
-				expect(map.getActionsByStubId("urn:stub:id2")).toEqual(input.body[1].actions);
+				expect(beetleMap.getRouteIdByStubId("urn:stub:id1")).toEqual("urn:get:/test/route1");
+				expect(beetleMap.getRouteIdByStubId("urn:stub:id2")).toEqual("urn:get:/test/route2");
+				expect(beetleMap.getActionsByStubId("urn:stub:id1")).toEqual(input.body[0].actions);
+				expect(beetleMap.getActionsByStubId("urn:stub:id2")).toEqual(input.body[1].actions);
 				expect(res.send).toBeCalledTimes(1);
 				done();
 			});
@@ -89,10 +89,10 @@ describe("ControllerStubRemove", function() {
 			const res = factory.createResponse();
 			// setup a stub that we are going to remove
 			addProxyStub(server, require("./input/proxyAddRequestStub").body);
-			expect(map.stubIdToActions.has("urn:stub:id")).toEqual(true);
+			expect(beetleMap.stubIdToActions.has("urn:stub:id")).toEqual(true);
 			instance.handler(req, res, (error: any) => {
 				expect(error).toBeUndefined();
-				expect(map.stubIdToActions.has("urn:stub:id")).toEqual(false);
+				expect(beetleMap.stubIdToActions.has("urn:stub:id")).toEqual(false);
 				expect(res.send).toBeCalledTimes(1);
 				done();
 			});
