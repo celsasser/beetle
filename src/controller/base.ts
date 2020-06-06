@@ -9,7 +9,7 @@ import {NextFunction, Request, Response} from "express";
 import {format as formatUrl} from "url";
 import {respondToClient} from "../actions";
 import {Server} from "../server";
-import {HttpHeaders, HttpMethod, HttpResponse} from "../types/server";
+import {HttpHeaders, HttpMethod, HttpResponse} from "../types";
 
 export abstract class ControllerBase {
 	public readonly method: HttpMethod;

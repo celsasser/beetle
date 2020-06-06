@@ -4,7 +4,11 @@
  * @license MIT (see project's LICENSE file)
  */
 
-import {ControllerAction, ControllerStubAdd, ControllerStubRemove} from "../../src/controller";
+import {
+	ControllerAction,
+	ControllerStubAdd,
+	ControllerStubRemove
+} from "../../src/controller";
 import {Server} from "../../src/server";
 import {HttpMethod, ProxyActionBase, ProxyRoute} from "../../src/types";
 import {createProxyRoute} from "./proxy";

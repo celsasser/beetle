@@ -5,7 +5,7 @@
  */
 
 import {createUrn} from "../../../src/core/urn";
-import {UrnTypeId} from "../../../src/types/core";
+import {UrnTypeId} from "../../../src/types";
 
 describe("createUrn", function() {
 	it("should properly create urn of specified type", function() {

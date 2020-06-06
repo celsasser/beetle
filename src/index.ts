@@ -9,6 +9,7 @@
 import {Command} from "commander";
 import * as log from "./core/log";
 import environment from "./environment";
+import {getSchemaResourcePath} from "./resources";
 import runGenerateSetup from "./run/generate";
 import runProxyServer from "./run/server";
 import validate from "./validate";
@@ -81,7 +82,7 @@ program.command("validate <setupPath>")
 	.description("Validates the setup specification")
 	.action(async function(setupPath: string) {
 		try {
-			validate.validateDataAtPath("./res/schemas/schema-setup.json", setupPath);
+			validate.validateDataAtPath(getSchemaResourcePath("schema-setup.json"), setupPath);
 		} catch(error) {
 			log.error(`Validation failed: ${error.message}`);
 			process.exit(1);

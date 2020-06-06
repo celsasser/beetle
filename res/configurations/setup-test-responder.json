@@ -11,10 +11,33 @@
 					"type": "log"
 				}
 			],
-			"id": "urn:stub:log:all",
 			"route": {
-				"method": "put",
+				"method": [
+					"delete",
+					"get",
+					"post",
+					"put"
+				],
 				"path": "/log"
+			}
+		},
+		{
+			"actions": [
+				{
+					"type": "log"
+				},
+				{
+					"type": "reflect"
+				}
+			],
+			"route": {
+				"method": [
+					"delete",
+					"get",
+					"post",
+					"put"
+				],
+				"path": "/reflect"
 			}
 		},
 		{

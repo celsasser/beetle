@@ -5,7 +5,7 @@
  */
 
 import {ControllerBase} from "./controller/base";
-import {ProxyAction} from "./types/proxy";
+import {ProxyAction} from "./types";
 
 /**
  * A singleton mapping of some popular characters

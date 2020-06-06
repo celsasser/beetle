@@ -40,11 +40,13 @@
 				"limit": 160
 			}
 		},
+		"no-empty-interface": false,
 		"quotemark": [
 			true,
 			"double",
 			"avoid-escape"
 		],
+		"semicolon": true,
 		"trailing-comma": {
 			"severity": "error"
 		},

@@ -31,6 +31,9 @@
 					"$ref": "#/stub/actionLog"
 				},
 				{
+					"$ref": "#/stub/actionReflect"
+				},
+				{
 					"$ref": "#/stub/actionResponse"
 				}
 			]
@@ -39,6 +42,7 @@
 			"enum": [
 				"forward",
 				"log",
+				"reflect",
 				"respond"
 			]
 		},
@@ -59,7 +63,7 @@
 					]
 				},
 				"type": {
-					"pattern": "^forward$"
+					"const": "forward"
 				},
 				"url": {
 					"type": "string"
@@ -74,7 +78,19 @@
 			"additionalProperties": false,
 			"properties": {
 				"type": {
-					"pattern": "^log$"
+					"const": "log"
+				}
+			}
+		},
+		"actionReflect": {
+			"type": "object",
+			"required": [
+				"type"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"const": "reflect"
 				}
 			}
 		},
@@ -90,7 +106,7 @@
 					"$ref": "#/stub/response"
 				},
 				"type": {
-					"pattern": "^respond$"
+					"const": "respond"
 				}
 			}
 		},

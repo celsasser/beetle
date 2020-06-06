@@ -7,6 +7,7 @@
 import * as fs from "fs-extra";
 import * as _ from "lodash";
 import {parse as parsePath, resolve as resolvePath} from "path";
+import {getSchemaResourcePath} from "../resources";
 import {CLIGenerateSetupParams, ProxySetup, ProxyStub, ServerProperties} from "../types";
 import validate from "../validate";
 
@@ -123,7 +124,7 @@ export default async function run(params: CLIGenerateSetupParams): Promise<Proxy
 		console.log(formatted);
 	}
 	if(params.validate) {
-		validate.validateData("./res/schemas/schema-setup.json", setup);
+		validate.validateData(getSchemaResourcePath("schema-setup.json"), setup);
 	}
 	return setup;
 }

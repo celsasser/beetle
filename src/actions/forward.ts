@@ -7,6 +7,7 @@
 import axios, {AxiosResponse, Method} from "axios";
 import {Request} from "express";
 import * as _ from "lodash";
+import {getSchemaResourcePath} from "../resources";
 import {HttpHeaders, HttpMethod, HttpResponse} from "../types";
 import validate from "../validate";
 import {requestToProxyDataSet} from "./_codec";
@@ -37,7 +38,7 @@ export async function forwardRequest(req: Request, forward: {
 				try {
 					// the policy for the return is either to accept a fully described <code>HttpResponse</code>. If it
 					// does pass validation as such then we assume that the response is intended to be the body.
-					validate.validateData("./res/schemas/schema-library.json#/stub/response", axiosResponse.data);
+					validate.validateData(getSchemaResourcePath("schema-library.json#/stub/response"), axiosResponse.data);
 					return axiosResponse.data as HttpResponse;
 				} catch(error) {
 					return {

@@ -23,7 +23,7 @@ describe("ControllerStubAdd", function() {
 			const instance = factory.createControllerProxyAdd();
 			const req = factory.createRequest(require("./input/proxyAddRequestInvalid"));
 			const res = factory.createResponse();
-			instance.handler(req, res, (error) => {
+			instance.handler(req, res, (error: any) => {
 				expect(error).not.toBeUndefined();
 				done();
 			});
@@ -34,7 +34,7 @@ describe("ControllerStubAdd", function() {
 			const input = require("./input/proxyAddRequestStub");
 			const req = factory.createRequest(input);
 			const res = factory.createResponse();
-			instance.handler(req, res, (error) => {
+			instance.handler(req, res, (error: any) => {
 				expect(error).toBeUndefined();
 				expect(map.getRouteIdByStubId("urn:stub:id")).toEqual("urn:get:/test/route");
 				expect(map.getActionsByStubId("urn:stub:id")).toEqual(input.body.actions);
@@ -48,7 +48,7 @@ describe("ControllerStubAdd", function() {
 			const input = require("./input/proxyAddRequestStubs");
 			const req = factory.createRequest(input);
 			const res = factory.createResponse();
-			instance.handler(req, res, (error) => {
+			instance.handler(req, res, (error: any) => {
 				expect(error).toBeUndefined();
 				expect(map.getRouteIdByStubId("urn:stub:id1")).toEqual("urn:get:/test/route1");
 				expect(map.getRouteIdByStubId("urn:stub:id2")).toEqual("urn:get:/test/route2");
@@ -76,7 +76,7 @@ describe("ControllerStubRemove", function() {
 			const instance = factory.createControllerProxyRemove();
 			const req = factory.createRequest(require("./input/proxyRemoveRequestInvalid"));
 			const res = factory.createResponse();
-			instance.handler(req, res, (error) => {
+			instance.handler(req, res, (error: any) => {
 				expect(error).not.toBeUndefined();
 				done();
 			});
@@ -90,7 +90,7 @@ describe("ControllerStubRemove", function() {
 			// setup a stub that we are going to remove
 			addProxyStub(server, require("./input/proxyAddRequestStub").body);
 			expect(map.stubIdToActions.has("urn:stub:id")).toEqual(true);
-			instance.handler(req, res, (error) => {
+			instance.handler(req, res, (error: any) => {
 				expect(error).toBeUndefined();
 				expect(map.stubIdToActions.has("urn:stub:id")).toEqual(false);
 				expect(res.send).toBeCalledTimes(1);
@@ -103,7 +103,7 @@ describe("ControllerStubRemove", function() {
 			const input = require("./input/proxyRemoveRequestStubsDNE");
 			const req = factory.createRequest(input);
 			const res = factory.createResponse();
-			instance.handler(req, res, (error) => {
+			instance.handler(req, res, (error: any) => {
 				expect(error).not.toBeUndefined();
 				expect(res.send).toBeCalledTimes(1);
 				done();

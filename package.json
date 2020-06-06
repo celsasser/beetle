@@ -1,31 +1,31 @@
 {
 	"author": "curt.elsasser@gmail.com",
 	"dependencies": {
-		"ajv": "6.10.2",
-		"axios": "0.19.0",
+		"ajv": "6.12.2",
+		"axios": "0.19.2",
 		"body-parser": "1.19.0",
-		"commander": "4.0.1",
+		"commander": "4.1.1",
 		"express": "4.17.1",
-		"fs-extra": "8.1.0",
+		"fs-extra": "9.0.1",
 		"lodash": "4.17.15",
-		"morgan": "1.9.1",
+		"morgan": "1.10.0",
 		"shortid": "2.2.15"
 	},
 	"devDependencies": {
-		"@types/express": "4.17.2",
-		"@types/fs-extra": "8.0.1",
-		"@types/jest": "24.0.23",
-		"@types/lodash": "4.14.147",
+		"@types/express": "4.17.6",
+		"@types/fs-extra": "9.0.1",
+		"@types/jest": "25.2.3",
+		"@types/lodash": "4.14.155",
 		"@types/klaw-sync": "6.0.0",
-		"@types/morgan": "1.7.37",
-		"@types/node": "10.14.22",
+		"@types/morgan": "1.9.0",
+		"@types/node": "12.12.6",
 		"@types/shortid": "0.0.29",
 		"klaw-sync": "6.0.0",
-		"jest": "24.9.0",
-		"jest-junit": "9.0.0",
-		"ts-jest": "24.1.0",
-		"tslint": "5.20.0",
-		"typescript": "3.6.4"
+		"jest": "26.0.1",
+		"jest-junit": "10.0.0",
+		"ts-jest": "26.1.0",
+		"tslint": "6.1.2",
+		"typescript": "3.9.5"
 	},
 	"description": "A service mock",
 	"license": "ISC",
@@ -36,11 +36,12 @@
 		"build": "tsc -d -p tsconfig.json && chmod u+x dist/index.js",
 		"coverage": "jest --coverage ./test/unit ",
 		"lint": "tslint --config tslint.json \"./src/**/*.ts\" \"./test/**/*.ts\"",
+		"lint:fix": "npm run lint -- --fix",
 		"rebuild": "rm -rf dist && npm run build",
 		"sample:start:mock": "dist/index.js run ./res/configurations/setup-test-mock.json &",
 		"sample:start:responder": "dist/index.js run ./res/configurations/setup-test-responder.json &",
 		"start": "node dist/index.js",
 		"test": "jest ./test/unit && npm run lint"
 	},
-	"version": "0.0.1"
+	"version": "0.0.2"
 }

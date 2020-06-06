@@ -7,17 +7,19 @@
 import {NextFunction, Request, Response} from "express";
 import * as _ from "lodash";
 import {forwardRequest, logRequest, respondToClient} from "../actions";
+import {reflectRequest} from "../actions/reflect";
 import * as log from "../core/log";
 import {formatRouteSummary} from "../core/utils";
 import {Server} from "../server";
 import {
+	HttpResponse,
 	ProxyAction,
 	ProxyActionBase,
 	ProxyActionForward,
 	ProxyActionRespond,
 	ProxyActionType,
 	ProxyRoute
-} from "../types/proxy";
+} from "../types";
 import {ControllerBase} from "./base";
 
 /**
@@ -65,7 +67,7 @@ export class ControllerAction extends ControllerBase {
 	/**
 	 * Route handler. He handles next so that tests may know when processing is complete
 	 */
-	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
+	public handler(req: Request, res: Response, next: NextFunction = (error: any) => {}): void {
 		Promise.all([
 			this._processResponder(req, res),
 			this._processAncillary(req)
@@ -77,13 +79,14 @@ export class ControllerAction extends ControllerBase {
 	/*********************
 	 * Private Interface
 	 *********************/
-	public _findNonResponderActions(): ProxyActionBase[] {
+	private _findNonResponderActions(): ProxyActionBase[] {
 		const responder = this._findResponderAction();
 		return this._actions.filter(action => action !== responder);
 	}
 
-	public _findResponderAction(): ProxyActionBase|undefined {
+	private _findResponderAction(): ProxyActionBase|undefined {
 		return _.find<ProxyActionBase>(this._actions, action => action.type === ProxyActionType.RESPOND)
+			|| _.find<ProxyActionBase>(this._actions, action => action.type === ProxyActionType.REFLECT)
 			|| _.find<ProxyActionBase>(this._actions, action => action.type === ProxyActionType.FORWARD)
 			|| this._actions[0];
 	}
@@ -91,11 +94,13 @@ export class ControllerAction extends ControllerBase {
 	/**
 	 * Forwards the specified action to the appropriate action handler
 	 */
-	private _processAction(action: ProxyActionBase, req: Request): Promise<any> {
+	private _processAction(action: ProxyActionBase, req: Request): Promise<HttpResponse> {
 		if(action.type === ProxyActionType.FORWARD) {
 			return forwardRequest(req, (action as ProxyActionForward));
 		} else if(action.type === ProxyActionType.LOG) {
 			return logRequest(req);
+		} else if(action.type === ProxyActionType.REFLECT) {
+			return reflectRequest(req);
 		} else if(action.type === ProxyActionType.RESPOND) {
 			return Promise.resolve((action as ProxyActionRespond).response);
 		} else {
@@ -127,7 +132,7 @@ export class ControllerAction extends ControllerBase {
 			return this._processUnhandledRequest(req, res);
 		} else {
 			return this._processAction(responder as ProxyActionBase, req)
-				.then(response => respondToClient(res, response))
+				.then(data => respondToClient(res, data))
 				.catch(error => {
 					log.error(`Processing responder route ${formatRouteSummary(this.route)} failed - ${error}`, {responder});
 					// we are in a weird position here. I don't think we have any choice but to respond with error?

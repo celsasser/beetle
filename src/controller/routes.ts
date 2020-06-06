@@ -16,7 +16,7 @@ export class ControllerGetRouteConfiguration extends ControllerBase {
 		return "Explore Routes";
 	}
 
-	public handler(req: Request, res: Response, next: NextFunction = (error: Error) => {}): void {
+	public handler(req: Request, res: Response, next: NextFunction = (error: any) => {}): void {
 		const descriptions = getCurrentRouteConfiguration();
 		super.sendSuccess(res, {
 			body: descriptions

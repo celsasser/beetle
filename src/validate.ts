@@ -10,6 +10,7 @@ import * as assert from "assert";
 import * as fs from "fs-extra";
 import * as path from "path";
 import {formatJSON} from "./core/utils";
+import {getSchemaResourcePath} from "./resources";
 
 class Validate {
 	private ajv: ajv.Ajv;
@@ -130,9 +131,9 @@ class Validate {
 function _createInstance(): Validate {
 	const instance = new Validate();
 	// add all of our schemas on which we have dependencies
-	instance.addSchema("./res/schemas/schema-library.json");
-	instance.addSchema("./res/schemas/schema-server.json");
-	instance.addSchema("./res/schemas/schema-stub.json");
+	instance.addSchema(getSchemaResourcePath("schema-library.json"));
+	instance.addSchema(getSchemaResourcePath("schema-server.json"));
+	instance.addSchema(getSchemaResourcePath("schema-stub.json"));
 	return instance;
 }
 
