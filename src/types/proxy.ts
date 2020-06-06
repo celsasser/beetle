@@ -50,7 +50,7 @@ export interface ProxyActionRespond extends ProxyActionBase {
 	response: HttpResponse;
 }
 
-export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionRespond;
+export type ProxyAction = ProxyActionForward|ProxyActionLog|ProxyActionReflect|ProxyActionRespond;
 
 export interface ProxyDataSet {
 	body?: any;
