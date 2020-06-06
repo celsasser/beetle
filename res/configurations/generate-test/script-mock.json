@@ -1,4 +1,8 @@
 {
+	"info": {
+		"description": "Test proxy server: Pets",
+		"execute": "./dist/index.js run ./res/configurations/setup-test-mock.json"
+	},
 	"library": {
 		"forward-to-logger": {
 			"method": "put",
@@ -7,7 +11,6 @@
 		}
 	},
 	"server": {
-		"description": "Test proxy server: Pets",
 		"port": 8000,
 		"protocol": "http"
 	},

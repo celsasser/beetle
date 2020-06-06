@@ -37,6 +37,7 @@ class Script {
 		this.scriptData = this._loadJSON(this.scriptPath);
 		this._loadLibrary();
 		return {
+			info: this._loadScriptData(this.scriptData.info),
 			server: this._loadScriptData(this.scriptData.server) as ServerProperties,
 			stubs: this._loadScriptData(this.scriptData.stubs) as ProxyStub[]
 		};

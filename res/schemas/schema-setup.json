@@ -4,6 +4,9 @@
 	"type": "object",
 	"additionalProperties": false,
 	"properties": {
+		"info": {
+			"$ref": "schema-info.json#"
+		},
 		"server": {
 			"$ref": "schema-server.json#"
 		},

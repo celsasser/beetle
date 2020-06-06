@@ -131,6 +131,7 @@ class Validate {
 function _createInstance(): Validate {
 	const instance = new Validate();
 	// add all of our schemas on which we have dependencies
+	instance.addSchema(getSchemaResourcePath("schema-info.json"));
 	instance.addSchema(getSchemaResourcePath("schema-library.json"));
 	instance.addSchema(getSchemaResourcePath("schema-server.json"));
 	instance.addSchema(getSchemaResourcePath("schema-stub.json"));

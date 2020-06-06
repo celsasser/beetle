@@ -1,0 +1,20 @@
+{
+	"$id": "schema://beetle/schema-info.json",
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"description": {
+			"type": "string"
+		},
+		"execute": {
+			"type": "string"
+		},
+		"name": {
+			"type": "string"
+		},
+		"repository": {
+			"type": "string"
+		}
+	}
+}

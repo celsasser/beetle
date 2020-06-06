@@ -1,6 +1,8 @@
 {
+	"info": {
+		"description": "Test proxy server"
+	},
 	"server": {
-		"description": "Test proxy server",
 		"port": 8080,
 		"protocol": "http"
 	},

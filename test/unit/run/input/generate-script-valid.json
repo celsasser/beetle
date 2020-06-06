@@ -1,4 +1,7 @@
 {
+	"info": {
+		"description": "Test proxy server"
+	},
 	"library": {
 		"forward-default": {
 			"method": "get",
@@ -7,7 +10,6 @@
 		}
 	},
 	"server": {
-		"description": "Test proxy server",
 		"port": 8080,
 		"protocol": "http"
 	},

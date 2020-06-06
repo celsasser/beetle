@@ -1,6 +1,9 @@
 {
-	"server": {
+	"info": {
 		"description": "Test proxy server: Pets",
+		"execute": "./dist/index.js run ./res/configurations/setup-test-mock.json"
+	},
+	"server": {
 		"port": 8000,
 		"protocol": "http"
 	},

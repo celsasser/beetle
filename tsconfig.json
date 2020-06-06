@@ -20,10 +20,9 @@
 		"noImplicitReturns": true,
 		/* Report errors on unused locals. */
 		"noUnusedLocals": true,
-		"pretty": false,
+		"pretty": true,
 		"resolveJsonModule": true,
 		"strict": true,
-		/* We are turning off because we don't want to be able to trust the integrity of a midi file and not validate read data types */
 		"strictNullChecks": true,
 		/* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
 		"target": "es2018"

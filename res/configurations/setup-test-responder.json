@@ -1,6 +1,9 @@
 {
-	"server": {
+	"info": {
 		"description": "Test proxy responder: Pets",
+		"execute": "./dist/index.js run ./res/configurations/setup-test-responder.json"
+	},
+	"server": {
 		"port": 9000,
 		"protocol": "http"
 	},

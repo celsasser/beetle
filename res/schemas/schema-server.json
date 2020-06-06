@@ -4,9 +4,6 @@
 	"type": "object",
 	"additionalProperties": false,
 	"properties": {
-		"description": {
-			"type": "string"
-		},
 		"port": {
 			"type": "number"
 		},

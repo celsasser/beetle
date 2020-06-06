@@ -43,5 +43,5 @@
 		"start": "node dist/index.js",
 		"test": "jest ./test/unit && npm run lint"
 	},
-	"version": "0.0.2"
+	"version": "0.1.0"
 }

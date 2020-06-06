@@ -77,6 +77,9 @@ export interface ProxyRoute {
  * Initial setup of the route server
  */
 export interface ProxySetup {
+	info?: {
+		[key: string]: string
+	};
 	stubs?: ProxyStub[];
 	server: ServerProperties;
 }
