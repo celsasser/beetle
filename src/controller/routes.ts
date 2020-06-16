@@ -21,6 +21,6 @@ export class ControllerGetRouteConfiguration extends ControllerBase {
 		super.sendSuccess(res, {
 			body: descriptions
 		});
-		process.nextTick(next);
+		next();
 	}
 }

@@ -72,8 +72,8 @@ export class ControllerAction extends ControllerBase {
 			this._processResponder(req, res),
 			this._processAncillary(req)
 		])
-			.then(() => process.nextTick(next))
-			.catch(error => process.nextTick(next, error));
+			.then(_.ary(next, 0))
+			.catch(next);
 	}
 
 	/*********************

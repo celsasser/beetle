@@ -35,6 +35,6 @@ export class ControllerFixedResponse extends ControllerBase {
 
 	public handler(req: Request, res: Response, next: NextFunction = () => {}): void {
 		respondToClient(res, this.resData);
-		process.nextTick(next);
+		next();
 	}
 }

@@ -28,10 +28,10 @@ export class ControllerStubAdd extends ControllerBase {
 			});
 			addProxyStub(this.server, req.body);
 			this.sendSuccess(res);
-			process.nextTick(next);
+			next();
 		} catch(error) {
 			this.sendFailure(res, {error});
-			process.nextTick(next, error);
+			next(error);
 		}
 	}
 }
@@ -52,10 +52,10 @@ export class ControllerStubRemove extends ControllerBase {
 			});
 			removeProxyStub(req.body);
 			this.sendSuccess(res);
-			process.nextTick(next);
+			next();
 		} catch(error) {
 			this.sendFailure(res, {error});
-			process.nextTick(next, error);
+			next(error);
 		}
 	}
 }
